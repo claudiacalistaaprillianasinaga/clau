@@ -431,94 +431,110 @@
                             </div>
                         </div>
 
-                        <!-- Right Hero Visual: Interactive Mock Map & Train Card Preview -->
+                        <!-- Right Hero Visual: Real Whoosh Train Photo + Interactive Route Telemetry -->
                         <div class="lg:col-span-6 relative">
                             <div
-                                class="relative rounded-3xl glass-card p-4 sm:p-6 border border-white/10 shadow-2xl overflow-hidden">
+                                class="relative rounded-3xl glass-card p-4 sm:p-5 border border-white/15 shadow-2xl overflow-hidden group">
 
-                                <!-- Top Status Header in preview -->
-                                <div class="flex items-center justify-between pb-4 border-b border-white/10">
-                                    <div class="flex items-center gap-2">
-                                        <span class="w-3 h-3 rounded-full bg-accent-emerald animate-ping"></span>
-                                        <span class="text-xs font-semibold text-slate-300">Live Network Telemetry</span>
+                                <!-- Real Train Image Banner with Gradient Overlays -->
+                                <div class="relative w-full h-56 sm:h-64 rounded-2xl overflow-hidden border border-white/10 shadow-lg">
+                                    <img src="assets/img/whoosh.jpg" alt="Kereta Cepat Whoosh KCIC 350 km/h"
+                                        class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700" />
+                                    
+                                    <!-- Vignette & Gradient Overlays -->
+                                    <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/40 to-transparent"></div>
+                                    <div class="absolute inset-0 bg-gradient-to-r from-navy-950/60 via-transparent to-navy-950/60"></div>
+
+                                    <!-- Top Left Badge: Status -->
+                                    <div class="absolute top-3 left-3 flex items-center gap-2 bg-navy-950/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-rose-500/40 shadow-lg">
+                                        <span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping"></span>
+                                        <span class="text-xs font-bold text-white tracking-wide">LIVE ARMADA KCIC G1001</span>
                                     </div>
-                                    <span
-                                        class="text-[11px] font-mono text-accent-cyan bg-navy-800 px-2 py-0.5 rounded border border-accent-cyan/30">KORIDOR 01 • WHOOSH KCIC</span>
+
+                                    <!-- Top Right Badge: Speedometer -->
+                                    <div class="absolute top-3 right-3 bg-navy-950/85 backdrop-blur-md px-3 py-1.5 rounded-xl border border-accent-cyan/40 text-right shadow-lg">
+                                        <p class="text-[10px] text-slate-300 uppercase tracking-wider font-semibold">Kecepatan</p>
+                                        <p class="font-display font-black text-xl text-accent-cyan leading-tight">348 <span class="text-xs font-normal text-slate-300">km/h</span></p>
+                                    </div>
+
+                                    <!-- Bottom Info Overlay -->
+                                    <div class="absolute bottom-3 left-3 right-3 flex items-end justify-between">
+                                        <div>
+                                            <span class="text-[10px] font-mono text-rose-400 font-bold uppercase tracking-wider bg-rose-500/20 px-2 py-0.5 rounded border border-rose-500/30">KORIDOR 01 • JAKARTA ➔ BANDUNG</span>
+                                            <h4 class="font-display font-extrabold text-lg text-white mt-1 drop-shadow-md">Kereta Cepat Whoosh Indonesia</h4>
+                                            <p class="text-[11px] text-slate-300 drop-shadow">Elevated High-Speed Viaduct Jawa Barat • Waktu Tempuh 45 Menit</p>
+                                        </div>
+                                        <span class="px-2.5 py-1 rounded-lg text-xs font-bold bg-accent-emerald/80 text-white backdrop-blur-sm border border-emerald-400/50 shadow">
+                                            On Schedule
+                                        </span>
+                                    </div>
                                 </div>
 
                                 <!-- Schematic Route Graphic Preview: Whoosh High Speed Line -->
-                                <div class="py-6 px-2 sm:px-4">
-                                    <div class="relative bg-navy-950/80 rounded-2xl p-5 border border-navy-700">
+                                <div class="pt-4 pb-2 px-1">
+                                    <div class="relative bg-navy-950/90 rounded-2xl p-4 border border-navy-700 shadow-inner">
+                                        <div class="flex items-center justify-between pb-2 mb-2 border-b border-white/10 text-xs">
+                                            <span class="font-semibold text-slate-200 flex items-center gap-1.5">
+                                                <i data-lucide="git-commit" class="w-3.5 h-3.5 text-rose-400"></i> Rute Presisi Jalur Rel Whoosh KCIC
+                                            </span>
+                                            <span class="text-[10px] font-mono text-accent-cyan">4 STASIUN UTAMA + 1 HUB FEEDER</span>
+                                        </div>
 
                                         <!-- SVG Interactive Network Preview -->
-                                        <svg viewBox="0 0 500 220" class="w-full h-auto">
+                                        <svg viewBox="0 0 500 170" class="w-full h-auto">
                                             <!-- High-Speed Double Track Glow Line -->
-                                            <path d="M 40 60 Q 180 50 320 120 T 460 160" fill="none" stroke="#1C3166"
-                                                stroke-width="8" stroke-linecap="round" />
-                                            <path d="M 40 60 Q 180 50 320 120 T 460 160" fill="none" stroke="#FF0055"
-                                                stroke-width="3.5" stroke-linecap="round" class="animated-route-line" />
+                                            <path d="M 40 60 Q 180 40 320 90 T 460 120" fill="none" stroke="#1C3166"
+                                                stroke-width="7" stroke-linecap="round" />
+                                            <path d="M 40 60 Q 180 40 320 90 T 460 120" fill="none" stroke="#FF0055"
+                                                stroke-width="3" stroke-linecap="round" class="animated-route-line" />
 
                                             <!-- Feeder Connection Line to Bandung Hall -->
-                                            <path d="M 320 120 L 400 65 L 460 70" fill="none" stroke="#00F0FF"
+                                            <path d="M 320 90 L 390 40 L 460 45" fill="none" stroke="#00F0FF"
                                                 stroke-width="2.5" stroke-dasharray="4,4" />
 
-                                            <!-- Stations Markers -->
                                             <!-- Station Halim -->
                                             <g class="cursor-pointer group" onclick="panToStation('HLM')">
-                                                <circle cx="40" cy="60" r="11" fill="#0B132B" stroke="#FF0055"
-                                                    stroke-width="3" />
+                                                <circle cx="40" cy="60" r="10" fill="#0B132B" stroke="#FF0055" stroke-width="2.5" />
                                                 <circle cx="40" cy="60" r="4" fill="#FF0055" />
-                                                <text x="40" y="36" fill="#FFFFFF" font-size="11" font-weight="700"
-                                                    text-anchor="middle">Halim (HLM)</text>
-                                                <text x="40" y="86" fill="#F43F5E" font-size="9"
-                                                    text-anchor="middle">LRT Interkoneksi</text>
+                                                <text x="40" y="38" fill="#FFFFFF" font-size="11" font-weight="700" text-anchor="middle">Halim (HLM)</text>
+                                                <text x="40" y="82" fill="#F43F5E" font-size="9" text-anchor="middle">LRT Hub</text>
                                             </g>
 
                                             <!-- Station Karawang -->
                                             <g class="cursor-pointer group" onclick="panToStation('KAW')">
-                                                <circle cx="170" cy="66" r="8" fill="#0B132B" stroke="#93C5FD"
-                                                    stroke-width="2.5" />
-                                                <circle cx="170" cy="66" r="3" fill="#93C5FD" />
-                                                <text x="170" y="48" fill="#93C5FD" font-size="10" font-weight="600"
-                                                    text-anchor="middle">Karawang (KAW)</text>
+                                                <circle cx="170" cy="56" r="7" fill="#0B132B" stroke="#93C5FD" stroke-width="2" />
+                                                <circle cx="170" cy="56" r="2.5" fill="#93C5FD" />
+                                                <text x="170" y="40" fill="#93C5FD" font-size="9" font-weight="600" text-anchor="middle">Karawang (KAW)</text>
                                             </g>
 
                                             <!-- Station Padalarang Hub -->
                                             <g class="cursor-pointer group" onclick="panToStation('PDL')">
-                                                <circle cx="320" cy="120" r="12" fill="#0B132B" stroke="#00F0FF"
-                                                    stroke-width="3" />
-                                                <circle cx="320" cy="120" r="5" fill="#00F0FF" />
-                                                <text x="320" y="148" fill="#00F0FF" font-size="11" font-weight="700"
-                                                    text-anchor="middle">Padalarang (PDL)</text>
-                                                <text x="320" y="162" fill="#94A3B8" font-size="9"
-                                                    text-anchor="middle">Hub KA Feeder</text>
+                                                <circle cx="320" cy="90" r="11" fill="#0B132B" stroke="#00F0FF" stroke-width="2.5" />
+                                                <circle cx="320" cy="90" r="4.5" fill="#00F0FF" />
+                                                <text x="320" y="115" fill="#00F0FF" font-size="11" font-weight="700" text-anchor="middle">Padalarang (PDL)</text>
+                                                <text x="320" y="128" fill="#94A3B8" font-size="8.5" text-anchor="middle">Hub KA Feeder</text>
                                             </g>
 
                                             <!-- Station Bandung Hall (via Feeder) -->
                                             <g class="cursor-pointer group" onclick="panToStation('BD')">
-                                                <circle cx="460" cy="70" r="8" fill="#0B132B" stroke="#A855F7"
-                                                    stroke-width="2" />
-                                                <circle cx="460" cy="70" r="3" fill="#A855F7" />
-                                                <text x="460" y="52" fill="#E9D5FF" font-size="9" font-weight="600"
-                                                    text-anchor="middle">Bandung Kota (BD)</text>
+                                                <circle cx="460" cy="45" r="7" fill="#0B132B" stroke="#A855F7" stroke-width="2" />
+                                                <circle cx="460" cy="45" r="2.5" fill="#A855F7" />
+                                                <text x="450" y="30" fill="#E9D5FF" font-size="9" font-weight="600" text-anchor="middle">Bandung Kota (BD)</text>
                                             </g>
 
                                             <!-- Station Tegalluar Summarecon -->
                                             <g class="cursor-pointer group" onclick="panToStation('TGL')">
-                                                <circle cx="460" cy="160" r="11" fill="#0B132B" stroke="#10B981"
-                                                    stroke-width="3" />
-                                                <circle cx="460" cy="160" r="4" fill="#10B981" />
-                                                <text x="440" y="195" fill="#FFFFFF" font-size="11" font-weight="700"
-                                                    text-anchor="middle">Tegalluar (TGL)</text>
+                                                <circle cx="460" cy="120" r="10" fill="#0B132B" stroke="#10B981" stroke-width="2.5" />
+                                                <circle cx="460" cy="120" r="4" fill="#10B981" />
+                                                <text x="440" y="148" fill="#FFFFFF" font-size="11" font-weight="700" text-anchor="middle">Tegalluar (TGL)</text>
                                             </g>
 
                                             <!-- Moving Whoosh Train Marker -->
-                                            <g transform="translate(235, 88)" class="animate-pulse">
-                                                <circle cx="0" cy="0" r="15" fill="#FF0055" fill-opacity="0.25" />
-                                                <rect x="-14" y="-8" width="28" height="16" rx="5" fill="#FF0055" />
-                                                <polygon points="14,0 7,-6 7,6" fill="#FFFFFF" />
-                                                <text x="0" y="24" fill="#FF0055" font-size="10" font-weight="800"
-                                                    text-anchor="middle">🚅 Whoosh G1001 (350 km/h)</text>
+                                            <g transform="translate(240, 70)" class="animate-pulse">
+                                                <circle cx="0" cy="0" r="14" fill="#FF0055" fill-opacity="0.3" />
+                                                <rect x="-13" y="-7" width="26" height="14" rx="4" fill="#FF0055" />
+                                                <polygon points="13,0 6,-5 6,5" fill="#FFFFFF" />
+                                                <text x="0" y="21" fill="#FF0055" font-size="9.5" font-weight="800" text-anchor="middle">🚅 G1001 (350 km/h)</text>
                                             </g>
                                         </svg>
                                     </div>
@@ -526,26 +542,26 @@
 
                                 <!-- Floating Live Train Card Overlay -->
                                 <div
-                                    class="mt-2 glass-card rounded-2xl p-4 border border-white/10 flex items-center justify-between gap-4">
+                                    class="mt-3 glass-card rounded-2xl p-3.5 border border-white/10 flex items-center justify-between gap-3">
                                     <div class="flex items-center gap-3">
                                         <div
-                                            class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center font-bold text-lg">
+                                            class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center font-bold text-lg shrink-0">
                                             🚅
                                         </div>
                                         <div>
                                             <div class="flex items-center gap-2">
-                                                <span class="font-semibold text-white text-sm">Kereta Cepat Whoosh G1001</span>
+                                                <span class="font-semibold text-white text-sm">Whoosh G1001 (KCIC)</span>
                                                 <span id="heroTrainBadge"
                                                     class="px-2 py-0.5 rounded text-[10px] font-bold bg-accent-emerald/20 text-accent-emerald border border-accent-emerald/30">On Schedule</span>
                                             </div>
-                                            <p class="text-xs text-slate-400">Halim (08:00) ➔ Padalarang Hub (08:32) ➔ Tegalluar (08:45) • 350 km/h</p>
+                                            <p class="text-xs text-slate-400">Halim (08:00) ➔ Padalarang Hub (08:32) ➔ Tegalluar (08:45) • Kecepatan Puncak 350 km/h</p>
                                         </div>
                                     </div>
                                     <button onclick="navigateTo('tracking')"
-                                        class="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-semibold text-white transition flex items-center gap-1">
+                                        class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-accent-blue to-accent-cyan hover:opacity-95 text-xs font-bold text-navy-950 transition flex items-center gap-1 shrink-0 shadow-lg">
                                         Pantau <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                                     </button>
-                                </div>                        </div>
+                                </div>
 
                             </div>
                         </div>
@@ -1599,21 +1615,19 @@
 
                         <div
                             class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/10">
-                            <div class="flex items-center gap-3">
-                                <div
-                                    class="w-12 h-12 rounded-2xl bg-rose-500/20 text-rose-400 flex items-center justify-center font-bold text-xl">
-                                    🚅
-                                </div>
+                            <div class="flex items-center gap-3.5">
+                                <img src="assets/img/whoosh.jpg" alt="Whoosh KCIC"
+                                    class="w-16 h-16 rounded-2xl object-cover border-2 border-rose-500/40 shadow-xl shrink-0" />
                                 <div>
                                     <div class="flex items-center gap-2">
                                         <h3 class="font-display font-extrabold text-xl text-white">Whoosh G1001</h3>
-                                        <span class="text-sm font-semibold text-slate-300">• KCIC High-Speed Train</span>
+                                        <span class="text-sm font-semibold text-rose-400">• KCIC High-Speed (350 km/h)</span>
                                         <span id="trackStatusBadge"
                                             class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-accent-emerald/20 text-accent-emerald border border-accent-emerald/30">
                                             Tepat Waktu (On Schedule)
                                         </span>
                                     </div>
-                                    <p class="text-xs text-slate-400">Rute: Stasiun Halim (Jakarta) ➔ Stasiun Padalarang Hub (Feeder) ➔ Tegalluar Summarecon</p>
+                                    <p class="text-xs text-slate-400">Rute: Stasiun Halim (Jakarta) ➔ Karawang ➔ Padalarang Hub (Feeder) ➔ Tegalluar Summarecon</p>
                                 </div>
                             </div>
 
@@ -1719,7 +1733,13 @@
                             </div>
 
                             <!-- Train 2: Argo Bromo Anggrek (Pantura Mainline) -->
-                            <div class="glass-card rounded-2xl p-4 border border-white/10 space-y-3">
+                            <div class="glass-card rounded-2xl p-4 border border-white/10 space-y-3 overflow-hidden group">
+                                <div class="relative w-full h-24 rounded-xl overflow-hidden border border-white/10 shadow mb-2">
+                                    <img src="assets/img/kai_bridge.jpg" alt="KA Eksekutif KAI Cikubang Bridge"
+                                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                    <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-transparent to-transparent"></div>
+                                    <span class="absolute bottom-1.5 left-2 text-[10px] font-mono text-white/90 bg-navy-950/70 px-1.5 py-0.5 rounded">Jembatan Cikubang & Jalur Utama</span>
+                                </div>
                                 <div class="flex items-center justify-between">
                                     <div class="flex items-center gap-2">
                                         <span class="font-bold text-white text-sm">🚆 KA Argo Bromo Anggrek (01)</span>
