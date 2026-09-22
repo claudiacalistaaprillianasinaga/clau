@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trend TikTok: Foto Kita Blur Tapi Pake Python 🐍📸✨</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;700;800;900&family=Playfair+Display:ital,wght@1,700;1,900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --vscode-bg: #1e1e1e;
+      --vscode-sidebar: #252526;
+      --vscode-activity: #333333;
+      --vscode-statusbar: #007acc;
+      --vscode-tab: #2d2d2d;
+      --vscode-active-tab: #1e1e1e;
+      --py-keyword: #c586c0;
+      --py-func: #dcdcaa;
+      --py-string: #ce9178;
+      --py-comment: #6a9955;
+      --py-number: #b5cea8;
+      --py-var: #9cdcfe;
+      --accent-pink: #ff4081;
+      --accent-glow: rgba(255, 64, 129, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      background-color: #0d0f17;
+      color: #cccccc;
+      font-family: 'Fira Code', monospace;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      overflow: hidden;
+    }
+
+    /* VS Code Window Shell Container */
+    .vscode-window {
+      width: 100%;
+      max-width: 1180px;
+      height: 94vh;
+      background: var(--vscode-bg);
+      border-radius: 12px;
+      border: 1px solid #3c3c3c;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.8), 0 0 35px rgba(0, 122, 204, 0.2);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Window Titlebar */
+    .titlebar {
+      height: 36px;
+      background: #323233;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      font-size: 0.78rem;
+      color: #999;
+      border-bottom: 1px solid #252526;
+    }
+
+    .window-controls {
+      display: flex;
+      gap: 8px;
+    }
+
+    .win-btn {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .win-close { background: #ff5f56; }
+    .win-min { background: #ffbd2e; }
+    .win-max { background: #27c93f; }
+
+    .titlebar-center {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 600;
+      color: #cccccc;
+    }
+
+    /* VS Code Main Layout */
+    .ide-body {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Activity Bar Left */
+    .activity-bar {
+      width: 48px;
+      background: var(--vscode-activity);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 12px 0;
+      gap: 20px;
+      font-size: 1.3rem;
+      color: #858585;
+    }
+    .activity-icon {
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .activity-icon.active, .activity-icon:hover {
+      color: #ffffff;
+    }
+
+    /* Editor View */
+    .editor-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: var(--vscode-bg);
+      position: relative;
+    }
+
+    /* Tab Header */
+    .editor-tabs {
+      height: 38px;
+      background: #252526;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #1e1e1e;
+    }
+
+    .editor-tab {
+      height: 100%;
+      background: var(--vscode-active-tab);
+      color: #ffffff;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      border-top: 2px solid #007acc;
+    }
+
+    .code-editor-area {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      position: relative;
+      font-size: 0.86rem;
+      line-height: 1.6;
+      padding: 12px 0;
+    }
+
+    .line-numbers {
+      width: 48px;
+      text-align: right;
+      padding-right: 14px;
+      color: #6e7681;
+      user-select: none;
+      font-size: 0.82rem;
+    }
+
+    .code-content {
+      flex: 1;
+      color: #d4d4d4;
+      white-space: pre;
+      overflow-y: auto;
+      padding-right: 18px;
+    }
+
+    /* Floating Viral Title Badge (Viral TikTok Aesthetics) */
+    .viral-trend-badge {
+      position: absolute;
+      top: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 40;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      pointer-events: none;
+      animation: floatBadge 3s infinite alternate ease-in-out;
+    }
+
+    .viral-main-title {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 2.7rem;
+      font-weight: 900;
+      color: #ffffff;
+      text-shadow: 0 0 25px rgba(255, 64, 129, 0.9), 0 4px 15px rgba(0,0,0,0.9);
+      letter-spacing: 0.5px;
+      background: linear-gradient(135deg, #fff 40%, #ff80ab 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .viral-sub-badge {
+      background: linear-gradient(135deg, #ff1744, #ff4081);
+      color: #ffffff;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 0.88rem;
+      padding: 4px 18px;
+      border-radius: 999px;
+      box-shadow: 0 6px 20px rgba(255, 23, 68, 0.5);
+      letter-spacing: 2px;
+      margin-top: -4px;
+      text-transform: uppercase;
+    }
+
+    /* FLOATING OPENCV WEBCAM WINDOW (cv2.imshow) */
+    .opencv-window {
+      position: absolute;
+      top: 140px;
+      right: 32px;
+      width: 440px;
+      background: #2b2b2b;
+      border: 2px solid #555555;
+      border-radius: 8px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 242, 254, 0.25);
+      z-index: 50;
+      overflow: hidden;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .opencv-window.blur-triggered {
+      border-color: var(--accent-pink);
+      box-shadow: 0 0 35px var(--accent-glow);
+    }
+
+    .opencv-titlebar {
+      height: 30px;
+      background: #3c3f41;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      font-size: 0.75rem;
+      color: #bbbbbb;
+      border-bottom: 1px solid #1e1e1e;
+    }
+
+    .opencv-cam-stage {
+      width: 100%;
+      height: 310px;
+      background: #000;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #webcamVideo {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scaleX(-1);
+    }
+
+    #renderCanvas {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 5;
+    }
+
+    .opencv-hud-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 10px 12px;
+      font-size: 0.76rem;
+      font-weight: 700;
+    }
+
+    .hud-tag {
+      background: rgba(0, 0, 0, 0.65);
+      padding: 4px 10px;
+      border-radius: 6px;
+      backdrop-filter: blur(6px);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hud-tag.active-blur {
+      background: rgba(255, 64, 129, 0.85);
+      color: #fff;
+    }
+
+    /* Bottom Status Bar */
+    .status-bar {
+      height: 24px;
+      background: var(--vscode-statusbar);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+      font-size: 0.72rem;
+      color: #ffffff;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* Floating Control Bar for User */
+    .floating-hud-controls {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(18, 22, 34, 0.94);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 50px;
+      padding: 8px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      z-index: 60;
+    }
+
+    .hud-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 30px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .hud-btn:hover {
+      background: rgba(255, 64, 129, 0.25);
+      border-color: var(--accent-pink);
+    }
+
+    .hud-btn.active {
+      background: linear-gradient(135deg, #ff1744, #ff4081);
+      border-color: #ff80ab;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    @keyframes floatBadge {
+      0% { transform: translate(-50%, 0); }
+      100% { transform: translate(-50%, -6px); }
+    }
+
+    @media (max-width: 900px) {
+      .opencv-window {
+        position: relative;
+        top: 0;
+        right: 0;
+        width: 100%;
+        margin-top: 10px;
+      }
+      .code-editor-area {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="vscode-window">
+    <!-- Window Titlebar -->
+    <div class="titlebar">
+      <div class="window-controls">
+        <span class="win-btn win-close"></span>
+        <span class="win-btn win-min"></span>
+        <span class="win-btn win-max"></span>
+      </div>
+      <div class="titlebar-center">
+        <span>🐍</span>
+        <span>foto_kita_blur.py - Visual Studio Code (OpenCV & MediaPipe Trend)</span>
+      </div>
+      <div>Python 3.11 (64-bit)</div>
+    </div>
+
+    <!-- IDE Body -->
+    <div class="ide-body">
+      <!-- Activity Bar Left -->
+      <div class="activity-bar">
+        <span class="activity-icon active">📄</span>
+        <span class="activity-icon">🔍</span>
+        <span class="activity-icon">🌿</span>
+        <span class="activity-icon">🐞</span>
+        <span class="activity-icon">📦</span>
+      </div>
+
+      <!-- Editor Area -->
+      <div class="editor-container">
+        <!-- Editor Tab -->
+        <div class="editor-tabs">
+          <div class="editor-tab">
+            <span>🐍</span>
+            <span>foto_kita_blur.py</span>
+            <span style="font-size: 0.7rem; margin-left: 6px; color: #888;">✕</span>
+          </div>
+        </div>
+
+        <!-- Viral Aesthetic Floating Badge (As seen on TikTok) -->
+        <div class="viral-trend-badge">
+          <div class="viral-main-title">Foto kita blur</div>
+          <div class="viral-sub-badge">TAPI PAKE PYTHON 🐍✨</div>
+        </div>
+
+        <!-- Code Content with Authentic Python Syntax Highlighting -->
+        <div class="code-editor-area">
+          <div class="line-numbers">
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+          </div>
+          <div class="code-content" id="pythonSourceCode">
+<span style="color:var(--py-keyword)">import</span> <span style="color:var(--py-var)">cv2</span>
+<span style="color:var(--py-keyword)">import</span> <span style="color:var(--py-var)">mediapipe</span> <span style="color:var(--py-keyword)">as</span> <span style="color:var(--py-var)">mp</span>
+<span style="color:var(--py-keyword)">import</span> <span style="color:var(--py-var)">numpy</span> <span style="color:var(--py-keyword)">as</span> <span style="color:var(--py-var)">np</span>
+
+<span style="color:var(--py-comment)"># 📸 Trend TikTok: Foto Kita Blur Tapi Pake Python</span>
+<span style="color:var(--py-var)">mp_hands</span> = <span style="color:var(--py-var)">mp</span>.<span style="color:var(--py-var)">solutions</span>.<span style="color:var(--py-var)">hands</span>
+<span style="color:var(--py-var)">hands</span> = <span style="color:var(--py-var)">mp_hands</span>.<span style="color:var(--py-func)">Hands</span>(<span style="color:var(--py-var)">max_num_hands</span>=<span style="color:var(--py-number)">2</span>, <span style="color:var(--py-var)">min_detection_confidence</span>=<span style="color:var(--py-number)">0.7</span>)
+<span style="color:var(--py-var)">cap</span> = <span style="color:var(--py-var)">cv2</span>.<span style="color:var(--py-func)">VideoCapture</span>(<span style="color:var(--py-number)">0</span>)
+
+<span style="color:var(--py-keyword)">def</span> <span style="color:var(--py-func)">is_peace_gesture</span>(<span style="color:var(--py-var)">landmarks</span>):
+    <span style="color:var(--py-comment)"># Jari Telunjuk & Jari Tengah Terangkat (Peace ✌️)</span>
+    <span style="color:var(--py-var)">index_up</span> = <span style="color:var(--py-var)">landmarks</span>[<span style="color:var(--py-number)">8</span>].<span style="color:var(--py-var)">y</span> &lt; <span style="color:var(--py-var)">landmarks</span>[<span style="color:var(--py-number)">6</span>].<span style="color:var(--py-var)">y</span>
+    <span style="color:var(--py-var)">middle_up</span> = <span style="color:var(--py-var)">landmarks</span>[<span style="color:var(--py-number)">12</span>].<span style="color:var(--py-var)">y</span> &lt; <span style="color:var(--py-var)">landmarks</span>[<span style="color:var(--py-number)">10</span>].<span style="color:var(--py-var)">y</span>
+    <span style="color:var(--py-var)">ring_down</span> = <span style="color:var(--py-var)">landmarks</span>[<span style="color:var(--py-number)">16</span>].<span style="color:var(--py-var)">y</span> &gt; <span style="color:var(--py-var)">landmarks</span>[<span style="color:var(--py-number)">14</span>].<span style="color:var(--py-var)">y</span>
+    <span style="color:var(--py-keyword)">return</span> <span style="color:var(--py-var)">index_up</span> <span style="color:var(--py-keyword)">and</span> <span style="color:var(--py-var)">middle_up</span> <span style="color:var(--py-keyword)">and</span> <span style="color:var(--py-var)">ring_down</span>
+
+<span style="color:var(--py-keyword)">while</span> <span style="color:var(--py-var)">cap</span>.<span style="color:var(--py-func)">isOpened</span>():
+    <span style="color:var(--py-var)">success</span>, <span style="color:var(--py-var)">frame</span> = <span style="color:var(--py-var)">cap</span>.<span style="color:var(--py-func)">read</span>()
+    <span style="color:var(--py-keyword)">if</span> <span style="color:var(--py-keyword)">not</span> <span style="color:var(--py-var)">success</span>: <span style="color:var(--py-keyword)">break</span>
+
+    <span style="color:var(--py-var)">rgb_frame</span> = <span style="color:var(--py-var)">cv2</span>.<span style="color:var(--py-func)">cvtColor</span>(<span style="color:var(--py-var)">frame</span>, <span style="color:var(--py-var)">cv2</span>.<span style="color:var(--py-var)">COLOR_BGR2RGB</span>)
+    <span style="color:var(--py-var)">results</span> = <span style="color:var(--py-var)">hands</span>.<span style="color:var(--py-func)">process</span>(<span style="color:var(--py-var)">rgb_frame</span>)
+
+    <span style="color:var(--py-keyword)">if</span> <span style="color:var(--py-var)">results</span>.<span style="color:var(--py-var)">multi_hand_landmarks</span>:
+        <span style="color:var(--py-keyword)">for</span> <span style="color:var(--py-var)">hand_landmarks</span> <span style="color:var(--py-keyword)">in</span> <span style="color:var(--py-var)">results</span>.<span style="color:var(--py-var)">multi_hand_landmarks</span>:
+            <span style="color:var(--py-keyword)">if</span> <span style="color:var(--py-func)">is_peace_gesture</span>(<span style="color:var(--py-var)">hand_landmarks</span>.<span style="color:var(--py-var)">landmark</span>):
+                <span style="color:var(--py-comment)"># ✨ BLUR GAUSSIAN EFFECT AKTIF</span>
+                <span style="color:var(--py-var)">frame</span> = <span style="color:var(--py-var)">cv2</span>.<span style="color:var(--py-func)">GaussianBlur</span>(<span style="color:var(--py-var)">frame</span>, (<span style="color:var(--py-number)">45</span>, <span style="color:var(--py-number)">45</span>), <span style="color:var(--py-number)">30</span>)
+
+    <span style="color:var(--py-var)">cv2</span>.<span style="color:var(--py-func)">imshow</span>(<span style="color:var(--py-string)">"Camera [cv2.imshow]"</span>, <span style="color:var(--py-var)">frame</span>)
+    <span style="color:var(--py-keyword)">if</span> <span style="color:var(--py-var)">cv2</span>.<span style="color:var(--py-func)">waitKey</span>(<span style="color:var(--py-number)">1</span>) &amp; <span style="color:var(--py-number)">0xFF</span> == <span style="color:var(--py-func)">ord</span>(<span style="color:var(--py-string)">'q'</span>): <span style="color:var(--py-keyword)">break</span>
+          </div>
+        </div>
+
+        <!-- FLOATING OPENCV WEBCAM WINDOW (Real-time Feed) -->
+        <div class="opencv-window" id="opencvBox">
+          <div class="opencv-titlebar">
+            <div style="display:flex; align-items:center; gap:6px;">
+              <span>🪟</span>
+              <span>Camera [cv2.imshow]</span>
+            </div>
+            <div style="display:flex; gap:6px; font-size:0.7rem;">
+              <span>━</span>
+              <span>❏</span>
+              <span>✕</span>
+            </div>
+          </div>
+          <div class="opencv-cam-stage">
+            <video id="webcamVideo" autoplay playsinline muted></video>
+            <canvas id="renderCanvas"></canvas>
+
+            <div class="opencv-hud-overlay">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span class="hud-tag">
+                  <span style="color:#ff3366;">●</span> LIVE CV2
+                </span>
+                <span class="hud-tag" id="statusBadge">Status: Siap Pose ✌️</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span class="hud-tag" id="fpsTag">30.0 FPS</span>
+                <span class="hud-tag" style="color: #ff80ab;">Angkat 2 Jari / Spasi</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Status Bar -->
+    <div class="status-bar">
+      <div style="display:flex; gap:16px;">
+        <span>🌿 main*</span>
+        <span>⊗ 0  ⚠ 0</span>
+        <span>Python 3.11.4 64-bit</span>
+      </div>
+      <div style="display:flex; gap:16px;">
+        <span>UTF-8</span>
+        <span>Spaces: 4</span>
+        <span>OpenCV + MediaPipe AI</span>
+      </div>
+    </div>
+
+    <!-- User Floating Controls -->
+    <div class="floating-hud-controls">
+      <button class="hud-btn active" id="btnPeace" onclick="toggleTrigger()">
+        <span>✌️</span> Mode Gesture Peace Sign
+      </button>
+      <button class="hud-btn" onclick="forceSnapBlur()">
+        <span>⚡</span> Trigger Blur Sekarang (Spasi)
+      </button>
+      <button class="hud-btn" onclick="downloadTikTokSnapshot()" style="background: linear-gradient(135deg, #00f2fe, #4facfe); color: #070913;">
+        <span>📸</span> Simpan Foto Viral
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const video = document.getElementById('webcamVideo');
+    const canvas = document.getElementById('renderCanvas');
+    const ctx = canvas.getContext('2d');
+    const opencvBox = document.getElementById('opencvBox');
+    const statusBadge = document.getElementById('statusBadge');
+
+    let isBlurActive = false;
+    let gestureDetectionEnabled = true;
+
+    // Start Webcam
+    async function startCamera() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { width: 640, height: 480, facingMode: 'user' },
+          audio: false
+        });
+        video.srcObject = stream;
+        video.onloadedmetadata = () => {
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          requestAnimationFrame(processFrame);
+        };
+      } catch (err) {
+        console.warn("Camera fallback active", err);
+        // Draw demo aesthetic simulation
+        canvas.width = 640;
+        canvas.height = 480;
+        runDemoSimulation();
+      }
+    }
+
+    // Process Video Frame in Real-time (Computer Vision Simulation)
+    function processFrame() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw mirrored video
+      ctx.save();
+      ctx.translate(canvas.width, 0);
+      ctx.scale(-1, 1);
+
+      if (isBlurActive) {
+        // Apply OpenCV-style Gaussian Blur
+        ctx.filter = 'blur(28px) brightness(1.08) contrast(105%)';
+      } else {
+        ctx.filter = 'none';
+      }
+
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      ctx.restore();
+
+      requestAnimationFrame(processFrame);
+    }
+
+    function triggerBlur(active) {
+      isBlurActive = active;
+      if (active) {
+        opencvBox.classList.add('blur-triggered');
+        statusBadge.innerText = "✨ BLUR ACTIVE (PEACE DETECTED)";
+        statusBadge.classList.add('active-blur');
+      } else {
+        opencvBox.classList.remove('blur-triggered');
+        statusBadge.innerText = "Status: Siap Pose ✌️";
+        statusBadge.classList.remove('active-blur');
+      }
+    }
+
+    function toggleTrigger() {
+      triggerBlur(!isBlurActive);
+    }
+
+    function forceSnapBlur() {
+      triggerBlur(true);
+      setTimeout(() => triggerBlur(false), 3500);
+    }
+
+    // Spacebar to trigger blur
+    window.addEventListener('keydown', (e) => {
+      if (e.code === 'Space') {
+        e.preventDefault();
+        forceSnapBlur();
+      }
+    });
+
+    // Download snapshot of the viral TikTok screen
+    function downloadTikTokSnapshot() {
+      const snapCanvas = document.createElement('canvas');
+      snapCanvas.width = 800;
+      snapCanvas.height = 600;
+      const sCtx = snapCanvas.getContext('2d');
+
+      // Draw dark IDE background
+      sCtx.fillStyle = '#1e1e1e';
+      sCtx.fillRect(0, 0, 800, 600);
+
+      // Draw camera view
+      sCtx.drawImage(canvas, 180, 120, 440, 310);
+
+      // Draw viral title
+      sCtx.font = "italic bold 36px 'Playfair Display', serif";
+      sCtx.fillStyle = "#ffffff";
+      sCtx.textAlign = "center";
+      sCtx.fillText("Foto kita blur", 400, 70);
+
+      sCtx.font = "bold 16px 'Plus Jakarta Sans', sans-serif";
+      sCtx.fillStyle = "#ff4081";
+      sCtx.fillText("TAPI PAKE PYTHON 🐍✨", 400, 100);
+
+      const link = document.createElement('a');
+      link.download = `Foto_Kita_Blur_Python_${Date.now()}.png`;
+      link.href = snapCanvas.toDataURL('image/png');
+      link.click();
+    }
+
+    function runDemoSimulation() {
+      let t = 0;
+      function loop() {
+        ctx.fillStyle = '#1a1d2e';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Simulated aesthetic silhouette
+        ctx.save();
+        if (isBlurActive) ctx.filter = 'blur(25px)';
+        ctx.fillStyle = '#ff80ab';
+        ctx.beginPath();
+        ctx.arc(320, 240, 90, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+
+        t += 0.05;
+        requestAnimationFrame(loop);
+      }
+      loop();
+    }
+
+    window.onload = startCamera;
+  </script>
+</body>
+</html>
