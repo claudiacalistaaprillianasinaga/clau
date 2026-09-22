@@ -29,13 +29,21 @@ Media pembelajaran logika pemrograman visual:
 Game interaktif pelacak visual dan gestur tangan menggunakan teknologi Computer Vision berbasis browser.
 
 ### 🚆 5. RailNusa & DelMate (`RailNusa.html`, `DelMate.html`)
-Aplikasi simulasi reservasi, navigasi stasiun kereta api nusantara, dan platform interaktif edukasi kampus Del.
+Aplikasi sistem monitoring intermodal cerdas dan reservasi rute rel nasional (Kereta Cepat Whoosh 350 km/h, KSPN Danau Toba & Kampus Del, serta Trans-Jawa) lengkap dengan mode presentasi eksekutif.
 
-### 🧩 6. Game Logika & Utilitas Lainnya
+### ⏱️ 6. ChronoFlow: Daily Routine Planner & Smart Reminder (`DailyRoutinePlanner.html`)
+*Lihat dokumentasi lengkap: [README_DailyRoutinePlanner.md](README_DailyRoutinePlanner.md)*
+Aplikasi pemantau rute perjalanan aktivitas harian dari pagi sampai malam dengan sistem pengingat produktivitas pintar:
+- **Real-Time Productivity Score Engine**: Skor persentase otomatis (Zona Hijau, Kuning, Merah).
+- **Visual Chrono Timeline**: Garis rute vertikal (06:00 - 22:00) berkategori Produktif, Kesehatan, dan Istirahat.
+- **Dynamic Smart Alert Banner**: Peringatan hidrasi dan istirahat mata setelah 2 jam kerja fokus.
+- **Quick Save Shortcut**: Mendukung penyimpanan instan via `Ctrl + S` / `Ctrl + Shift + S`.
+
+### 🧩 7. Game Logika & Utilitas Lainnya
 - `game logika.html` / `koding.html`
 - `PasswordChecker.html`
-- `DailyRoutinePlanner.html`
 - `SilangitFlightBoard.html`
+- `FotoBlurSensor.html` / `trend foto.html`
 
 ---
 
