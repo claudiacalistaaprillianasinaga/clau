@@ -4,21 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Master Chef Culinary Lab 🍳✨ - Real Cooking & Math Simulator</title>
+    <title>Master Chef: Culinary Kitchen & Math Simulator 🍳✨</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=JetBrains+Mono:wght@500;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,800;0,900;1,600&family=JetBrains+Mono:wght@500;700;800&display=swap"
         rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #0f141c;
-            --card-bg: rgba(26, 34, 48, 0.85);
+            --bg-dark: #090d16;
+            --card-bg: rgba(22, 30, 46, 0.88);
             --card-border: rgba(255, 255, 255, 0.12);
             --primary: #f59e0b;
-            --primary-glow: rgba(245, 158, 11, 0.4);
+            --primary-glow: rgba(245, 158, 11, 0.45);
             --accent: #ef4444;
+            --accent-glow: rgba(239, 68, 68, 0.4);
             --success: #10b981;
+            --success-glow: rgba(16, 185, 129, 0.35);
             --gold: #fbbf24;
             --text-main: #f8fafc;
             --text-sub: #94a3b8;
@@ -30,10 +32,11 @@
             padding: 0;
             font-family: 'Plus Jakarta Sans', sans-serif;
             user-select: none;
+            -webkit-user-select: none;
         }
 
         body {
-            background: radial-gradient(circle at 50% 10%, #1e293b 0%, #0a0e17 100%);
+            background: radial-gradient(circle at 50% 12%, #1e293b 0%, #080c14 100%);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
@@ -41,80 +44,84 @@
             align-items: center;
             padding: 16px 12px;
             overflow-x: hidden;
+            position: relative;
         }
 
+        /* Ambient Lighting */
         .glow-light {
             position: fixed;
             border-radius: 50%;
-            filter: blur(100px);
+            filter: blur(110px);
             z-index: 0;
             pointer-events: none;
-            opacity: 0.35;
+            opacity: 0.38;
         }
 
         .light-warm {
-            width: 500px;
-            height: 500px;
+            width: 520px;
+            height: 520px;
             background: #ea580c;
-            top: -120px;
-            left: -120px;
+            top: -140px;
+            left: -140px;
         }
 
         .light-gold {
-            width: 450px;
-            height: 450px;
-            background: #ca8a04;
-            bottom: -100px;
-            right: -100px;
+            width: 480px;
+            height: 480px;
+            background: #d97706;
+            bottom: -120px;
+            right: -120px;
         }
 
         .kitchen-app {
             position: relative;
             z-index: 10;
             width: 100%;
-            max-width: 1080px;
+            max-width: 1100px;
             background: var(--card-bg);
-            backdrop-filter: blur(24px);
+            backdrop-filter: blur(28px);
             border: 1px solid var(--card-border);
             border-radius: 28px;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.65), 0 0 30px var(--primary-glow);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 35px var(--primary-glow);
             overflow: hidden;
             display: flex;
             flex-direction: column;
         }
 
+        /* Top Header */
         .top-header {
-            background: rgba(15, 23, 42, 0.95);
+            background: rgba(13, 19, 33, 0.95);
             border-bottom: 1px solid var(--card-border);
             padding: 16px 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
-            gap: 12px;
+            gap: 14px;
         }
 
         .brand {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
         }
 
         .brand-icon {
-            font-size: 2rem;
+            font-size: 2.2rem;
             background: linear-gradient(135deg, #f59e0b, #ea580c);
-            width: 48px;
-            height: 48px;
+            width: 52px;
+            height: 52px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 14px;
-            box-shadow: 0 4px 14px var(--primary-glow);
+            border-radius: 16px;
+            box-shadow: 0 6px 18px var(--primary-glow);
+            animation: bounceSoft 2s infinite ease-in-out;
         }
 
         .brand-title {
             font-family: 'Playfair Display', serif;
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 800;
             letter-spacing: 0.02em;
             background: linear-gradient(135deg, #fff 40%, #fcd34d 100%);
@@ -126,22 +133,40 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            flex-wrap: wrap;
         }
 
         .stat-pill {
-            background: rgba(30, 41, 59, 0.8);
+            background: rgba(30, 41, 59, 0.85);
             border: 1px solid var(--card-border);
-            padding: 7px 16px;
+            padding: 8px 16px;
             border-radius: 999px;
             font-size: 0.88rem;
-            font-weight: 700;
+            font-weight: 800;
             display: flex;
             align-items: center;
             gap: 6px;
         }
 
+        .btn-audio-toggle {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+        .btn-audio-toggle:hover {
+            background: rgba(245, 158, 11, 0.2);
+            border-color: #f59e0b;
+        }
+
+        /* Category Nav */
         .category-strip {
-            background: rgba(15, 20, 30, 0.85);
+            background: rgba(13, 18, 30, 0.9);
             border-bottom: 1px solid var(--card-border);
             padding: 12px 20px;
             display: flex;
@@ -154,34 +179,36 @@
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: var(--text-sub);
-            padding: 9px 18px;
-            border-radius: 12px;
-            font-size: 0.88rem;
+            padding: 10px 18px;
+            border-radius: 14px;
+            font-size: 0.9rem;
             font-weight: 700;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 8px;
             white-space: nowrap;
-            transition: all 0.2s ease;
+            transition: all 0.25s ease;
         }
 
         .cat-btn:hover {
-            background: rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.14);
             color: white;
+            transform: translateY(-1px);
         }
 
         .cat-btn.active {
             background: linear-gradient(135deg, #f59e0b, #d97706);
             border-color: #fbbf24;
             color: white;
-            box-shadow: 0 4px 16px var(--primary-glow);
+            box-shadow: 0 4px 18px var(--primary-glow);
         }
 
+        /* Main Workspace Grid */
         .kitchen-body {
             display: grid;
-            grid-template-columns: 320px 1fr;
-            min-height: 580px;
+            grid-template-columns: 330px 1fr;
+            min-height: 600px;
         }
 
         @media (max-width: 900px) {
@@ -190,21 +217,22 @@
             }
         }
 
+        /* Sidebar Recipe Selection */
         .recipe-sidebar {
-            background: rgba(15, 23, 42, 0.6);
+            background: rgba(15, 23, 42, 0.65);
             border-right: 1px solid var(--card-border);
             padding: 20px 16px;
             display: flex;
             flex-direction: column;
             gap: 12px;
-            max-height: 75vh;
+            max-height: 78vh;
             overflow-y: auto;
         }
 
         .sidebar-title {
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             text-transform: uppercase;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.1em;
             color: var(--text-sub);
             font-weight: 800;
             margin-bottom: 4px;
@@ -213,48 +241,49 @@
         .dish-card-select {
             background: rgba(30, 41, 59, 0.7);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            padding: 12px 14px;
+            border-radius: 18px;
+            padding: 13px 15px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         .dish-card-select:hover {
-            background: rgba(51, 65, 85, 0.8);
+            background: rgba(51, 65, 85, 0.85);
             border-color: #f59e0b;
             transform: translateX(4px);
         }
 
         .dish-card-select.active {
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.18), rgba(234, 88, 12, 0.1));
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.22), rgba(234, 88, 12, 0.12));
             border: 1.5px solid #f59e0b;
-            box-shadow: 0 4px 16px rgba(245, 158, 11, 0.25);
+            box-shadow: 0 4px 18px rgba(245, 158, 11, 0.28);
         }
 
         .dish-icon-badge {
-            font-size: 2.2rem;
-            background: rgba(15, 23, 42, 0.6);
-            width: 52px;
-            height: 52px;
+            font-size: 2.3rem;
+            background: rgba(15, 23, 42, 0.7);
+            width: 54px;
+            height: 54px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 12px;
+            border-radius: 14px;
         }
 
+        /* Workspace Core */
         .cooking-workspace {
-            padding: 28px 24px;
+            padding: 26px 24px;
             display: flex;
             flex-direction: column;
             gap: 20px;
-            background: radial-gradient(circle at 50% 30%, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.8) 100%);
+            background: radial-gradient(circle at 50% 25%, rgba(30, 41, 59, 0.35) 0%, rgba(13, 19, 33, 0.85) 100%);
         }
 
         .current-dish-banner {
-            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.95));
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.98));
             border: 1px solid var(--card-border);
             border-radius: 20px;
             padding: 18px 22px;
@@ -263,12 +292,12 @@
             justify-content: space-between;
             flex-wrap: wrap;
             gap: 14px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
         }
 
         .dish-details h2 {
             font-family: 'Playfair Display', serif;
-            font-size: 1.6rem;
+            font-size: 1.7rem;
             color: #f8fafc;
             display: flex;
             align-items: center;
@@ -276,116 +305,125 @@
         }
 
         .dish-details p {
-            font-size: 0.9rem;
+            font-size: 0.92rem;
             color: var(--text-sub);
             margin-top: 4px;
+            max-width: 600px;
+            line-height: 1.4;
         }
 
+        /* Step Progression Track */
         .step-track {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
+            gap: 10px;
         }
 
         .step-item {
-            background: rgba(30, 41, 59, 0.7);
+            background: rgba(30, 41, 59, 0.75);
             border: 1px solid var(--card-border);
             border-radius: 14px;
-            padding: 10px;
+            padding: 12px 10px;
             text-align: center;
-            font-size: 0.82rem;
-            font-weight: 700;
+            font-size: 0.85rem;
+            font-weight: 800;
             color: var(--text-sub);
-            transition: all 0.2s;
+            transition: all 0.25s ease;
         }
 
         .step-item.active {
-            background: rgba(245, 158, 11, 0.15);
+            background: rgba(245, 158, 11, 0.18);
             border-color: #f59e0b;
             color: #fbbf24;
-            box-shadow: 0 0 12px rgba(245, 158, 11, 0.3);
+            box-shadow: 0 0 16px rgba(245, 158, 11, 0.35);
         }
 
         .step-item.done {
-            background: rgba(16, 185, 129, 0.15);
+            background: rgba(16, 185, 129, 0.18);
             border-color: #10b981;
             color: #34d399;
         }
 
+        /* Kitchen Cooking Center Station */
         .kitchen-station-box {
-            background: rgba(15, 23, 42, 0.85);
+            background: rgba(15, 23, 42, 0.9);
             border: 1.5px solid var(--card-border);
-            border-radius: 24px;
-            padding: 24px;
-            min-height: 330px;
+            border-radius: 26px;
+            padding: 30px 24px;
+            min-height: 350px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             position: relative;
-            box-shadow: inset 0 2px 20px rgba(0, 0, 0, 0.4);
+            box-shadow: inset 0 2px 25px rgba(0, 0, 0, 0.5);
         }
 
+        /* STEP 1: MATH FORMULA STATION */
         .math-scale-container {
             width: 100%;
-            max-width: 540px;
+            max-width: 580px;
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 14px;
+            gap: 16px;
         }
 
         .math-badge {
             background: rgba(245, 158, 11, 0.15);
             border: 1px solid #f59e0b;
             color: #fcd34d;
-            padding: 5px 14px;
+            padding: 6px 16px;
             border-radius: 999px;
-            font-size: 0.82rem;
+            font-size: 0.85rem;
             font-weight: 800;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .math-question {
             font-family: 'Playfair Display', serif;
-            font-size: 1.7rem;
+            font-size: 1.85rem;
             color: #fff;
+            font-weight: 800;
         }
 
         .math-formula-box {
-            background: #090d16;
-            border: 1.5px dashed var(--gold);
-            border-radius: 16px;
-            padding: 12px 24px;
+            background: #070a12;
+            border: 2px dashed var(--gold);
+            border-radius: 18px;
+            padding: 14px 28px;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 2rem;
+            font-size: 2.1rem;
             font-weight: 800;
             color: #fbbf24;
             letter-spacing: 0.05em;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
         }
 
         .ingredient-btn-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+            gap: 14px;
             width: 100%;
+            margin-top: 6px;
         }
 
         .ing-btn {
             background: rgba(30, 41, 59, 0.85);
             border: 1.5px solid var(--card-border);
-            border-radius: 14px;
-            padding: 14px;
-            font-size: 1.05rem;
-            font-weight: 700;
+            border-radius: 16px;
+            padding: 16px 20px;
+            font-size: 1.15rem;
+            font-weight: 800;
             color: white;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            transition: all 0.2s ease;
+            transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
             font-family: 'JetBrains Mono', monospace;
         }
 
@@ -393,45 +431,52 @@
             background: #f59e0b;
             border-color: #fbbf24;
             transform: translateY(-2px);
-            box-shadow: 0 6px 18px var(--primary-glow);
+            box-shadow: 0 8px 24px var(--primary-glow);
         }
 
         .ing-btn:disabled {
             opacity: 0.35;
             cursor: not-allowed;
+            transform: none;
         }
 
+        /* STEP 2: SIZZLE POT / PAN INTERACTIVE */
         .appliance-center {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 16px;
+            gap: 18px;
             text-align: center;
         }
 
         .cooking-pot {
-            width: 140px;
-            height: 140px;
-            border-radius: 36px;
+            width: 150px;
+            height: 150px;
+            border-radius: 40px;
             background: radial-gradient(circle, #334155 0%, #1e293b 100%);
-            border: 3px solid rgba(255, 255, 255, 0.2);
+            border: 3px solid rgba(255, 255, 255, 0.25);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 56px;
+            font-size: 64px;
             cursor: pointer;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 25px rgba(245, 158, 11, 0.3);
+            box-shadow: 0 14px 35px rgba(0, 0, 0, 0.55), 0 0 30px rgba(245, 158, 11, 0.35);
             transition: transform 0.1s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
         }
 
         .cooking-pot:active {
             transform: scale(0.92);
         }
 
+        .cooking-pot.sizzling {
+            animation: potSizzleShake 0.15s infinite alternate;
+        }
+
         .sizzle-bar {
-            width: 260px;
-            height: 16px;
-            background: #090d16;
+            width: 280px;
+            height: 18px;
+            background: #070a12;
             border-radius: 999px;
             overflow: hidden;
             border: 1.5px solid var(--card-border);
@@ -441,59 +486,62 @@
             width: 0%;
             height: 100%;
             background: linear-gradient(90deg, #f59e0b, #ef4444);
-            transition: width 0.1s ease;
+            transition: width 0.15s ease;
         }
 
+        /* STEP 3: FLAME HEAT GAUGE */
         .flame-gauge-container {
             width: 100%;
-            max-width: 480px;
+            max-width: 500px;
             text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .gauge-track {
-            width: 100%;
-            height: 28px;
-            background: #090d16;
-            border-radius: 999px;
-            position: relative;
-            overflow: hidden;
-            border: 2px solid var(--card-border);
-        }
-
-        .sweet-golden-spot {
-            position: absolute;
-            left: 54%;
-            width: 32%;
-            height: 100%;
-            background: linear-gradient(90deg, #10b981, #059669);
-            box-shadow: 0 0 14px rgba(16, 185, 129, 0.6);
-        }
-
-        .gauge-needle {
-            position: absolute;
-            top: 0;
-            left: 0%;
-            width: 8px;
-            height: 100%;
-            background: #ef4444;
-            box-shadow: 0 0 12px #ef4444;
-            border-radius: 4px;
-        }
-
-        .plate-station {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 16px;
         }
 
+        .gauge-track {
+            width: 100%;
+            height: 32px;
+            background: #070a12;
+            border-radius: 999px;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid var(--card-border);
+            margin: 6px 0;
+        }
+
+        .sweet-golden-spot {
+            position: absolute;
+            left: 54%;
+            width: 30%;
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #059669);
+            box-shadow: 0 0 16px rgba(16, 185, 129, 0.7);
+        }
+
+        .gauge-needle {
+            position: absolute;
+            top: 0;
+            left: 0%;
+            width: 10px;
+            height: 100%;
+            background: #ef4444;
+            box-shadow: 0 0 14px #ef4444;
+            border-radius: 4px;
+        }
+
+        /* STEP 4: PLATING & GARNISH */
+        .plate-station {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+        }
+
         .luxury-plate {
-            width: 160px;
-            height: 160px;
+            width: 170px;
+            height: 170px;
             background: radial-gradient(circle, #f8fafc 0%, #cbd5e1 100%);
             border: 6px solid #e2e8f0;
             border-radius: 50%;
@@ -502,70 +550,75 @@
             align-items: center;
             justify-content: center;
             position: relative;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
         }
 
         .plate-base-dish {
-            font-size: 54px;
+            font-size: 60px;
         }
 
         .plate-toppings-layer {
             position: absolute;
-            top: 18px;
+            top: 20px;
             display: flex;
             gap: 4px;
-            font-size: 22px;
+            font-size: 24px;
             pointer-events: none;
         }
 
         .toppings-rack {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             flex-wrap: wrap;
             justify-content: center;
+            margin: 8px 0;
         }
 
         .rack-chip {
             background: rgba(30, 41, 59, 0.85);
             border: 1.5px solid var(--card-border);
-            border-radius: 14px;
-            padding: 8px 14px;
-            font-size: 1.4rem;
+            border-radius: 16px;
+            padding: 10px 18px;
+            font-size: 1.6rem;
             cursor: pointer;
-            transition: all 0.15s ease;
+            transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         .rack-chip:hover {
             border-color: #f59e0b;
-            transform: scale(1.1);
+            transform: scale(1.15) translateY(-2px);
+            background: rgba(245, 158, 11, 0.2);
         }
 
+        /* Buttons */
         .chef-btn {
             background: linear-gradient(135deg, #f59e0b, #ea580c);
             color: white;
             border: none;
-            padding: 13px 28px;
-            border-radius: 14px;
-            font-size: 1rem;
+            padding: 14px 32px;
+            border-radius: 16px;
+            font-size: 1.05rem;
             font-weight: 800;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 10px;
-            box-shadow: 0 4px 20px var(--primary-glow);
-            transition: all 0.2s ease;
+            box-shadow: 0 6px 24px var(--primary-glow);
+            transition: all 0.25s ease;
         }
 
         .chef-btn:hover {
             filter: brightness(1.1);
             transform: translateY(-2px);
+            box-shadow: 0 10px 30px var(--primary-glow);
         }
 
+        /* Modal Overlay Finished */
         .modal-backdrop {
             position: fixed;
             inset: 0;
-            background: rgba(10, 14, 23, 0.85);
-            backdrop-filter: blur(10px);
+            background: rgba(7, 10, 18, 0.88);
+            backdrop-filter: blur(12px);
             z-index: 100;
             display: none;
             align-items: center;
@@ -580,15 +633,16 @@
         .finished-card {
             background: #1e293b;
             border: 2px solid #f59e0b;
-            border-radius: 28px;
-            padding: 32px 28px;
-            max-width: 480px;
+            border-radius: 30px;
+            padding: 34px 30px;
+            max-width: 500px;
             width: 100%;
             text-align: center;
-            box-shadow: 0 25px 60px rgba(245, 158, 11, 0.3);
+            box-shadow: 0 30px 70px rgba(245, 158, 11, 0.35);
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 16px;
+            animation: modalPop 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         #confettiCanvas {
@@ -600,6 +654,21 @@
 
         .hidden {
             display: none !important;
+        }
+
+        @keyframes bounceSoft {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+
+        @keyframes potSizzleShake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            100% { transform: translate(-1px, -1px) rotate(1deg); }
+        }
+
+        @keyframes modalPop {
+            0% { transform: scale(0.85); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
     </style>
 </head>
@@ -616,8 +685,7 @@
                 <div class="brand-icon">👨‍🍳</div>
                 <div>
                     <div class="brand-title">Master Chef Culinary Lab</div>
-                    <div style="font-size: 0.8rem; color: var(--text-sub);">Real Cooking Simulation + Culinary
-                        Mathematics</div>
+                    <div style="font-size: 0.82rem; color: var(--text-sub);">Real Cooking Simulation + Culinary Mathematics</div>
                 </div>
             </div>
             <div class="nav-stats">
@@ -625,14 +693,16 @@
                     ⭐ Skor: <span id="scoreVal">0</span>
                 </div>
                 <div class="stat-pill" style="color: #34d399;">
-                    🍽️ Masakan Selesai: <span id="dishesDone">0</span>
+                    🍽️ Selesai: <span id="dishesDone">0</span>
                 </div>
                 <div class="stat-pill" style="color: #60a5fa;">
                     🎖️ Rank: <span id="chefRank">Junior Cook</span>
                 </div>
+                <button class="btn-audio-toggle" id="audioBtn" onclick="toggleSound()">🔊 Suara: ON</button>
             </div>
         </header>
 
+        <!-- Category Navbar -->
         <div class="category-strip" id="categoryNav">
             <button class="cat-btn active" onclick="filterCategory(0)">🥩 Western Steak & Grill</button>
             <button class="cat-btn" onclick="filterCategory(1)">🍣 Japanese Sushi & Ramen</button>
@@ -642,57 +712,58 @@
         </div>
 
         <div class="kitchen-body">
+            <!-- Sidebar: Choose Any Recipe Freely -->
             <aside class="recipe-sidebar" id="recipeSidebar">
                 <div class="sidebar-title">Pilih Menu Kuliner</div>
             </aside>
 
+            <!-- Main Interactive Station -->
             <main class="cooking-workspace">
                 <div class="current-dish-banner">
                     <div class="dish-details">
                         <h2 id="activeDishName"><span>🥩</span> Wagyu Ribeye Steak</h2>
                         <p id="activeDishDesc">Daging premium wagyu A5 dengan bumbu rempah mentega rosemary.</p>
                     </div>
-                    <div style="background: rgba(245, 158, 11, 0.15); border: 1px solid #f59e0b; color: #fbbf24; padding: 6px 14px; border-radius: 10px; font-weight: 800; font-size: 0.85rem;"
+                    <div style="background: rgba(245, 158, 11, 0.18); border: 1.5px solid #f59e0b; color: #fbbf24; padding: 6px 16px; border-radius: 12px; font-weight: 800; font-size: 0.88rem;"
                         id="dishCategoryBadge">
                         Western Gourmet
                     </div>
                 </div>
 
+                <!-- 4 Real Cooking Phases -->
                 <div class="step-track">
-                    <div class="step-item active" id="step1-tab">1. Takar Bahan (Math)</div>
+                    <div class="step-item active" id="step1-tab">1. Takar Bumbu (Math)</div>
                     <div class="step-item" id="step2-tab">2. Olah & Tumis</div>
                     <div class="step-item" id="step3-tab">3. Suhu Matang</div>
                     <div class="step-item" id="step4-tab">4. Plating Mewah</div>
                 </div>
 
                 <div class="kitchen-station-box">
+                    <!-- STEP 1: MATH PROPORTIONS -->
                     <div class="math-scale-container" id="station-math">
-                        <div class="math-badge">⚖️ Timbangan Presisi & Proporsi Resep</div>
+                        <div class="math-badge">⚖️ Timbangan Presisi & Takaran Bumbu</div>
                         <div class="math-question" id="mathQuestionTitle">Takar Gramasi Garam & Rempah</div>
                         <div class="math-formula-box" id="mathFormulaText">15 + 25 = ? gram</div>
-                        <p style="color: var(--text-sub); font-size: 0.9rem;">Pilih takaran bahan yang tepat sesuai
-                            rumus dapur:</p>
+                        <p style="color: var(--text-sub); font-size: 0.92rem;">Pilih takaran bahan yang tepat sesuai resep:</p>
                         <div class="ingredient-btn-grid" id="mathChoicesGrid"></div>
                     </div>
 
+                    <!-- STEP 2: SIZZLE POT / PAN ACTION -->
                     <div class="appliance-center hidden" id="station-cook">
-                        <div style="font-size: 1rem; font-weight: 800; color: #fcd34d;" id="cookActionTitle">🔥 Panaskan
-                            Wajan &
-                            Tumis Bumbu!</div>
+                        <div style="font-size: 1.15rem; font-weight: 800; color: #fcd34d;" id="cookActionTitle">🔥 Panaskan Wajan & Tumis Masakan!</div>
                         <div class="cooking-pot" id="cookPot" onclick="clickPotAction()">
                             <span id="cookPotIcon">🍳</span>
                         </div>
-                        <p style="font-size: 0.9rem; color: var(--text-sub);">Ketuk wajan 5 kali untuk memasak rata!</p>
+                        <p style="font-size: 0.92rem; color: var(--text-sub);">Ketuk wajan 5 kali untuk memasak rata (atau tekan <b>Spasi</b>)!</p>
                         <div class="sizzle-bar">
                             <div class="sizzle-fill" id="sizzleProgress"></div>
                         </div>
                     </div>
 
+                    <!-- STEP 3: FLAME HEAT GAUGE PRECISION -->
                     <div class="flame-gauge-container hidden" id="station-heat">
-                        <div style="font-size: 1rem; font-weight: 800; color: #fcd34d;" id="heatGaugeTitle">🌡️ Kontrol
-                            Suhu
-                            Pemanggangan (Tepat di Area Hijau)</div>
-                        <div style="font-size: 3.5rem;" id="heatVesselIcon">🥩</div>
+                        <div style="font-size: 1.15rem; font-weight: 800; color: #fcd34d;" id="heatGaugeTitle">🌡️ Kontrol Suhu Pemanggangan (Tepat di Area Hijau)</div>
+                        <div style="font-size: 4rem;" id="heatVesselIcon">🥩</div>
                         <div class="gauge-track">
                             <div class="sweet-golden-spot"></div>
                             <div class="gauge-needle" id="gaugeNeedle"></div>
@@ -702,13 +773,14 @@
                         </button>
                     </div>
 
+                    <!-- STEP 4: GOURMET PLATING & GARNISH -->
                     <div class="plate-station hidden" id="station-plating">
-                        <div style="font-size: 1rem; font-weight: 800; color: #fcd34d;">🎨 Tata Hiasan & Garnish Cantik
-                        </div>
+                        <div style="font-size: 1.15rem; font-weight: 800; color: #fcd34d;">🎨 Tata Hiasan & Garnish Cantik</div>
                         <div class="luxury-plate">
                             <div class="plate-base-dish" id="plateDishIcon">🥩</div>
                             <div class="plate-toppings-layer" id="plateToppings"></div>
                         </div>
+                        <p style="font-size: 0.88rem; color: var(--text-sub);">Klik garnish di bawah untuk menghias piring saji:</p>
                         <div class="toppings-rack" id="toppingsRack"></div>
                         <button class="chef-btn" onclick="finishPlatingServe()"
                             style="background: linear-gradient(135deg, #10b981, #059669);">
@@ -720,22 +792,19 @@
         </div>
     </div>
 
+    <!-- Final Dish Review Modal -->
     <div class="modal-backdrop" id="finishModal">
         <div class="finished-card">
-            <div style="font-size: 4rem;">🏆</div>
-            <h2 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #fbbf24;">Masakan Selesai
-                Disajikan!
-            </h2>
-            <p style="color: var(--text-sub); font-size: 0.95rem;" id="finishDishFeedback">"Kualitas rasa bintang 5 dan
-                tingkat kematangan sempurna!"</p>
+            <div style="font-size: 4.2rem;">🏆</div>
+            <h2 style="font-family: 'Playfair Display', serif; font-size: 1.9rem; color: #fbbf24;">Masakan Selesai Disajikan!</h2>
+            <p style="color: var(--text-sub); font-size: 0.98rem;" id="finishDishFeedback">"Kualitas rasa bintang 5 dan tingkat kematangan sempurna!"</p>
 
-            <div
-                style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--card-border); border-radius: 16px; padding: 14px; text-align: left; font-size: 0.95rem;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+            <div style="background: rgba(15, 23, 42, 0.75); border: 1px solid var(--card-border); border-radius: 18px; padding: 16px; text-align: left; font-size: 0.98rem;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
                     <span>🍽️ Menu:</span>
                     <strong id="finishDishName" style="color: #f59e0b;">Wagyu Ribeye</strong>
                 </div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
                     <span>⭐ Skor Diperoleh:</span>
                     <strong style="color: #10b981;">+250 Poin</strong>
                 </div>
@@ -745,7 +814,7 @@
                 </div>
             </div>
 
-            <div style="display: flex; gap: 10px;">
+            <div style="display: flex; gap: 12px;">
                 <button class="chef-btn" onclick="closeFinishModal(true)" style="flex: 1;">
                     <span>🍳</span> Masak Menu Ini Lagi
                 </button>
@@ -758,14 +827,25 @@
     </div>
 
     <script>
+        /* =========================================================
+           ADVANCED CULINARY AUDIO SYNTHESIZER (WEB AUDIO API)
+           ========================================================= */
         let audioCtx = null;
+        let soundEnabled = true;
+
         function getAudioContext() {
             if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             if (audioCtx.state === 'suspended') audioCtx.resume();
             return audioCtx;
         }
 
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            document.getElementById('audioBtn').innerText = soundEnabled ? "🔊 Suara: ON" : "🔇 Suara: OFF";
+        }
+
         function playTone(freq, type = 'sine', duration = 0.15) {
+            if (!soundEnabled) return;
             try {
                 const ctx = getAudioContext();
                 const osc = ctx.createOscillator();
@@ -779,7 +859,36 @@
             } catch (e) { }
         }
 
+        function soundSizzle() {
+            if (!soundEnabled) return;
+            try {
+                const ctx = getAudioContext();
+                const bufferSize = ctx.sampleRate * 0.25;
+                const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = Math.random() * 2 - 1;
+                }
+                const noise = ctx.createBufferSource();
+                noise.buffer = buffer;
+                const filter = ctx.createBiquadFilter();
+                filter.type = 'bandpass';
+                filter.frequency.value = 1800;
+                filter.Q.value = 3;
+                const gain = ctx.createGain();
+                gain.gain.setValueAtTime(0.18, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
+                noise.connect(filter);
+                filter.connect(gain);
+                gain.connect(ctx.destination);
+                noise.start();
+            } catch (e) {
+                playTone(450, 'triangle', 0.1);
+            }
+        }
+
         function soundSuccess() {
+            if (!soundEnabled) return;
             try {
                 const ctx = getAudioContext();
                 const now = ctx.currentTime;
@@ -797,6 +906,7 @@
         }
 
         function soundWrong() {
+            if (!soundEnabled) return;
             try {
                 const ctx = getAudioContext();
                 const osc = ctx.createOscillator();
@@ -812,6 +922,7 @@
         }
 
         function soundFanfare() {
+            if (!soundEnabled) return;
             try {
                 const ctx = getAudioContext();
                 const now = ctx.currentTime;
@@ -828,6 +939,9 @@
             } catch (e) { }
         }
 
+        /* =========================================================
+           CONFETTI SYSTEM
+           ========================================================= */
         const canvas = document.getElementById('confettiCanvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -835,13 +949,13 @@
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        function triggerConfetti(x, y, count = 25) {
+        function triggerConfetti(x, y, count = 28) {
             const colors = ['#f59e0b', '#fbbf24', '#ef4444', '#10b981', '#3b82f6', '#ec4899'];
             for (let i = 0; i < count; i++) {
                 const angle = Math.random() * Math.PI * 2;
                 const speed = Math.random() * 6 + 3;
                 particles.push({
-                    x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed - 2,
+                    x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed - 2.5,
                     color: colors[Math.floor(Math.random() * colors.length)], alpha: 1,
                     size: Math.random() * 8 + 6, rot: Math.random() * Math.PI * 2,
                     vrot: (Math.random() - 0.5) * 0.2
@@ -863,12 +977,15 @@
         }
         animateParticles();
 
+        /* =========================================================
+           RECIPES & WORLD CUISINES
+           ========================================================= */
         const CULINARY_ZONES = [
             {
                 id: "western",
                 name: "Western Steak & Grill",
                 dishes: [
-                    { name: "Wagyu Ribeye Steak", icon: "🥩", desc: "Daging wagyu A5 dengan mentega herba rosemary dan saus lada hitam.", ing: "Garam & Bumbu Marinasi", tool: "🍳", timeIcon: "🥩", decor: ["🌿", "🧈", "🧄", "🧂", "🍷"] },
+                    { name: "Wagyu Ribeye Steak", icon: "🥩", desc: "Daging premium wagyu A5 dengan bumbu rempah mentega rosemary.", ing: "Garam & Bumbu Marinasi", tool: "🍳", timeIcon: "🥩", decor: ["🌿", "🧈", "🧄", "🧂", "🍷"] },
                     { name: "Crispy Roasted Chicken", icon: "🍗", desc: "Ayam panggang kulit renyah aroma lemon thyme dan kentang iris.", ing: "Bawang Putih & Minyak Zaitun", tool: "🍳", timeIcon: "🍗", decor: ["🍋", "🌿", "🥔", "🧂"] },
                     { name: "Double Cheese Beef Burger", icon: "🍔", desc: "Patty sapi panggang lelehan keju cheddar dalam roti brioche empuk.", ing: "Daging Cincang & Bumbu BBQ", tool: "🍳", timeIcon: "🍔", decor: ["🧀", "🥬", "🍅", "🥓"] }
                 ]
@@ -940,16 +1057,16 @@
             sidebar.innerHTML = '<div class="sidebar-title">Pilih Menu Kuliner</div>';
             const zone = CULINARY_ZONES[currentCategoryIdx];
 
-            zone.dishes.forEach((d, i) => {
+            zone.dishes.forEach((d) => {
                 const card = document.createElement('div');
                 card.className = 'dish-card-select' + (activeDish && activeDish.name === d.name ? ' active' : '');
                 card.innerHTML = `
-          <div class="dish-icon-badge">${d.icon}</div>
-          <div>
-            <div style="font-weight: 700; font-size: 0.95rem; color: #fff;">${d.name}</div>
-            <div style="font-size: 0.78rem; color: var(--text-sub);">${zone.name}</div>
-          </div>
-        `;
+                  <div class="dish-icon-badge">${d.icon}</div>
+                  <div>
+                    <div style="font-weight: 800; font-size: 0.98rem; color: #fff;">${d.name}</div>
+                    <div style="font-size: 0.8rem; color: var(--text-sub);">${zone.name}</div>
+                  </div>
+                `;
                 card.onclick = () => {
                     playTone(480, 'sine', 0.1);
                     selectDish(d);
@@ -1003,16 +1120,17 @@
             }
         }
 
+        /* 1. MATH & INGREDIENT RATIOS */
         function setupMathStep() {
             const type = Math.random();
             let n1, n2, unit = "gram";
 
-            if (type < 0.4) {
+            if (type < 0.38) {
                 n1 = Math.floor(Math.random() * 25) + 10;
                 n2 = Math.floor(Math.random() * 20) + 5;
                 mathAnswer = n1 + n2;
                 document.getElementById('mathFormulaText').textContent = `${n1} + ${n2} = ? ${unit}`;
-            } else if (type < 0.7) {
+            } else if (type < 0.68) {
                 n1 = Math.floor(Math.random() * 40) + 30;
                 n2 = Math.floor(Math.random() * 20) + 10;
                 mathAnswer = n1 - n2;
@@ -1046,7 +1164,7 @@
                 btn.onclick = () => {
                     if (c === mathAnswer) {
                         soundSuccess();
-                        triggerConfetti(window.innerWidth / 2, window.innerHeight / 2, 20);
+                        triggerConfetti(window.innerWidth / 2, window.innerHeight / 2, 22);
                         score += 100;
                         document.getElementById('scoreVal').textContent = score;
                         setupStep(2);
@@ -1059,6 +1177,7 @@
             });
         }
 
+        /* 2. REAL COOKING WOK SIZZLE ACTION */
         function setupCookStep() {
             cookClicks = 0;
             document.getElementById('sizzleProgress').style.width = '0%';
@@ -1069,20 +1188,25 @@
         function clickPotAction() {
             if (currentStep !== 2) return;
             cookClicks++;
-            playTone(320 + cookClicks * 50, 'sine', 0.08);
+            soundSizzle();
+
+            const pot = document.getElementById('cookPot');
+            pot.classList.add('sizzling');
+            setTimeout(() => pot.classList.remove('sizzling'), 160);
 
             const pct = (cookClicks / maxCookClicks) * 100;
             document.getElementById('sizzleProgress').style.width = `${pct}%`;
 
             if (cookClicks >= maxCookClicks) {
                 soundSuccess();
-                triggerConfetti(window.innerWidth / 2, window.innerHeight / 2, 16);
+                triggerConfetti(window.innerWidth / 2, window.innerHeight / 2, 20);
                 score += 80;
                 document.getElementById('scoreVal').textContent = score;
-                setTimeout(() => setupStep(3), 260);
+                setTimeout(() => setupStep(3), 280);
             }
         }
 
+        /* 3. FLAME HEAT TIMING PRECISION */
         function setupHeatStep() {
             needlePos = 0;
             needleDir = 1;
@@ -1110,7 +1234,7 @@
             const isSweet = (needlePos >= 52 && needlePos <= 88);
             if (isSweet) {
                 soundSuccess();
-                triggerConfetti(window.innerWidth / 2, window.innerHeight / 2, 22);
+                triggerConfetti(window.innerWidth / 2, window.innerHeight / 2, 26);
                 score += 150;
             } else {
                 playTone(550, 'triangle', 0.2);
@@ -1120,6 +1244,7 @@
             setTimeout(() => setupStep(4), 300);
         }
 
+        /* 4. GOURMET PLATING & GARNISH */
         function setupPlatingStep() {
             toppingsSelected = [];
             document.getElementById('plateDishIcon').textContent = activeDish.icon;
@@ -1133,7 +1258,7 @@
                 chip.className = 'rack-chip';
                 chip.textContent = top;
                 chip.onclick = () => {
-                    playTone(600, 'sine', 0.08);
+                    playTone(620, 'sine', 0.08);
                     if (toppingsSelected.length < 5) {
                         toppingsSelected.push(top);
                         const span = document.createElement('span');
@@ -1148,7 +1273,7 @@
         function finishPlatingServe() {
             if (currentStep !== 4) return;
             soundFanfare();
-            triggerConfetti(window.innerWidth / 2, window.innerHeight / 2, 35);
+            triggerConfetti(window.innerWidth / 2, window.innerHeight / 2, 40);
 
             dishesCompleted++;
             score += 250;
@@ -1178,6 +1303,20 @@
                 selectDish(nextDish);
             }
         }
+
+        /* Keyboard Support */
+        window.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                if (currentStep === 2) clickPotAction();
+                else if (currentStep === 3) stopHeatGauge();
+            }
+            if (e.key >= '1' && e.key <= '4' && currentStep === 1) {
+                const btns = document.querySelectorAll('.ing-btn');
+                const idx = parseInt(e.key) - 1;
+                if (btns[idx] && !btns[idx].disabled) btns[idx].click();
+            }
+        });
 
         window.onload = () => {
             filterCategory(0);
