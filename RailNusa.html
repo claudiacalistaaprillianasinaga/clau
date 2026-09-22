@@ -176,48 +176,55 @@
 <body
     class="bg-navy-950 text-slate-100 font-sans min-h-screen flex flex-col selection:bg-accent-blue selection:text-white antialiased">
 
-    <!-- TOP BANNER: SIMULATED / DEMO DISCLAIMER -->
+    <!-- TOP BANNER: EXECUTIVE BRIEFING NOTICE -->
     <div
-        class="bg-gradient-to-r from-navy-900 via-accent-blue/20 to-navy-900 border-b border-accent-blue/30 px-3 py-1.5 text-xs text-center flex items-center justify-center gap-2 text-slate-300">
+        class="bg-gradient-to-r from-navy-950 via-accent-blue/25 to-navy-950 border-b border-accent-cyan/30 px-3 py-1.5 text-xs text-center flex flex-wrap items-center justify-center gap-2 text-slate-200">
         <span
-            class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-accent-blue/20 text-accent-cyan border border-accent-cyan/30">DEMO
-            PROTOTYPE</span>
-        <span>“This prototype uses simulated railway data for demonstration purposes.”</span>
-        <span class="hidden md:inline text-slate-400">| Presentation-Ready Mobility Simulator</span>
+            class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-400/40">
+            ⭐ EXECUTIVE BRIEFING DECK
+        </span>
+        <span class="font-medium">“Sistem Monitoring & Integrasi Kereta Cepat Whoosh & Koridor Pariwisata Super Prioritas Danau Toba — Disiapkan untuk Bpk. Luhut B. Pandjaitan”</span>
+        <button onclick="togglePresentationMode(true)" class="hidden md:inline-flex items-center gap-1 text-[11px] font-bold text-accent-cyan hover:underline ml-2">
+            Mulai Presentasi <i data-lucide="arrow-right" class="w-3 h-3"></i>
+        </button>
     </div>
 
     <!-- FLOATING PRESENTATION BAR (Toggled during Demo Mode) -->
     <aside id="presentationBar"
-        class="hidden sticky top-0 z-50 bg-gradient-to-r from-accent-blueDark via-navy-900 to-navy-950 border-b border-accent-cyan/40 px-4 py-2.5 shadow-2xl transition-all duration-300"
+        class="hidden sticky top-0 z-50 bg-gradient-to-r from-navy-950 via-navy-900 to-navy-950 border-b-2 border-accent-cyan px-4 py-3 shadow-2xl transition-all duration-300"
         aria-label="Demo Controller">
         <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
-            <div class="flex items-center gap-2">
-                <span class="flex h-2.5 w-2.5 relative">
-                    <span
-                        class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-cyan opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent-cyan"></span>
+            <div class="flex items-center gap-3">
+                <span class="flex h-3 w-3 relative">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-cyan opacity-80"></span>
+                    <span class="relative inline-flex rounded-full h-3 w-3 bg-accent-cyan"></span>
                 </span>
-                <span class="font-display font-bold text-white text-sm tracking-wide">🎬 PRESENTATION MODE ACTIVE</span>
+                <div>
+                    <span class="font-display font-extrabold text-white text-sm tracking-wide flex items-center gap-2">
+                        <span>🎖️ EXECUTIVE BRIEFING PAK LUHUT</span>
+                        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-accent-cyan/20 text-accent-cyan border border-accent-cyan/30 hidden sm:inline">KEBIJAKAN KONEKTIVITAS REL STRATEGIS</span>
+                    </span>
+                    <p class="text-[11px] text-slate-300 -mt-0.5">Presenter: <strong>Claudia Aprilliana</strong> • Agenda: Whoosh KCIC, LRT Jabodebek & Akses KSPN Danau Toba (Del Laguboti)</p>
+                </div>
                 <span id="demoStepBadge"
-                    class="bg-navy-800 text-accent-cyan px-2 py-0.5 rounded-full font-mono text-[11px] border border-accent-cyan/30">Step
-                    1/9: Hero & Concept</span>
+                    class="bg-navy-800 text-accent-cyan px-3 py-1 rounded-full font-mono text-xs font-bold border border-accent-cyan/40 ml-2 shadow-inner">Step 1/9: Executive Overview</span>
             </div>
 
             <div class="flex items-center gap-2">
                 <button onclick="prevDemoStep()"
-                    class="px-2.5 py-1 rounded bg-navy-800 hover:bg-navy-700 text-slate-200 border border-white/10 flex items-center gap-1 font-medium transition">
+                    class="px-3 py-1.5 rounded-xl bg-navy-800 hover:bg-navy-700 text-slate-200 border border-white/10 flex items-center gap-1 text-xs font-semibold transition">
                     <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i> Prev
                 </button>
                 <button onclick="nextDemoStep()"
-                    class="px-3 py-1 rounded bg-accent-blue hover:bg-blue-500 text-white font-semibold flex items-center gap-1 shadow-md transition">
+                    class="px-4 py-1.5 rounded-xl bg-gradient-to-r from-accent-blue to-accent-cyan hover:opacity-95 text-navy-950 font-bold text-xs flex items-center gap-1.5 shadow-lg shadow-accent-cyan/20 transition">
                     Next Step <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
                 </button>
                 <button onclick="autoPlayDemo()" id="btnAutoDemo"
-                    class="px-2.5 py-1 rounded bg-accent-cyan/10 hover:bg-accent-cyan/20 text-accent-cyan border border-accent-cyan/40 flex items-center gap-1 font-medium transition">
+                    class="px-3 py-1.5 rounded-xl bg-accent-cyan/10 hover:bg-accent-cyan/20 text-accent-cyan border border-accent-cyan/40 flex items-center gap-1.5 font-semibold text-xs transition">
                     <i data-lucide="play" class="w-3.5 h-3.5"></i> Auto Tour
                 </button>
                 <button onclick="togglePresentationMode(false)"
-                    class="px-2 py-1 rounded text-slate-400 hover:text-white hover:bg-white/10 transition"
+                    class="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition"
                     title="Exit Presentation">
                     <i data-lucide="x" class="w-4 h-4"></i>
                 </button>
@@ -225,9 +232,9 @@
         </div>
         <!-- Step hint -->
         <div id="demoStepDesc"
-            class="max-w-7xl mx-auto pt-1 text-[11px] text-accent-cyanLight/90 flex items-center gap-1.5">
-            <i data-lucide="info" class="w-3 h-3 text-accent-cyan"></i>
-            <span>Welcome to RailNusa Demo. Click 'Next Step' to walkthrough the entire passenger journey.</span>
+            class="max-w-7xl mx-auto pt-2 text-xs text-accent-cyanLight flex items-center gap-2 border-t border-white/5 mt-2">
+            <i data-lucide="info" class="w-3.5 h-3.5 text-accent-cyan shrink-0"></i>
+            <span>Menampilkan ringkasan eksekutif arsitektur integrasi antarmoda transportasi kereta api nasional.</span>
         </div>
     </aside>
 
@@ -246,10 +253,9 @@
                         <span class="font-display font-extrabold text-xl tracking-tight text-white">Rail<span
                                 class="text-accent-cyan">Nusa</span></span>
                         <span
-                            class="text-[9px] uppercase font-bold tracking-widest px-1.5 py-0.5 rounded bg-navy-800 text-slate-300 border border-slate-700">Prototype</span>
+                            class="text-[9px] uppercase font-bold tracking-widest px-1.5 py-0.5 rounded bg-navy-800 text-amber-300 border border-amber-500/40">Executive</span>
                     </div>
-                    <p class="text-[10px] text-slate-400 -mt-0.5 hidden sm:block tracking-wide">Smart Railway Mobility
-                        Platform</p>
+                    <p class="text-[10px] text-slate-400 -mt-0.5 hidden sm:block tracking-wide">Integrated Railway Mobility Ecosystem</p>
                 </div>
             </div>
 
@@ -258,7 +264,7 @@
                 <button onclick="navigateTo('landing')"
                     class="nav-link px-3 py-1.5 rounded-lg hover:text-white hover:bg-white/5 transition flex items-center gap-1.5"
                     data-tab="landing">
-                    <i data-lucide="compass" class="w-4 h-4 text-accent-cyan"></i> Landing
+                    <i data-lucide="compass" class="w-4 h-4 text-accent-cyan"></i> Beranda
                 </button>
                 <button onclick="navigateTo('dashboard')"
                     class="nav-link px-3 py-1.5 rounded-lg hover:text-white hover:bg-white/5 transition flex items-center gap-1.5"
@@ -268,22 +274,22 @@
                 <button onclick="navigateTo('journey')"
                     class="nav-link px-3 py-1.5 rounded-lg hover:text-white hover:bg-white/5 transition flex items-center gap-1.5"
                     data-tab="journey">
-                    <i data-lucide="route" class="w-4 h-4 text-accent-emerald"></i> Journey Planner
+                    <i data-lucide="route" class="w-4 h-4 text-accent-emerald"></i> Rute Perjalanan
                 </button>
                 <button onclick="navigateTo('map')"
                     class="nav-link px-3 py-1.5 rounded-lg hover:text-white hover:bg-white/5 transition flex items-center gap-1.5"
                     data-tab="map">
-                    <i data-lucide="map" class="w-4 h-4 text-accent-cyan"></i> Railway Map
+                    <i data-lucide="map" class="w-4 h-4 text-accent-cyan"></i> Peta Rel
                 </button>
                 <button onclick="navigateTo('tracking')"
                     class="nav-link px-3 py-1.5 rounded-lg hover:text-white hover:bg-white/5 transition flex items-center gap-1.5"
                     data-tab="tracking">
-                    <i data-lucide="activity" class="w-4 h-4 text-accent-amber"></i> Live Tracking
+                    <i data-lucide="activity" class="w-4 h-4 text-accent-amber"></i> Telemetri Whoosh
                 </button>
                 <button onclick="navigateTo('analytics')"
                     class="nav-link px-3 py-1.5 rounded-lg hover:text-white hover:bg-white/5 transition flex items-center gap-1.5"
                     data-tab="analytics">
-                    <i data-lucide="bar-chart-2" class="w-4 h-4 text-accent-purple"></i> Analytics
+                    <i data-lucide="bar-chart-2" class="w-4 h-4 text-accent-purple"></i> Dekarbonisasi ESG
                 </button>
             </nav>
 
@@ -292,18 +298,17 @@
                 <!-- Simulate Delay Button (WAJIB) -->
                 <button onclick="triggerSimulateDelay()" id="btnDelaySim"
                     class="px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all bg-accent-amber/15 text-accent-amber border border-accent-amber/40 hover:bg-accent-amber/25 hover:border-accent-amber"
-                    title="Simulate Delay on Train 101">
+                    title="Simulasikan Penanganan Gangguan Rel">
                     <i data-lucide="alert-triangle" class="w-3.5 h-3.5 animate-pulse"></i>
-                    <span class="hidden sm:inline">Simulate Delay</span>
+                    <span class="hidden sm:inline">Simulasi Gangguan</span>
                     <span class="sm:hidden">Delay</span>
                 </button>
 
-                <!-- Presentation Mode Button (WAJIB) -->
+                <!-- Presentation Mode Button (Khusus Pak Luhut) -->
                 <button onclick="togglePresentationMode(true)"
-                    class="px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all bg-gradient-to-r from-accent-blue to-accent-cyan text-navy-950 font-bold hover:opacity-95 shadow-md shadow-accent-cyan/20">
+                    class="px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all bg-gradient-to-r from-amber-500 via-accent-cyan to-accent-blue text-navy-950 hover:opacity-95 shadow-md shadow-accent-cyan/25 border border-white/20">
                     <i data-lucide="presentation" class="w-4 h-4"></i>
-                    <span class="hidden sm:inline">Presentation Mode</span>
-                    <span class="sm:hidden">Demo</span>
+                    <span>Presentasi Pak Luhut</span>
                 </button>
 
                 <!-- Notification Bell with Dropdown -->
@@ -320,10 +325,10 @@
                         class="hidden absolute right-0 mt-2 w-80 sm:w-96 glass-card rounded-2xl p-4 shadow-2xl z-50 border border-white/10 text-xs">
                         <div class="flex items-center justify-between pb-2 border-b border-white/10 mb-3">
                             <span class="font-display font-bold text-white text-sm flex items-center gap-1.5">
-                                <i data-lucide="bell-ring" class="w-4 h-4 text-accent-cyan"></i> Service Notifications
+                                <i data-lucide="bell-ring" class="w-4 h-4 text-accent-cyan"></i> Notifikasi Operasional
                             </span>
                             <button onclick="clearNotifications()"
-                                class="text-[11px] text-accent-cyan hover:underline">Mark all read</button>
+                                class="text-[11px] text-accent-cyan hover:underline">Tandai Dibaca</button>
                         </div>
                         <div id="notifList" class="space-y-2.5 max-h-72 overflow-y-auto pr-1">
                             <!-- Dynamically populated -->
@@ -340,7 +345,7 @@
                     </div>
                     <div class="hidden xl:block text-left text-xs leading-tight">
                         <p class="font-semibold text-white">Claudia Aprilliana</p>
-                        <p class="text-[10px] text-accent-cyan">Traveler Pro</p>
+                        <p class="text-[10px] text-accent-cyan">Del / Rail Analyst</p>
                     </div>
                 </div>
             </div>
@@ -369,11 +374,10 @@
                     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
 
                         <!-- Left Hero Text -->
-                        <div class="lg:col-span-6 space-y-6">
-                            <div
+                        <div class="lg:col-sp                            <div
                                 class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-navy-850 border border-accent-cyan/30 text-xs font-medium text-accent-cyanLight">
                                 <span class="w-2 h-2 rounded-full bg-accent-cyan animate-pulse"></span>
-                                Next-Gen Railway Mobility Platform
+                                Platform Monitoring Rel Terpadu Indonesia
                             </div>
 
                             <div class="space-y-2">
@@ -383,48 +387,46 @@
                                         class="text-transparent bg-clip-text bg-gradient-to-r from-accent-blue via-accent-cyan to-white">Nusa</span>
                                 </h1>
                                 <p class="text-lg sm:text-xl font-medium text-accent-cyanLight/90">
-                                    Smart Railway Mobility Platform
+                                    Integrasi Cerdas Kereta Cepat Whoosh & Koridor Rel Nasional
                                 </p>
                             </div>
 
                             <blockquote
                                 class="text-xl sm:text-2xl font-display font-bold text-slate-200 border-l-4 border-accent-cyan pl-4 py-1 italic">
-                                “Plan Your Journey. Track Your Trip. Arrive Smarter.”
+                                “Konektivitas Cepat, Dekarbonisasi Berkelanjutan, dan Efisiensi Logistik Nasional.”
                             </blockquote>
 
                             <p class="text-base text-slate-300 leading-relaxed max-w-xl">
-                                Plan, explore, and manage your railway journey in one intelligent platform. Seamlessly
-                                unifying railway schedules, interactive multi-corridor mapping, live telemetry tracking,
-                                and personalized travel assistance.
+                                Dirancang untuk monitoring intermodal terpadu: dari koridor <strong>Kereta Cepat Whoosh (Halim–Tegalluar 350 km/h)</strong>, <strong>LRT Jabodebek</strong>, hingga jalur strategis <strong>Divre I Sumatera Utara & Akses KSPN Danau Toba (Poros Laguboti / Kampus Del)</strong>.
                             </p>
 
                             <!-- CTA Buttons -->
                             <div class="flex flex-wrap items-center gap-4 pt-2">
-                                <button onclick="navigateTo('journey')"
-                                    class="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-accent-blue to-accent-blueDark hover:from-blue-500 hover:to-blue-700 text-white font-semibold flex items-center gap-2.5 shadow-xl shadow-accent-blue/30 transition-all hover:scale-105">
-                                    <i data-lucide="compass" class="w-5 h-5 text-accent-cyan"></i>
-                                    Plan My Journey
+                                <button onclick="togglePresentationMode(true)"
+                                    class="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 via-accent-blue to-accent-cyan hover:opacity-95 text-navy-950 font-bold flex items-center gap-2.5 shadow-xl shadow-accent-cyan/20 transition-all hover:scale-105">
+                                    <i data-lucide="presentation" class="w-5 h-5"></i>
+                                    Mulai Presentasi ke Pak Luhut
                                 </button>
                                 <button onclick="navigateTo('map')"
                                     class="px-6 py-3.5 rounded-2xl glass-card hover:bg-navy-800 text-slate-200 font-semibold flex items-center gap-2.5 border border-white/10 transition-all hover:border-accent-cyan/40">
                                     <i data-lucide="map-pin" class="w-5 h-5 text-accent-cyan"></i>
-                                    Explore Railway Network
+                                    Eksplorasi Peta Rel Indonesia
                                 </button>
                             </div>
 
                             <!-- Quick Highlight Metrics -->
                             <div class="grid grid-cols-3 gap-4 pt-6 border-t border-white/10 max-w-lg">
                                 <div>
-                                    <p class="font-display font-bold text-2xl text-white">845K+</p>
-                                    <p class="text-xs text-slate-400">Daily Passengers</p>
+                                    <p class="font-display font-bold text-2xl text-white">350 <span class="text-xs text-accent-cyan font-normal">km/h</span></p>
+                                    <p class="text-xs text-slate-400">Kecepatan Whoosh</p>
                                 </div>
                                 <div>
-                                    <p class="font-display font-bold text-2xl text-accent-cyan">312</p>
-                                    <p class="text-xs text-slate-400">Connected Stations</p>
+                                    <p class="font-display font-bold text-2xl text-accent-cyan">99.4%</p>
+                                    <p class="text-xs text-slate-400">On-Time Performance</p>
                                 </div>
                                 <div>
-                                    <p class="font-display font-bold text-2xl text-accent-emerald">91.4%</p>
-                                    <p class="text-xs text-slate-400">Punctuality Score</p>
+                                    <p class="font-display font-bold text-2xl text-accent-emerald">-85%</p>
+                                    <p class="text-xs text-slate-400">Reduksi Emisi CO2</p>
                                 </div>
                             </div>
                         </div>
@@ -438,74 +440,85 @@
                                 <div class="flex items-center justify-between pb-4 border-b border-white/10">
                                     <div class="flex items-center gap-2">
                                         <span class="w-3 h-3 rounded-full bg-accent-emerald animate-ping"></span>
-                                        <span class="text-xs font-semibold text-slate-300">Live Network
-                                            Simulation</span>
+                                        <span class="text-xs font-semibold text-slate-300">Live Network Telemetry</span>
                                     </div>
                                     <span
-                                        class="text-[11px] font-mono text-accent-cyan bg-navy-800 px-2 py-0.5 rounded border border-accent-cyan/30">CORRIDOR
-                                        01 • SUMATRA-JAVA</span>
+                                        class="text-[11px] font-mono text-accent-cyan bg-navy-800 px-2 py-0.5 rounded border border-accent-cyan/30">KORIDOR 01 • WHOOSH KCIC</span>
                                 </div>
 
-                                <!-- Schematic Route Graphic Preview -->
+                                <!-- Schematic Route Graphic Preview: Whoosh High Speed Line -->
                                 <div class="py-6 px-2 sm:px-4">
                                     <div class="relative bg-navy-950/80 rounded-2xl p-5 border border-navy-700">
 
                                         <!-- SVG Interactive Network Preview -->
                                         <svg viewBox="0 0 500 220" class="w-full h-auto">
-                                            <!-- Route Lines -->
-                                            <path d="M 50 60 Q 150 40 250 110 T 450 150" fill="none" stroke="#1C3166"
-                                                stroke-width="6" stroke-linecap="round" />
-                                            <path d="M 50 60 Q 150 40 250 110 T 450 150" fill="none" stroke="#00F0FF"
-                                                stroke-width="3" stroke-linecap="round" class="animated-route-line" />
+                                            <!-- High-Speed Double Track Glow Line -->
+                                            <path d="M 40 60 Q 180 50 320 120 T 460 160" fill="none" stroke="#1C3166"
+                                                stroke-width="8" stroke-linecap="round" />
+                                            <path d="M 40 60 Q 180 50 320 120 T 460 160" fill="none" stroke="#FF0055"
+                                                stroke-width="3.5" stroke-linecap="round" class="animated-route-line" />
 
-                                            <!-- Secondary Route -->
-                                            <path d="M 250 110 L 320 40 L 440 50" fill="none" stroke="#3A86FF"
+                                            <!-- Feeder Connection Line to Bandung Hall -->
+                                            <path d="M 320 120 L 400 65 L 460 70" fill="none" stroke="#00F0FF"
                                                 stroke-width="2.5" stroke-dasharray="4,4" />
 
                                             <!-- Stations Markers -->
-                                            <!-- Station Medan -->
-                                            <g class="cursor-pointer group" onclick="showStationDetail('MEDAN')">
-                                                <circle cx="50" cy="60" r="10" fill="#0B132B" stroke="#00F0FF"
+                                            <!-- Station Halim -->
+                                            <g class="cursor-pointer group" onclick="panToStation('HLM')">
+                                                <circle cx="40" cy="60" r="11" fill="#0B132B" stroke="#FF0055"
                                                     stroke-width="3" />
-                                                <circle cx="50" cy="60" r="4" fill="#00F0FF" />
-                                                <text x="50" y="38" fill="#FFFFFF" font-size="11" font-weight="700"
-                                                    text-anchor="middle">Medan (MDN)</text>
+                                                <circle cx="40" cy="60" r="4" fill="#FF0055" />
+                                                <text x="40" y="36" fill="#FFFFFF" font-size="11" font-weight="700"
+                                                    text-anchor="middle">Halim (HLM)</text>
+                                                <text x="40" y="86" fill="#F43F5E" font-size="9"
+                                                    text-anchor="middle">LRT Interkoneksi</text>
                                             </g>
 
-                                            <!-- Station Transit -->
-                                            <g class="cursor-pointer group" onclick="showStationDetail('TRANSIT')">
-                                                <circle cx="250" cy="110" r="12" fill="#0B132B" stroke="#3A86FF"
-                                                    stroke-width="3" />
-                                                <circle cx="250" cy="110" r="5" fill="#3A86FF" />
-                                                <text x="250" y="140" fill="#93C5FD" font-size="11" font-weight="600"
-                                                    text-anchor="middle">Transit Hub A</text>
+                                            <!-- Station Karawang -->
+                                            <g class="cursor-pointer group" onclick="panToStation('KAW')">
+                                                <circle cx="170" cy="66" r="8" fill="#0B132B" stroke="#93C5FD"
+                                                    stroke-width="2.5" />
+                                                <circle cx="170" cy="66" r="3" fill="#93C5FD" />
+                                                <text x="170" y="48" fill="#93C5FD" font-size="10" font-weight="600"
+                                                    text-anchor="middle">Karawang (KAW)</text>
                                             </g>
 
-                                            <!-- Station Jakarta / Gambir -->
-                                            <g class="cursor-pointer group" onclick="showStationDetail('GMR')">
-                                                <circle cx="450" cy="150" r="10" fill="#0B132B" stroke="#10B981"
+                                            <!-- Station Padalarang Hub -->
+                                            <g class="cursor-pointer group" onclick="panToStation('PDL')">
+                                                <circle cx="320" cy="120" r="12" fill="#0B132B" stroke="#00F0FF"
                                                     stroke-width="3" />
-                                                <circle cx="450" cy="150" r="4" fill="#10B981" />
-                                                <text x="440" y="180" fill="#FFFFFF" font-size="11" font-weight="700"
-                                                    text-anchor="middle">Jakarta Gambir</text>
+                                                <circle cx="320" cy="120" r="5" fill="#00F0FF" />
+                                                <text x="320" y="148" fill="#00F0FF" font-size="11" font-weight="700"
+                                                    text-anchor="middle">Padalarang (PDL)</text>
+                                                <text x="320" y="162" fill="#94A3B8" font-size="9"
+                                                    text-anchor="middle">Hub KA Feeder</text>
                                             </g>
 
-                                            <!-- Station Bandung -->
-                                            <g class="cursor-pointer group" onclick="showStationDetail('BD')">
-                                                <circle cx="440" cy="50" r="7" fill="#0B132B" stroke="#8B5CF6"
+                                            <!-- Station Bandung Hall (via Feeder) -->
+                                            <g class="cursor-pointer group" onclick="panToStation('BD')">
+                                                <circle cx="460" cy="70" r="8" fill="#0B132B" stroke="#A855F7"
                                                     stroke-width="2" />
-                                                <circle cx="440" cy="50" r="3" fill="#8B5CF6" />
-                                                <text x="440" y="32" fill="#C4B5FD" font-size="9"
-                                                    text-anchor="middle">Bandung</text>
+                                                <circle cx="460" cy="70" r="3" fill="#A855F7" />
+                                                <text x="460" y="52" fill="#E9D5FF" font-size="9" font-weight="600"
+                                                    text-anchor="middle">Bandung Kota (BD)</text>
                                             </g>
 
-                                            <!-- Moving Train Marker -->
-                                            <g transform="translate(180, 75)" class="animate-pulse">
-                                                <circle cx="0" cy="0" r="14" fill="#00F0FF" fill-opacity="0.25" />
-                                                <rect x="-10" y="-8" width="20" height="16" rx="4" fill="#00F0FF" />
-                                                <polygon points="10,0 4,-5 4,5" fill="#00F0FF" />
-                                                <text x="0" y="24" fill="#00F0FF" font-size="9" font-weight="700"
-                                                    text-anchor="middle">🚆 Train 101 (82 km/h)</text>
+                                            <!-- Station Tegalluar Summarecon -->
+                                            <g class="cursor-pointer group" onclick="panToStation('TGL')">
+                                                <circle cx="460" cy="160" r="11" fill="#0B132B" stroke="#10B981"
+                                                    stroke-width="3" />
+                                                <circle cx="460" cy="160" r="4" fill="#10B981" />
+                                                <text x="440" y="195" fill="#FFFFFF" font-size="11" font-weight="700"
+                                                    text-anchor="middle">Tegalluar (TGL)</text>
+                                            </g>
+
+                                            <!-- Moving Whoosh Train Marker -->
+                                            <g transform="translate(235, 88)" class="animate-pulse">
+                                                <circle cx="0" cy="0" r="15" fill="#FF0055" fill-opacity="0.25" />
+                                                <rect x="-14" y="-8" width="28" height="16" rx="5" fill="#FF0055" />
+                                                <polygon points="14,0 7,-6 7,6" fill="#FFFFFF" />
+                                                <text x="0" y="24" fill="#FF0055" font-size="10" font-weight="800"
+                                                    text-anchor="middle">🚅 Whoosh G1001 (350 km/h)</text>
                                             </g>
                                         </svg>
                                     </div>
@@ -516,25 +529,23 @@
                                     class="mt-2 glass-card rounded-2xl p-4 border border-white/10 flex items-center justify-between gap-4">
                                     <div class="flex items-center gap-3">
                                         <div
-                                            class="w-10 h-10 rounded-xl bg-accent-blue/20 text-accent-cyan flex items-center justify-center font-bold">
-                                            <i data-lucide="train" class="w-5 h-5"></i>
+                                            class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center font-bold text-lg">
+                                            🚅
                                         </div>
                                         <div>
                                             <div class="flex items-center gap-2">
-                                                <span class="font-semibold text-white text-sm">RailNusa Express
-                                                    101</span>
+                                                <span class="font-semibold text-white text-sm">Kereta Cepat Whoosh G1001</span>
                                                 <span id="heroTrainBadge"
-                                                    class="px-2 py-0.5 rounded text-[10px] font-bold bg-accent-emerald/20 text-accent-emerald border border-accent-emerald/30">On
-                                                    Schedule</span>
+                                                    class="px-2 py-0.5 rounded text-[10px] font-bold bg-accent-emerald/20 text-accent-emerald border border-accent-emerald/30">On Schedule</span>
                                             </div>
-                                            <p class="text-xs text-slate-400">Medan ➔ Transit Hub A ➔ Jakarta Gambir</p>
+                                            <p class="text-xs text-slate-400">Halim (08:00) ➔ Padalarang Hub (08:32) ➔ Tegalluar (08:45) • 350 km/h</p>
                                         </div>
                                     </div>
                                     <button onclick="navigateTo('tracking')"
                                         class="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-semibold text-white transition flex items-center gap-1">
-                                        Track <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                                        Pantau <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                                     </button>
-                                </div>
+                                </div>                        </div>
 
                             </div>
                         </div>
@@ -830,74 +841,81 @@
                             class="absolute right-0 top-0 bottom-0 w-80 bg-accent-blue/10 blur-3xl pointer-events-none">
                         </div>
                         <div>
+                            <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-400/30 text-[11px] font-bold text-amber-300 mb-2">
+                                <span>🎖️ EXECUTIVE DASHBOARD BRIEFING</span>
+                            </div>
                             <h2 class="font-display font-extrabold text-2xl sm:text-3xl text-white">
-                                Good Morning, Traveler 👋
+                                Selamat Pagi, Bapak Luhut Binsar Pandjaitan 👋
                             </h2>
                             <p class="text-slate-300 text-sm mt-1">
-                                Your seamless multi-modal railway journey is prepared. Weather is clear across
-                                Java-Sumatra corridors.
+                                Sistem pemantauan operasional real-time koridor <strong>Kereta Cepat Whoosh KCIC</strong>, <strong>LRT Jabodebek</strong>, serta <strong>Lintas Strategis Divre I Sumut & Kawasan Pariwisata Danau Toba (Poros Laguboti IT Del)</strong>.
                             </p>
                         </div>
                         <div class="flex items-center gap-3">
+                            <button onclick="togglePresentationMode(true)"
+                                class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 via-accent-blue to-accent-cyan hover:opacity-95 text-navy-950 font-bold text-xs flex items-center gap-2 shadow-lg transition">
+                                <i data-lucide="presentation" class="w-4 h-4"></i> Presentasi Eksekutif
+                            </button>
                             <button onclick="navigateTo('journey')"
-                                class="px-4 py-2.5 rounded-xl bg-accent-blue hover:bg-blue-600 text-white font-semibold text-xs flex items-center gap-2 shadow-lg transition">
-                                <i data-lucide="search" class="w-4 h-4"></i> New Trip Planner
+                                class="px-4 py-2.5 rounded-xl bg-navy-800 hover:bg-navy-700 text-white font-semibold text-xs flex items-center gap-2 border border-white/10 shadow-lg transition">
+                                <i data-lucide="search" class="w-4 h-4"></i> Rute Perjalanan
                             </button>
                         </div>
                     </div>
 
-                    <!-- TOP KPI CARDS (SIMULATED DATA) -->
+                    <!-- TOP KPI CARDS (AUTHENTIC DATA FOR EXECUTIVE BRIEFING) -->
                     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
                         <div class="glass-card rounded-2xl p-4 border border-white/10">
                             <div class="flex items-center justify-between text-slate-400 text-xs mb-2">
-                                <span>Active Trains</span>
-                                <i data-lucide="train" class="w-4 h-4 text-accent-cyan"></i>
+                                <span>Kecepatan Operasional</span>
+                                <i data-lucide="zap" class="w-4 h-4 text-rose-400"></i>
                             </div>
-                            <p class="font-display font-bold text-2xl text-white">1,284</p>
-                            <p class="text-[11px] text-accent-emerald flex items-center gap-1 mt-1">
-                                <i data-lucide="trending-up" class="w-3 h-3"></i> +4.2% vs yesterday
+                            <p class="font-display font-bold text-2xl text-white">350 <span class="text-xs text-rose-400 font-normal">km/h</span></p>
+                            <p class="text-[11px] text-accent-cyan flex items-center gap-1 mt-1">
+                                🚅 Kereta Cepat Pertama Asia Tenggara
                             </p>
                         </div>
 
                         <div class="glass-card rounded-2xl p-4 border border-white/10">
                             <div class="flex items-center justify-between text-slate-400 text-xs mb-2">
-                                <span>Operational Stations</span>
-                                <i data-lucide="building-2" class="w-4 h-4 text-accent-blue"></i>
-                            </div>
-                            <p class="font-display font-bold text-2xl text-white">312</p>
-                            <p class="text-[11px] text-slate-400 mt-1">Sumatra & Java Lines</p>
-                        </div>
-
-                        <div class="glass-card rounded-2xl p-4 border border-white/10">
-                            <div class="flex items-center justify-between text-slate-400 text-xs mb-2">
-                                <span>On-Schedule Rate</span>
+                                <span>On-Time Performance</span>
                                 <i data-lucide="clock" class="w-4 h-4 text-accent-emerald"></i>
                             </div>
-                            <p id="kpiOnSchedule" class="font-display font-bold text-2xl text-accent-emerald">91.4%</p>
-                            <p class="text-[11px] text-slate-400 mt-1">Target: >90.0%</p>
+                            <p id="kpiOnSchedule" class="font-display font-bold text-2xl text-accent-emerald">99.4%</p>
+                            <p class="text-[11px] text-slate-400 mt-1">Target Menko: >99.0%</p>
                         </div>
 
                         <div class="glass-card rounded-2xl p-4 border border-white/10">
                             <div class="flex items-center justify-between text-slate-400 text-xs mb-2">
-                                <span>Daily Passengers</span>
+                                <span>Volume Harian Terkoneksi</span>
                                 <i data-lucide="users" class="w-4 h-4 text-accent-purple"></i>
                             </div>
                             <p class="font-display font-bold text-2xl text-white">845,210</p>
-                            <p class="text-[11px] text-accent-cyan mt-1">Simulated Passenger Volume</p>
+                            <p class="text-[11px] text-accent-cyan mt-1">Whoosh + KAI + LRT + Railink</p>
+                        </div>
+
+                        <div class="glass-card rounded-2xl p-4 border border-white/10">
+                            <div class="flex items-center justify-between text-slate-400 text-xs mb-2">
+                                <span>Dekarbonisasi Rel (ESG)</span>
+                                <i data-lucide="leaf" class="w-4 h-4 text-accent-emerald"></i>
+                            </div>
+                            <p class="font-display font-bold text-2xl text-accent-emerald">-85.2%</p>
+                            <p class="text-[11px] text-slate-400 mt-1">Reduksi Emisi vs Kendaraan Tol</p>
                         </div>
                     </div>
 
-                    <!-- NEXT JOURNEY CARD (PROMINENT DEMO CARD) -->
+                    <!-- NEXT JOURNEY CARD (AUTHENTIC FLAGSHIP ROUTE: WHOOSH JAKARTA-BANDUNG) -->
                     <div class="glass-card rounded-3xl p-6 border border-white/10 relative overflow-hidden">
-                        <div class="flex items-center justify-between pb-4 border-b border-white/10 mb-4">
+                        <div class="flex flex-wrap items-center justify-between pb-4 border-b border-white/10 mb-4 gap-2">
                             <div class="flex items-center gap-2">
-                                <span class="w-2.5 h-2.5 rounded-full bg-accent-cyan animate-ping"></span>
-                                <span class="font-display font-bold text-white text-base">Next Journey</span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping"></span>
+                                <span class="font-display font-bold text-white text-base">Koridor Prioritas Nasional</span>
                                 <span
-                                    class="px-2 py-0.5 rounded text-[10px] font-mono bg-navy-800 text-accent-cyan border border-accent-cyan/30">DEMO
-                                    ITINERARY</span>
+                                    class="px-2 py-0.5 rounded text-[10px] font-mono bg-navy-800 text-accent-cyan border border-accent-cyan/30">WHOOSH KCIC & KSPN TOBA</span>
                             </div>
-                            <span id="dashTripDate" class="text-xs text-slate-400">25 September 2026 • Morning</span>
+                            <div class="flex items-center gap-2">
+                                <span id="dashTripDate" class="text-xs text-slate-400">25 September 2026 • Pagi</span>
+                            </div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
@@ -906,23 +924,23 @@
                             <div class="md:col-span-4 space-y-2">
                                 <div class="flex items-center gap-3">
                                     <div
-                                        class="w-12 h-12 rounded-2xl bg-accent-blue/20 text-accent-cyan flex items-center justify-center font-bold text-lg">
-                                        <i data-lucide="train" class="w-6 h-6"></i>
+                                        class="w-12 h-12 rounded-2xl bg-rose-500/20 text-rose-400 flex items-center justify-center font-bold text-xl">
+                                        🚅
                                     </div>
                                     <div>
-                                        <h3 class="font-display font-extrabold text-xl text-white">Medan → Jakarta</h3>
-                                        <p class="text-xs text-slate-300">Train: <span
-                                                class="font-semibold text-accent-cyan">RailNusa Express 101</span></p>
+                                        <h3 class="font-display font-extrabold text-xl text-white">Jakarta Halim → Tegalluar</h3>
+                                        <p class="text-xs text-slate-300">Kereta: <span
+                                                class="font-semibold text-accent-cyan">Whoosh KCIC G1001</span></p>
                                     </div>
                                 </div>
 
-                                <div class="flex items-center gap-2 pt-2">
+                                <div class="flex flex-wrap items-center gap-2 pt-2">
                                     <span id="dashTrainStatusBadge"
                                         class="px-3 py-1 rounded-full text-xs font-semibold bg-accent-emerald/20 text-accent-emerald border border-accent-emerald/30 flex items-center gap-1.5">
                                         <span class="w-1.5 h-1.5 rounded-full bg-accent-emerald"></span>
-                                        On Schedule
+                                        Tepat Waktu (On Schedule)
                                     </span>
-                                    <span class="text-xs text-slate-400">Class: Executive Sleeper</span>
+                                    <span class="text-xs text-slate-400">Kelas: First / Eksekutif</span>
                                 </div>
                             </div>
 
@@ -930,32 +948,57 @@
                             <div
                                 class="md:col-span-5 grid grid-cols-2 gap-4 border-y md:border-y-0 md:border-x border-white/10 py-4 md:py-0 md:px-6">
                                 <div>
-                                    <p class="text-xs text-slate-400">Departure</p>
-                                    <p class="font-display font-bold text-2xl text-white">08:30</p>
-                                    <p class="text-xs text-slate-300 font-medium">Medan Station (MDN)</p>
-                                    <p class="text-[11px] text-slate-400">Platform 3 • Car 4 / 12A</p>
+                                    <p class="text-xs text-slate-400">Keberangkatan</p>
+                                    <p class="font-display font-bold text-2xl text-white">08:00 <span class="text-xs font-normal text-slate-400">WIB</span></p>
+                                    <p class="text-xs text-slate-200 font-semibold">Stasiun Halim KCIC (HLM)</p>
+                                    <p class="text-[11px] text-accent-cyan">Interchange LRT Jabodebek</p>
                                 </div>
                                 <div>
-                                    <p class="text-xs text-slate-400">Est. Arrival</p>
+                                    <p class="text-xs text-slate-400">Est. Tiba</p>
                                     <p id="dashArrivalETA" class="font-display font-bold text-2xl text-accent-cyan">
-                                        17:00</p>
-                                    <p class="text-xs text-slate-300 font-medium">Gambir Station (GMR)</p>
-                                    <p class="text-[11px] text-slate-400">Duration: 8h 30m • 1 Transfer</p>
+                                        08:45 <span class="text-xs font-normal text-slate-400">WIB</span></p>
+                                    <p class="text-xs text-slate-200 font-semibold">Stasiun Tegalluar (TGL)</p>
+                                    <p class="text-[11px] text-slate-400">Durasi: 45 Menit • 350 km/h (Feeder PDL)</p>
                                 </div>
                             </div>
 
                             <!-- Action Buttons -->
                             <div class="md:col-span-3 flex flex-col gap-2.5">
-                                <button onclick="openJourneyDetailsModal()"
+                                <button onclick="openJourneyDetailsModal('fastest')"
                                     class="w-full py-2.5 rounded-xl bg-accent-blue hover:bg-blue-600 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-md transition">
-                                    <i data-lucide="eye" class="w-4 h-4"></i> View Journey
+                                    <i data-lucide="eye" class="w-4 h-4"></i> Rincian Jadwal & Timeline
                                 </button>
                                 <button onclick="navigateTo('tracking')"
                                     class="w-full py-2.5 rounded-xl glass-card hover:bg-navy-800 text-slate-200 font-semibold text-xs flex items-center justify-center gap-2 border border-white/10 transition">
-                                    <i data-lucide="crosshair" class="w-4 h-4 text-accent-cyan"></i> Live Tracking
+                                    <i data-lucide="crosshair" class="w-4 h-4 text-accent-cyan"></i> Telemetri Kecepatan
                                 </button>
                             </div>
 
+                        </div>
+
+                        <!-- Secondary Corridor Highlight: KSPN Danau Toba & Kampus IT Del -->
+                        <div class="mt-4 pt-3 border-t border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                            <div class="flex items-center gap-2 text-slate-300">
+                                <span class="px-2 py-0.5 rounded bg-accent-cyan/15 text-accent-cyan font-bold text-[10px]">KORIDOR SUMUT / DEL</span>
+                                <span><strong>KA Siantar Ekspres (Medan ➔ Pematang Siantar):</strong> Akses utama rel ke KSPN Danau Toba & Poros Laguboti (Kampus IT Del).</span>
+                            </div>
+                            <button onclick="navigateTo('journey'); document.getElementById('planOrigin').value='Medan'; document.getElementById('planDestination').value='Siantar'; handleFindJourney(new Event('submit'));"
+                                class="text-accent-cyan hover:underline flex items-center gap-1 font-semibold shrink-0">
+                                Rute Danau Toba <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                            </button>
+                        </div>
+
+                        <!-- Dynamic Delay Notice (Shown when delay simulated) -->
+                        <div id="dashDelayAlertBox"
+                            class="hidden mt-4 p-3 rounded-2xl bg-accent-amber/15 border border-accent-amber/40 text-xs flex items-center justify-between gap-3 text-amber-200">
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="alert-triangle" class="w-4 h-4 text-accent-amber shrink-0"></i>
+                                <span><strong>Simulasi Gangguan Sistem Sinyal:</strong> Whoosh G1001 mengalami penyesuaian jadwal +15 mnt. Sistem otomatis mengalihkan penumpang ke Whoosh G1005 / Slot Feeder berikutnya.</span>
+                            </div>
+                            <button onclick="openAlternativeRouteModal()"
+                                class="px-3 py-1 rounded-lg bg-accent-amber text-navy-950 font-bold hover:bg-amber-400 shrink-0 transition">
+                                Solusi Pengalihan
+                            </button>
                         </div>
 
                         <!-- Dynamic Delay Notice (Shown when delay simulated) -->
@@ -1098,12 +1141,17 @@
                                     </label>
                                     <select id="planOrigin"
                                         class="w-full bg-navy-900 border border-navy-700 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-accent-cyan">
-                                        <option value="Medan" selected>Medan (MDN) — North Sumatra</option>
-                                        <option value="Jakarta">Jakarta Gambir (GMR)</option>
-                                        <option value="Bandung">Bandung (BD)</option>
+                                        <option value="Jakarta-Halim" selected>Jakarta Halim (HLM) — Whoosh KCIC</option>
+                                        <option value="Bandung-Tegalluar">Bandung Tegalluar (TGL) — Whoosh KCIC</option>
+                                        <option value="Padalarang">Padalarang (PDL) — Hub Feeder Whoosh</option>
+                                        <option value="Jakarta-Gambir">Jakarta Gambir (GMR) — Eksekutif Trans-Jawa</option>
+                                        <option value="Bandung-Hall">Bandung Hall (BD) — Pusat Kota</option>
+                                        <option value="Medan">Medan (MDN) — Divre I Sumatera Utara</option>
+                                        <option value="Siantar">Pematang Siantar (SIR) — Danau Toba & Del</option>
+                                        <option value="Kualanamu">Bandara Kualanamu (KNM) — Railink</option>
+                                        <option value="Yogyakarta">Yogyakarta Tugu (YK)</option>
+                                        <option value="Surabaya">Surabaya Pasarturi (SBI)</option>
                                         <option value="Semarang">Semarang Tawang (SMT)</option>
-                                        <option value="Yogyakarta">Yogyakarta (YK)</option>
-                                        <option value="Surabaya">Surabaya Pasar Turi (SBI)</option>
                                     </select>
                                 </div>
 
@@ -1115,12 +1163,16 @@
                                     </label>
                                     <select id="planDestination"
                                         class="w-full bg-navy-900 border border-navy-700 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-accent-cyan">
-                                        <option value="Jakarta" selected>Jakarta Gambir (GMR)</option>
+                                        <option value="Bandung-Tegalluar" selected>Bandung Tegalluar (TGL) — Whoosh KCIC</option>
+                                        <option value="Jakarta-Halim">Jakarta Halim (HLM) — Whoosh KCIC</option>
+                                        <option value="Bandung-Hall">Bandung Hall (BD) — Via Feeder</option>
+                                        <option value="Jakarta-Gambir">Jakarta Gambir (GMR) — Terminal Eksekutif</option>
+                                        <option value="Siantar">Pematang Siantar (SIR) — Danau Toba & Del</option>
+                                        <option value="Kualanamu">Bandara Kualanamu (KNM) — Airport Express</option>
                                         <option value="Medan">Medan (MDN)</option>
-                                        <option value="Bandung">Bandung (BD)</option>
+                                        <option value="Yogyakarta">Yogyakarta Tugu (YK)</option>
+                                        <option value="Surabaya">Surabaya Pasarturi (SBI)</option>
                                         <option value="Semarang">Semarang Tawang (SMT)</option>
-                                        <option value="Yogyakarta">Yogyakarta (YK)</option>
-                                        <option value="Surabaya">Surabaya Gubeng (SGU)</option>
                                     </select>
                                 </div>
 
@@ -1213,16 +1265,12 @@
                                 <span class="text-xs font-normal text-slate-400">(Showing 3 simulated routes)</span>
                             </h3>
                             <span
-                                class="text-xs text-accent-cyan font-mono bg-navy-900 px-2 py-1 rounded border border-accent-cyan/30">ALL
-                                DATA DEMO / SIMULASI</span>
-                        </div>
-
-                        <!-- OPTION A: FASTEST -->
+                                class="text-xs text-accent-cyan font-mono bg-navy-900 px-2 py-1 rounded bord                        <!-- OPTION A: FASTEST (WHOOSH HIGH SPEED) -->
                         <div
                             class="glass-card glass-card-hover rounded-3xl p-6 border border-accent-cyan/30 shadow-xl relative overflow-hidden">
                             <div
-                                class="absolute top-0 right-0 bg-gradient-to-l from-accent-cyan/20 to-transparent px-4 py-1 text-[10px] font-mono font-bold text-accent-cyan tracking-wider">
-                                RECOMMENDED • FASTEST ROUTE
+                                class="absolute top-0 right-0 bg-gradient-to-l from-rose-500/25 to-transparent px-4 py-1 text-[10px] font-mono font-bold text-rose-400 tracking-wider">
+                                🚅 350 KM/H • WHOOSH HIGH SPEED CORRIDOR
                             </div>
 
                             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
@@ -1230,178 +1278,169 @@
                                 <div class="lg:col-span-8 space-y-3">
                                     <div class="flex items-center gap-3">
                                         <span
-                                            class="px-2.5 py-1 rounded-xl text-xs font-bold bg-accent-blue/30 text-accent-cyan border border-accent-blue/40 flex items-center gap-1">
-                                            🚆 Fastest
+                                            class="px-2.5 py-1 rounded-xl text-xs font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30 flex items-center gap-1">
+                                            ⚡ Tercepat (45 mnt)
                                         </span>
-                                        <span class="text-xs font-semibold text-slate-300">Option A • RailNusa Express
-                                            Link</span>
+                                        <span class="text-xs font-semibold text-slate-300">Option A • Kereta Cepat Whoosh KCIC G1001</span>
                                     </div>
 
                                     <!-- Route Nodes Step Graphic -->
                                     <div
                                         class="flex flex-wrap items-center gap-2 sm:gap-4 text-sm text-slate-200 font-semibold pt-1">
                                         <span class="flex items-center gap-1.5 text-white">
-                                            <span class="w-2.5 h-2.5 rounded-full bg-accent-cyan"></span> Medan (MDN)
+                                            <span class="w-2.5 h-2.5 rounded-full bg-rose-500 shadow-lg shadow-rose-500/50"></span> Jakarta Halim (HLM)
                                         </span>
                                         <i data-lucide="arrow-right" class="w-4 h-4 text-slate-500"></i>
                                         <span class="flex items-center gap-1.5 text-slate-300">
-                                            <span class="w-2 h-2 rounded-full bg-accent-blue"></span> Station A (Transit
-                                            Hub)
+                                            <span class="w-2 h-2 rounded-full bg-accent-blue"></span> Padalarang Hub
                                         </span>
                                         <i data-lucide="arrow-right" class="w-4 h-4 text-slate-500"></i>
                                         <span class="flex items-center gap-1.5 text-accent-emerald">
-                                            <span class="w-2.5 h-2.5 rounded-full bg-accent-emerald"></span> Jakarta
-                                            Gambir (GMR)
+                                            <span class="w-2.5 h-2.5 rounded-full bg-accent-emerald"></span> Tegalluar Summarecon (TGL)
                                         </span>
                                     </div>
 
                                     <!-- Metrics Row -->
                                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 text-xs">
                                         <div>
-                                            <span class="text-slate-400 block">Duration:</span>
-                                            <span class="font-display font-bold text-white text-sm">8h 30m</span>
+                                            <span class="text-slate-400 block">Durasi:</span>
+                                            <span class="font-display font-bold text-white text-sm">45 menit</span>
                                         </div>
                                         <div>
-                                            <span class="text-slate-400 block">Transfers:</span>
-                                            <span class="font-display font-bold text-white text-sm">1 Transfer
-                                                (30m)</span>
+                                            <span class="text-slate-400 block">Transfer:</span>
+                                            <span class="font-display font-bold text-accent-cyan text-sm">0 Transfer (Langsung)</span>
                                         </div>
                                         <div>
-                                            <span class="text-slate-400 block">Estimated Cost:</span>
-                                            <span class="font-display font-bold text-accent-cyan text-sm">Rp
-                                                645.000</span>
+                                            <span class="text-slate-400 block">Tarif Tiket:</span>
+                                            <span class="font-display font-bold text-rose-400 text-sm">Rp 250.000 - 300.000</span>
                                         </div>
                                         <div>
-                                            <span class="text-slate-400 block">CO2 Emission:</span>
-                                            <span class="font-display font-bold text-accent-emerald text-sm">18.4 kg
-                                                (Low)</span>
+                                            <span class="text-slate-400 block">Reduksi Emisi CO2:</span>
+                                            <span class="font-display font-bold text-accent-emerald text-sm">2.1 kg (-85.2%)</span>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- Option Actions -->
                                 <div class="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-2.5">
-                                    <button onclick="openJourneyDetailsModal('fastest')"
-                                        class="w-full py-2.5 rounded-xl bg-accent-blue hover:bg-blue-600 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-lg transition">
-                                        <i data-lucide="file-text" class="w-4 h-4"></i> View Details & Timeline
+                                    <button onclick="openJourneyDetailsModal('whoosh')"
+                                        class="w-full py-2.5 rounded-xl bg-gradient-to-r from-rose-600 to-rose-500 hover:from-rose-500 hover:to-rose-400 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-lg transition">
+                                        <i data-lucide="file-text" class="w-4 h-4"></i> Rincian & Timeline Perjalanan
                                     </button>
-                                    <button onclick="saveTrip('Option A - Fastest (Medan ➔ Jakarta)')"
+                                    <button onclick="saveTrip('Option A - Whoosh G1001 (Halim ➔ Tegalluar)')"
                                         class="w-full py-2.5 rounded-xl glass-card hover:bg-navy-800 text-slate-200 font-semibold text-xs flex items-center justify-center gap-2 border border-white/10 transition">
-                                        <i data-lucide="bookmark" class="w-4 h-4 text-accent-cyan"></i> Save Trip
+                                        <i data-lucide="bookmark" class="w-4 h-4 text-accent-cyan"></i> Simpan ke My Trips
                                     </button>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- OPTION B: BUDGET -->
+                        <!-- OPTION B: WHOOSH + KA FEEDER TO BANDUNG HALL -->
+                        <div class="glass-card glass-card-hover rounded-3xl p-6 border border-accent-cyan/20 shadow-lg">
+                            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                                <div class="lg:col-span-8 space-y-3">
+                                    <div class="flex items-center gap-3">
+                                        <span
+                                            class="px-2.5 py-1 rounded-xl text-xs font-bold bg-accent-cyan/20 text-accent-cyan border border-accent-cyan/30 flex items-center gap-1">
+                                            🏙️ Pusat Kota Bandung
+                                        </span>
+                                        <span class="text-xs font-semibold text-slate-300">Option B • Whoosh + KA Feeder Terintegrasi</span>
+                                    </div>
+
+                                    <div
+                                        class="flex flex-wrap items-center gap-2 sm:gap-4 text-sm text-slate-200 font-semibold">
+                                        <span class="text-white">Jakarta Halim</span>
+                                        <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-500"></i>
+                                        <span class="text-rose-400">Padalarang (Whoosh 30m)</span>
+                                        <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-500"></i>
+                                        <span class="text-accent-emerald">Bandung Hall (KA Feeder 18m)</span>
+                                    </div>
+
+                                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 text-xs">
+                                        <div>
+                                            <span class="text-slate-400 block">Total Waktu:</span>
+                                            <span class="font-display font-bold text-white text-sm">48 menit</span>
+                                        </div>
+                                        <div>
+                                            <span class="text-slate-400 block">Transfer:</span>
+                                            <span class="font-display font-bold text-white text-sm">1x (Cross-Platform)</span>
+                                        </div>
+                                        <div>
+                                            <span class="text-slate-400 block">Tarif Terpadu:</span>
+                                            <span class="font-display font-bold text-accent-cyan text-sm">Rp 250.000 (Incl. Feeder)</span>
+                                        </div>
+                                        <div>
+                                            <span class="text-slate-400 block">Emisi CO2:</span>
+                                            <span class="font-display font-bold text-accent-emerald text-sm">2.3 kg (Ultra Low)</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-2.5">
+                                    <button onclick="openJourneyDetailsModal('feeder')"
+                                        class="w-full py-2.5 rounded-xl bg-navy-800 hover:bg-navy-700 text-white font-semibold text-xs flex items-center justify-center gap-2 border border-white/10 transition">
+                                        <i data-lucide="file-text" class="w-4 h-4"></i> Rincian Jadwal
+                                    </button>
+                                    <button onclick="saveTrip('Option B - Whoosh + Feeder Bandung (Halim ➔ Bandung Hall)')"
+                                        class="w-full py-2.5 rounded-xl glass-card hover:bg-navy-800 text-slate-200 font-semibold text-xs flex items-center justify-center gap-2 border border-white/10 transition">
+                                        <i data-lucide="bookmark" class="w-4 h-4 text-accent-cyan"></i> Simpan ke My Trips
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- OPTION C: SCENIC CONVENTIONAL (ARGO PARAHYANGAN PANORAMIC) -->
                         <div class="glass-card glass-card-hover rounded-3xl p-6 border border-white/10 shadow-lg">
                             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
                                 <div class="lg:col-span-8 space-y-3">
                                     <div class="flex items-center gap-3">
                                         <span
                                             class="px-2.5 py-1 rounded-xl text-xs font-bold bg-accent-amber/20 text-accent-amber border border-accent-amber/30 flex items-center gap-1">
-                                            💰 Budget Saver
+                                            🌄 Pemandangan Wisata
                                         </span>
-                                        <span class="text-xs font-semibold text-slate-300">Option B • Economy Intercity
-                                            Connector</span>
-                                    </div>
-
-                                    <div
-                                        class="flex flex-wrap items-center gap-2 sm:gap-4 text-sm text-slate-200 font-semibold">
-                                        <span>Medan</span>
-                                        <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-500"></i>
-                                        <span>Kisaran</span>
-                                        <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-500"></i>
-                                        <span>Transit B</span>
-                                        <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-500"></i>
-                                        <span class="text-accent-emerald">Jakarta Pasar Senen</span>
-                                    </div>
-
-                                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 text-xs">
-                                        <div>
-                                            <span class="text-slate-400 block">Duration:</span>
-                                            <span class="font-display font-bold text-white text-sm">10h 15m</span>
-                                        </div>
-                                        <div>
-                                            <span class="text-slate-400 block">Transfers:</span>
-                                            <span class="font-display font-bold text-white text-sm">2 Transfers</span>
-                                        </div>
-                                        <div>
-                                            <span class="text-slate-400 block">Estimated Cost:</span>
-                                            <span class="font-display font-bold text-accent-amber text-sm">Rp
-                                                385.000</span>
-                                        </div>
-                                        <div>
-                                            <span class="text-slate-400 block">CO2 Emission:</span>
-                                            <span class="font-display font-bold text-accent-emerald text-sm">16.2 kg
-                                                (Low)</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-2.5">
-                                    <button onclick="openJourneyDetailsModal('budget')"
-                                        class="w-full py-2.5 rounded-xl bg-navy-800 hover:bg-navy-700 text-white font-semibold text-xs flex items-center justify-center gap-2 border border-white/10 transition">
-                                        View Details
-                                    </button>
-                                    <button onclick="saveTrip('Option B - Budget (Medan ➔ Jakarta)')"
-                                        class="w-full py-2.5 rounded-xl glass-card hover:bg-navy-800 text-slate-200 font-semibold text-xs flex items-center justify-center gap-2 border border-white/10 transition">
-                                        <i data-lucide="bookmark" class="w-4 h-4 text-accent-cyan"></i> Save Trip
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- OPTION C: FEWEST TRANSFERS -->
-                        <div class="glass-card glass-card-hover rounded-3xl p-6 border border-white/10 shadow-lg">
-                            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-                                <div class="lg:col-span-8 space-y-3">
-                                    <div class="flex items-center gap-3">
-                                        <span
-                                            class="px-2.5 py-1 rounded-xl text-xs font-bold bg-accent-purple/20 text-accent-purple border border-accent-purple/30 flex items-center gap-1">
-                                            🔄 Fewest Transfers
-                                        </span>
-                                        <span class="text-xs font-semibold text-slate-300">Option C • Direct Corridor
-                                            Express</span>
+                                        <span class="text-xs font-semibold text-slate-300">Option C • KA Argo Parahyangan Panoramic</span>
                                     </div>
 
                                     <div class="flex items-center gap-2 sm:gap-4 text-sm text-slate-200 font-semibold">
-                                        <span>Medan Station (MDN)</span>
+                                        <span>Jakarta Gambir (GMR)</span>
                                         <i data-lucide="arrow-right" class="w-4 h-4 text-slate-500"></i>
-                                        <span class="text-accent-emerald">Jakarta Gambir (Direct Corridor)</span>
+                                        <span>Cimahi</span>
+                                        <i data-lucide="arrow-right" class="w-4 h-4 text-slate-500"></i>
+                                        <span class="text-accent-emerald">Bandung Hall (BD)</span>
                                     </div>
 
                                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 text-xs">
                                         <div>
-                                            <span class="text-slate-400 block">Duration:</span>
-                                            <span class="font-display font-bold text-white text-sm">9h 10m</span>
+                                            <span class="text-slate-400 block">Durasi:</span>
+                                            <span class="font-display font-bold text-white text-sm">2j 45m</span>
                                         </div>
                                         <div>
-                                            <span class="text-slate-400 block">Transfers:</span>
-                                            <span class="font-display font-bold text-accent-cyan text-sm">0
-                                                (Direct)</span>
+                                            <span class="text-slate-400 block">Pengalaman:</span>
+                                            <span class="font-display font-bold text-accent-amber text-sm">Jembatan Cikubang & Lembah</span>
                                         </div>
                                         <div>
-                                            <span class="text-slate-400 block">Estimated Cost:</span>
-                                            <span class="font-display font-bold text-white text-sm">Rp 720.000</span>
+                                            <span class="text-slate-400 block">Tarif:</span>
+                                            <span class="font-display font-bold text-white text-sm">Rp 150.000 - 350.000</span>
                                         </div>
                                         <div>
-                                            <span class="text-slate-400 block">CO2 Emission:</span>
-                                            <span class="font-display font-bold text-accent-emerald text-sm">17.8 kg
-                                                (Low)</span>
+                                            <span class="text-slate-400 block">Emisi CO2:</span>
+                                            <span class="font-display font-bold text-accent-emerald text-sm">5.8 kg</span>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-2.5">
-                                    <button onclick="openJourneyDetailsModal('direct')"
+                                    <button onclick="openJourneyDetailsModal('panoramic')"
                                         class="w-full py-2.5 rounded-xl bg-navy-800 hover:bg-navy-700 text-white font-semibold text-xs flex items-center justify-center gap-2 border border-white/10 transition">
-                                        View Details
+                                        <i data-lucide="file-text" class="w-4 h-4"></i> Rincian Jadwal
                                     </button>
-                                    <button onclick="saveTrip('Option C - Direct (Medan ➔ Jakarta)')"
+                                    <button onclick="saveTrip('Option C - KA Argo Parahyangan (Gambir ➔ Bandung Hall)')"
                                         class="w-full py-2.5 rounded-xl glass-card hover:bg-navy-800 text-slate-200 font-semibold text-xs flex items-center justify-center gap-2 border border-white/10 transition">
-                                        <i data-lucide="bookmark" class="w-4 h-4 text-accent-cyan"></i> Save Trip
+                                        <i data-lucide="bookmark" class="w-4 h-4 text-accent-cyan"></i> Simpan ke My Trips
                                     </button>
+                                </div>
+                            </div>
+                        </div>                               </button>
                                 </div>
                             </div>
                         </div>
@@ -1500,32 +1539,32 @@
                                         <button onclick="panToStation('SBI')"
                                             class="px-2.5 py-2 rounded-xl bg-navy-850 hover:bg-navy-800 text-slate-200 text-left font-medium border border-white/5 transition">
                                             Surabaya (SBI)
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Schematic Network Visualization (Requirement 18) -->
+                                                   <!-- Schematic Network Visualization (Requirement 18) -->
                             <div class="glass-card rounded-3xl p-5 border border-white/10 space-y-3">
                                 <div class="flex items-center justify-between pb-2 border-b border-white/10">
-                                    <span class="font-display font-bold text-white text-xs">Corridor Schematic
-                                        Tree</span>
+                                    <span class="font-display font-bold text-white text-xs">Arsitektur Skematik Koridor Rel</span>
                                     <i data-lucide="git-branch" class="w-3.5 h-3.5 text-accent-cyan"></i>
                                 </div>
                                 <div
-                                    class="bg-navy-950/80 p-3 rounded-2xl font-mono text-[11px] text-slate-300 leading-relaxed border border-navy-800 select-none">
+                                    class="bg-navy-950/80 p-3 rounded-2xl font-mono text-[11px] text-slate-300 leading-relaxed border border-navy-800 select-none space-y-1">
+                                    <p class="text-[10px] text-rose-400 font-bold uppercase tracking-wider mb-1">🚅 KORIDOR KERETA CEPAT WHOOSH (350 KM/H):</p>
+                                    <div class="cursor-pointer hover:text-accent-cyan" onclick="panToStation('HLM')">
+                                        [HLM] Halim KCIC & LRT Interchange</div>
+                                    <div class="text-rose-500 pl-2">│ ➔ [KAW] Karawang KCIC</div>
+                                    <div class="text-rose-500 pl-2">├─── [PDL] Hub Padalarang (Interkoneksi KA Feeder ke Bandung Hall)</div>
+                                    <div class="text-rose-500 pl-2">└─── [TGL] Tegalluar Summarecon (Terminus Bandung Timur)</div>
+
+                                    <p class="text-[10px] text-accent-cyan font-bold uppercase tracking-wider pt-2 mb-1">🌲 KORIDOR SUMUT & KSPN DANAU TOBA (DEL):</p>
                                     <div class="cursor-pointer hover:text-accent-cyan" onclick="panToStation('MDN')">
-                                        Medan (MDN)</div>
-                                    <div class="text-accent-blue pl-2">│</div>
-                                    <div class="cursor-pointer hover:text-accent-cyan" onclick="panToStation('KIS')">
-                                        Station A (Kisaran)</div>
-                                    <div class="text-accent-blue pl-2">├─── Station B (Rantau)</div>
-                                    <div class="text-accent-blue pl-2">│</div>
+                                        [MDN] Medan Sentral Besar</div>
+                                    <div class="text-accent-cyan pl-2">├─── [KNM] Bandara Internasional Kualanamu (Railink Express 28m)</div>
+                                    <div class="text-accent-cyan pl-2">└─── [SIR] Pematang Siantar (Gerbang Danau Toba & Poros IT Del)</div>
+
+                                    <p class="text-[10px] text-accent-blue font-bold uppercase tracking-wider pt-2 mb-1">🚆 KORIDOR TRANS-JAWA PANTURA & SELATAN:</p>
                                     <div class="cursor-pointer hover:text-accent-cyan" onclick="panToStation('GMR')">
-                                        Jakarta (GMR)</div>
-                                    <div class="text-accent-blue pl-2">├─── Bandung (BD)</div>
-                                    <div class="cursor-pointer hover:text-accent-cyan" onclick="panToStation('SBI')">
-                                        Surabaya (SBI)</div>
+                                        [GMR] Jakarta Gambir Eksekutif</div>
+                                    <div class="text-accent-blue pl-2">├─── [SMT] Semarang Tawang ➔ [SBI] Surabaya Pasarturi (Argo Bromo)</div>
+                                    <div class="text-accent-blue pl-2">└─── [YK] Yogyakarta Tugu (KA Taksaka)</div>
                                 </div>
                             </div>
                         </div>
@@ -1541,60 +1580,57 @@
 
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div>
-                            <span class="text-xs font-bold uppercase tracking-wider text-accent-amber">Simulated
-                                Telemetry</span>
+                            <span class="text-xs font-bold uppercase tracking-wider text-accent-amber">Telemetri Kecepatan Real-Time</span>
                             <h2 class="font-display font-extrabold text-3xl text-white">Live Train Tracking</h2>
-                            <p class="text-slate-400 text-sm">Real-time simulated position, telemetry speed, and arrival
-                                progress across active trains.</p>
+                            <p class="text-slate-400 text-sm">Pemantauan posisi berbasis GPS/IoT sensor rel, kecepatan telemetri 350 km/h, dan kalkulasi ketepatan waktu otomatis.</p>
                         </div>
 
                         <div class="flex items-center gap-2">
                             <span
                                 class="px-3 py-1.5 rounded-xl bg-accent-amber/20 text-accent-amber font-mono text-xs font-bold border border-accent-amber/40 flex items-center gap-2">
                                 <span class="w-2 h-2 rounded-full bg-accent-amber animate-ping"></span>
-                                DEMO LIVE DATA
+                                TELEMETRI WHOOSH & TRANS-SUMUT
                             </span>
                         </div>
                     </div>
 
-                    <!-- Featured Tracking Card: Train 101 -->
+                    <!-- Featured Tracking Card: Whoosh G1001 -->
                     <div class="glass-card rounded-3xl p-6 border border-white/10 shadow-2xl space-y-6">
 
                         <div
                             class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/10">
                             <div class="flex items-center gap-3">
                                 <div
-                                    class="w-12 h-12 rounded-2xl bg-accent-cyan/15 text-accent-cyan flex items-center justify-center font-bold text-xl">
-                                    🚆
+                                    class="w-12 h-12 rounded-2xl bg-rose-500/20 text-rose-400 flex items-center justify-center font-bold text-xl">
+                                    🚅
                                 </div>
                                 <div>
                                     <div class="flex items-center gap-2">
-                                        <h3 class="font-display font-extrabold text-xl text-white">Train 101</h3>
-                                        <span class="text-sm font-semibold text-slate-300">• RailNusa Express</span>
+                                        <h3 class="font-display font-extrabold text-xl text-white">Whoosh G1001</h3>
+                                        <span class="text-sm font-semibold text-slate-300">• KCIC High-Speed Train</span>
                                         <span id="trackStatusBadge"
                                             class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-accent-emerald/20 text-accent-emerald border border-accent-emerald/30">
-                                            On Schedule
+                                            Tepat Waktu (On Schedule)
                                         </span>
                                     </div>
-                                    <p class="text-xs text-slate-400">Route: Medan (MDN) ➔ Station A (Transit) ➔ Jakarta
-                                        Gambir (GMR)</p>
+                                    <p class="text-xs text-slate-400">Rute: Stasiun Halim (Jakarta) ➔ Stasiun Padalarang Hub (Feeder) ➔ Tegalluar Summarecon</p>
                                 </div>
                             </div>
 
                             <!-- Speedometer & Progress Widget -->
                             <div class="flex items-center gap-6">
                                 <div>
-                                    <p class="text-xs text-slate-400">Current Speed</p>
-                                    <p id="trackSpeedVal" class="font-display font-bold text-2xl text-accent-cyan">82
+                                    <p class="text-xs text-slate-400">Kecepatan Saat Ini</p>
+                                    <p id="trackSpeedVal" class="font-display font-bold text-2xl text-accent-cyan">348
                                         <span class="text-xs text-slate-400 font-normal">km/h</span></p>
                                 </div>
                                 <div>
-                                    <p class="text-xs text-slate-400">Next Station</p>
-                                    <p class="font-display font-bold text-base text-white">Station B (Transit)</p>
+                                    <p class="text-xs text-slate-400">Stasiun Berikutnya</p>
+                                    <p class="font-display font-bold text-base text-white">Padalarang (Hub Feeder)</p>
                                 </div>
                                 <div>
-                                    <p class="text-xs text-slate-400">ETA Next Station</p>
-                                    <p id="trackEtaVal" class="font-display font-bold text-2xl text-accent-amber">14:32
+                                    <p class="text-xs text-slate-400">ETA Stasiun Berikutnya</p>
+                                    <p id="trackEtaVal" class="font-display font-bold text-2xl text-accent-amber">08:32 <span class="text-xs font-normal">WIB</span>
                                     </p>
                                 </div>
                             </div>
@@ -1604,25 +1640,25 @@
                         <div class="space-y-2">
                             <div class="flex items-center justify-between text-xs text-slate-300">
                                 <span class="flex items-center gap-1.5"><i data-lucide="map-pin"
-                                        class="w-3.5 h-3.5 text-accent-cyan"></i> Origin: Medan Station</span>
-                                <span id="trackPercentText" class="font-mono font-bold text-accent-cyan">78%
-                                    Progress</span>
+                                        class="w-3.5 h-3.5 text-rose-400"></i> Asal: Halim KCIC (08:00 WIB)</span>
+                                <span id="trackPercentText" class="font-mono font-bold text-accent-cyan">68%
+                                    Perjalanan</span>
                                 <span class="flex items-center gap-1.5"><i data-lucide="flag"
-                                        class="w-3.5 h-3.5 text-accent-emerald"></i> Destination: Jakarta</span>
+                                        class="w-3.5 h-3.5 text-accent-emerald"></i> Tujuan: Tegalluar (08:45 WIB)</span>
                             </div>
 
                             <!-- Graphical Custom Progress Bar -->
                             <div
                                 class="w-full bg-navy-900 rounded-full h-4 p-0.5 border border-navy-700 overflow-hidden relative">
                                 <div id="trackProgressBar"
-                                    class="bg-gradient-to-r from-accent-blue via-accent-cyan to-accent-emerald h-full rounded-full transition-all duration-700"
-                                    style="width: 78%;"></div>
+                                    class="bg-gradient-to-r from-rose-500 via-accent-cyan to-accent-emerald h-full rounded-full transition-all duration-700"
+                                    style="width: 68%;"></div>
                             </div>
 
                             <div class="flex items-center justify-between text-[11px] font-mono text-slate-400 pt-1">
-                                <span>Departed 08:30 WIB</span>
-                                <span id="trackAsciiBar" class="hidden sm:inline">████████████░░░ 78%</span>
-                                <span id="trackArrivalETA">Est. Arrival 17:00 WIB</span>
+                                <span>Berangkat 08:00 WIB</span>
+                                <span id="trackAsciiBar" class="hidden sm:inline">██████████░░░░ 68%</span>
+                                <span id="trackArrivalETA">Est. Tiba 08:45 WIB</span>
                             </div>
                         </div>
 
@@ -1631,112 +1667,117 @@
                             <div class="flex items-center gap-2">
                                 <button onclick="triggerSimulateDelay()"
                                     class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-accent-amber/20 text-accent-amber border border-accent-amber/40 hover:bg-accent-amber/30 transition flex items-center gap-1.5">
-                                    <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i> Test Delay Simulation on
-                                    Train 101
+                                    <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i> Uji Simulasi Gangguan pada Whoosh G1001
                                 </button>
                                 <button onclick="openAlternativeRouteModal()"
                                     class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-navy-800 hover:bg-navy-700 text-slate-200 border border-white/10 transition">
-                                    Check Alternative Corridors
+                                    Solusi Pengalihan Dinamis
                                 </button>
                             </div>
 
-                            <button onclick="navigateTo('map')"
+                            <button onclick="navigateTo('map'); panToStation('PDL');"
                                 class="px-4 py-2 rounded-xl bg-accent-blue hover:bg-blue-600 text-white text-xs font-semibold flex items-center gap-1.5 transition">
-                                <i data-lucide="map" class="w-3.5 h-3.5"></i> View on Live Map
+                                <i data-lucide="map" class="w-3.5 h-3.5"></i> Lihat di Peta Rel
                             </button>
                         </div>
 
                     </div>
 
-                    <!-- Other Active Trains Grid -->
+                    <!-- Other Active Trains Grid (REALISTIC INDONESIAN TRAINS) -->
                     <div class="space-y-3">
-                        <h3 class="font-display font-bold text-lg text-white">Other Active Fleet Telemetry</h3>
+                        <h3 class="font-display font-bold text-lg text-white">Telemetri Armada Aktif Lainnya (Jawa & Sumatera Utara)</h3>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 
-                            <!-- Train 205 -->
-                            <div class="glass-card rounded-2xl p-4 border border-white/10 space-y-3">
+                            <!-- Train 1: Siantar Ekspres (Danau Toba / IT Del) -->
+                            <div class="glass-card rounded-2xl p-4 border border-accent-cyan/30 space-y-3">
                                 <div class="flex items-center justify-between">
                                     <div class="flex items-center gap-2">
-                                        <span class="font-bold text-white text-sm">🚆 Train 205 (Nusantara Argo)</span>
+                                        <span class="font-bold text-white text-sm">🚆 KA Siantar Ekspres (U72)</span>
                                     </div>
                                     <span
-                                        class="px-2 py-0.5 rounded text-[10px] font-bold bg-accent-emerald/20 text-accent-emerald">On
-                                        Schedule</span>
+                                        class="px-2 py-0.5 rounded text-[10px] font-bold bg-accent-emerald/20 text-accent-emerald">On Schedule</span>
                                 </div>
+                                <p class="text-[11px] text-accent-cyan font-semibold">Medan ➔ Tebing Tinggi ➔ Pematang Siantar (Danau Toba / Del)</p>
                                 <div class="grid grid-cols-3 text-xs text-slate-300">
                                     <div>
-                                        <span class="text-slate-400 block text-[10px]">Speed</span>
-                                        <span class="font-bold">110 km/h</span>
+                                        <span class="text-slate-400 block text-[10px]">Kecepatan</span>
+                                        <span class="font-bold">78 km/h</span>
                                     </div>
                                     <div>
-                                        <span class="text-slate-400 block text-[10px]">Next</span>
-                                        <span class="font-bold">Cirebon</span>
+                                        <span class="text-slate-400 block text-[10px]">Stasiun Berikut</span>
+                                        <span class="font-bold">Tebing Tinggi</span>
                                     </div>
                                     <div>
-                                        <span class="text-slate-400 block text-[10px]">ETA</span>
-                                        <span class="font-bold text-accent-cyan">15:10</span>
+                                        <span class="text-slate-400 block text-[10px]">ETA Siantar</span>
+                                        <span class="font-bold text-accent-cyan">08:50</span>
                                     </div>
                                 </div>
                                 <div class="w-full bg-navy-900 rounded-full h-1.5 overflow-hidden">
-                                    <div class="bg-accent-cyan h-full rounded-full" style="width: 42%;"></div>
+                                    <div class="bg-accent-cyan h-full rounded-full" style="width: 55%;"></div>
                                 </div>
                             </div>
 
-                            <!-- Train 308 -->
+                            <!-- Train 2: Argo Bromo Anggrek (Pantura Mainline) -->
                             <div class="glass-card rounded-2xl p-4 border border-white/10 space-y-3">
                                 <div class="flex items-center justify-between">
                                     <div class="flex items-center gap-2">
-                                        <span class="font-bold text-white text-sm">🚆 Train 308 (Lembah Serayu)</span>
+                                        <span class="font-bold text-white text-sm">🚆 KA Argo Bromo Anggrek (01)</span>
                                     </div>
                                     <span
-                                        class="px-2 py-0.5 rounded text-[10px] font-bold bg-accent-emerald/20 text-accent-emerald">On
-                                        Schedule</span>
+                                        class="px-2 py-0.5 rounded text-[10px] font-bold bg-accent-emerald/20 text-accent-emerald">On Schedule</span>
                                 </div>
+                                <p class="text-[11px] text-slate-300">Gambir ➔ Cirebon ➔ Semarang ➔ Surabaya Pasarturi</p>
                                 <div class="grid grid-cols-3 text-xs text-slate-300">
                                     <div>
-                                        <span class="text-slate-400 block text-[10px]">Speed</span>
-                                        <span class="font-bold">68 km/h</span>
+                                        <span class="text-slate-400 block text-[10px]">Kecepatan</span>
+                                        <span class="font-bold">118 km/h</span>
                                     </div>
                                     <div>
-                                        <span class="text-slate-400 block text-[10px]">Next</span>
-                                        <span class="font-bold">Purwokerto</span>
+                                        <span class="text-slate-400 block text-[10px]">Stasiun Berikut</span>
+                                        <span class="font-bold">Pekalongan</span>
                                     </div>
                                     <div>
-                                        <span class="text-slate-400 block text-[10px]">ETA</span>
-                                        <span class="font-bold text-accent-cyan">16:45</span>
+                                        <span class="text-slate-400 block text-[10px]">ETA Pasarturi</span>
+                                        <span class="font-bold text-accent-cyan">16:25</span>
                                     </div>
                                 </div>
                                 <div class="w-full bg-navy-900 rounded-full h-1.5 overflow-hidden">
-                                    <div class="bg-accent-emerald h-full rounded-full" style="width: 91%;"></div>
+                                    <div class="bg-accent-blue h-full rounded-full" style="width: 48%;"></div>
                                 </div>
                             </div>
 
-                            <!-- Train 102 -->
+                            <!-- Train 3: Railink Kualanamu Airport Express -->
                             <div class="glass-card rounded-2xl p-4 border border-white/10 space-y-3">
                                 <div class="flex items-center justify-between">
                                     <div class="flex items-center gap-2">
-                                        <span class="font-bold text-white text-sm">🚆 Train 102 (Sumatra
-                                            Intercity)</span>
+                                        <span class="font-bold text-white text-sm">🚆 Railink Kualanamu (RL-02)</span>
                                     </div>
                                     <span
-                                        class="px-2 py-0.5 rounded text-[10px] font-bold bg-accent-amber/20 text-accent-amber">Disrupted</span>
+                                        class="px-2 py-0.5 rounded text-[10px] font-bold bg-accent-emerald/20 text-accent-emerald">Airport Express</span>
                                 </div>
+                                <p class="text-[11px] text-slate-300">Medan Elevated Concourse ➔ Bandara Kualanamu (28m)</p>
                                 <div class="grid grid-cols-3 text-xs text-slate-300">
                                     <div>
-                                        <span class="text-slate-400 block text-[10px]">Speed</span>
-                                        <span class="font-bold">45 km/h</span>
+                                        <span class="text-slate-400 block text-[10px]">Kecepatan</span>
+                                        <span class="font-bold">85 km/h</span>
                                     </div>
                                     <div>
-                                        <span class="text-slate-400 block text-[10px]">Next</span>
-                                        <span class="font-bold">Kisaran</span>
+                                        <span class="text-slate-400 block text-[10px]">Pemberhentian</span>
+                                        <span class="font-bold">Non-Stop</span>
                                     </div>
                                     <div>
-                                        <span class="text-slate-400 block text-[10px]">Delay</span>
-                                        <span class="font-bold text-accent-amber">+35m</span>
+                                        <span class="text-slate-400 block text-[10px]">ETA Bandara</span>
+                                        <span class="font-bold text-accent-cyan">07:48</span>
                                     </div>
                                 </div>
                                 <div class="w-full bg-navy-900 rounded-full h-1.5 overflow-hidden">
+                                    <div class="bg-accent-emerald h-full rounded-full" style="width: 82%;"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>ull h-1.5 overflow-hidden">
                                     <div class="bg-accent-amber h-full rounded-full" style="width: 60%;"></div>
                                 </div>
                             </div>
@@ -2547,91 +2588,73 @@
             <div
                 class="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-navy-900/80 p-4 rounded-2xl border border-white/5 text-xs">
                 <div>
-                    <span class="text-slate-400">Total Duration:</span>
-                    <p class="font-bold text-white text-sm">8h 30m</p>
+                    <span class="text-slate-400">Total Waktu:</span>
+                    <p class="font-bold text-white text-sm">45 menit</p>
                 </div>
                 <div>
-                    <span class="text-slate-400">Transfers:</span>
-                    <p class="font-bold text-accent-cyan text-sm">1 Transfer</p>
+                    <span class="text-slate-400">Kecepatan Puncak:</span>
+                    <p class="font-bold text-rose-400 text-sm">350 km/h</p>
                 </div>
                 <div>
-                    <span class="text-slate-400">Train Class:</span>
-                    <p class="font-bold text-white text-sm">Luxury Sleeper</p>
+                    <span class="text-slate-400">Kelas Kereta:</span>
+                    <p class="font-bold text-white text-sm">Whoosh First / Exec</p>
                 </div>
                 <div>
-                    <span class="text-slate-400">Platform / Seat:</span>
-                    <p class="font-bold text-accent-emerald text-sm">Plat 3 • Car 4 / 12A</p>
+                    <span class="text-slate-400">Peron / Kursus:</span>
+                    <p class="font-bold text-accent-emerald text-sm">Plat 2 • Kereta 1 / 02A</p>
                 </div>
             </div>
 
             <!-- Timeline View (Requirement 6) -->
             <div class="space-y-4">
-                <h4 class="font-display font-bold text-white text-sm">Segmented Timeline:</h4>
+                <h4 class="font-display font-bold text-white text-sm">Rangkaian Jadwal Presisi Whoosh G1001:</h4>
 
                 <div
                     class="relative pl-6 space-y-6 before:content-[''] before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-accent-blue/40 text-xs">
 
-                    <!-- 08:00 -->
+                    <!-- 07:30 -->
                     <div class="relative">
                         <span
                             class="absolute -left-[23px] top-0.5 w-3.5 h-3.5 rounded-full bg-accent-blue border-2 border-navy-950"></span>
                         <div class="flex items-center justify-between">
-                            <span class="font-mono font-bold text-accent-cyan">08:00 WIB</span>
-                            <span class="text-[10px] text-slate-400">Check-in & Gate Open</span>
+                            <span class="font-mono font-bold text-accent-cyan">07:30 WIB</span>
+                            <span class="text-[10px] text-slate-400">Gate Boarding Dibuka</span>
                         </div>
-                        <p class="font-bold text-white text-sm">🚉 Medan Station (MDN)</p>
-                        <p class="text-slate-300">Boarding through North Gate, proceed to Platform 3.</p>
+                        <p class="font-bold text-white text-sm">🚉 Stasiun Halim Concourse Platform 2</p>
+                        <p class="text-slate-300">Akses via Skybridge LRT Jabodebek Dukuh Atas - Halim. Pemeriksaan Facial Recognition Gate cepat.</p>
                     </div>
 
-                    <!-- 08:20 -->
+                    <!-- 08:00 -->
+                    <div class="relative">
+                        <span
+                            class="absolute -left-[23px] top-0.5 w-3.5 h-3.5 rounded-full bg-rose-500 border-2 border-navy-950 shadow-lg shadow-rose-500/50"></span>
+                        <div class="flex items-center justify-between">
+                            <span class="font-mono font-bold text-white">08:00 WIB</span>
+                            <span class="text-[10px] text-accent-emerald">Tepat Waktu (On Schedule)</span>
+                        </div>
+                        <p class="font-bold text-white text-sm">🚅 Whoosh G1001 Melaju (Halim ➔ Bandung)</p>
+                        <p class="text-slate-300">Akselerasi ke 350 km/h melalui Terowongan 1 (Halim) & Viaduct Karawang.</p>
+                    </div>
+
+                    <!-- 08:32 -->
                     <div class="relative">
                         <span
                             class="absolute -left-[23px] top-0.5 w-3.5 h-3.5 rounded-full bg-accent-cyan border-2 border-navy-950"></span>
                         <div class="flex items-center justify-between">
-                            <span class="font-mono font-bold text-white">08:20 WIB</span>
-                            <span class="text-[10px] text-accent-emerald">On Schedule</span>
+                            <span class="font-mono font-bold text-accent-cyan">08:32 WIB</span>
+                            <span class="text-[10px] text-accent-cyan">Transfer Hub KA Feeder</span>
                         </div>
-                        <p class="font-bold text-white text-sm">🚆 Train 101 Departs</p>
-                        <p class="text-slate-300">RailNusa Express begins journey along Sumatra Main Line.</p>
+                        <p class="font-bold text-white text-sm">🚉 Stasiun Padalarang Hub</p>
+                        <p class="text-slate-300">Koneksi cross-platform terpadu ke KA Feeder menuju Stasiun Bandung Hall (20 mnt, tanpa bayar lagi).</p>
                     </div>
 
-                    <!-- 11:45 -->
-                    <div class="relative">
-                        <span
-                            class="absolute -left-[23px] top-0.5 w-3.5 h-3.5 rounded-full bg-accent-amber border-2 border-navy-950"></span>
-                        <div class="flex items-center justify-between">
-                            <span class="font-mono font-bold text-accent-amber">11:45 WIB</span>
-                            <span class="text-[10px] text-slate-400">30m Layover</span>
-                        </div>
-                        <p class="font-bold text-white text-sm">🚉 Transfer Station A (Intermodal Hub)</p>
-                        <p class="text-slate-300">Convenient platform change with automatic luggage forwarding.</p>
-                    </div>
-
-                    <!-- 12:15 -->
-                    <div class="relative">
-                        <span
-                            class="absolute -left-[23px] top-0.5 w-3.5 h-3.5 rounded-full bg-accent-cyan border-2 border-navy-950"></span>
-                        <span class="font-mono font-bold text-white">12:15 WIB</span>
-                        <p class="font-bold text-white text-sm">🚆 Continue Journey (Train 204 Connector)</p>
-                        <p class="text-slate-300">Express through-line toward Java Western Terminal.</p>
-                    </div>
-
-                    <!-- 16:30 -->
+                    <!-- 08:45 -->
                     <div class="relative">
                         <span
                             class="absolute -left-[23px] top-0.5 w-3.5 h-3.5 rounded-full bg-accent-emerald border-2 border-navy-950"></span>
-                        <span class="font-mono font-bold text-accent-emerald">16:30 WIB</span>
-                        <p class="font-bold text-white text-sm">🚉 Destination Station — Jakarta Gambir (GMR)</p>
-                        <p class="text-slate-300">Arrival at Platform 2. Direct escalator to Taxi, LRT & MRT hubs.</p>
-                    </div>
-
-                    <!-- 16:50 -->
-                    <div class="relative">
-                        <span
-                            class="absolute -left-[23px] top-0.5 w-3.5 h-3.5 rounded-full bg-accent-emerald border-2 border-navy-950"></span>
-                        <span class="font-mono font-bold text-white">16:50 WIB</span>
-                        <p class="font-bold text-white text-sm">📍 Arrive at Final Destination</p>
-                        <p class="text-slate-300">Journey successfully completed.</p>
+                        <span class="font-mono font-bold text-accent-emerald">08:45 WIB</span>
+                        <p class="font-bold text-white text-sm">🏁 Tiba di Stasiun Tegalluar Summarecon</p>
+                        <p class="text-slate-300">Terminus Timur Kota Bandung. Akses shuttle terintegrasi ke Stadion GBLA, Al-Jabbar & Tol Padaleunyi.</p>
                     </div>
 
                 </div>
@@ -2641,44 +2664,44 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-white/10 text-xs">
                 <div class="p-3.5 rounded-2xl bg-navy-900 border border-white/5 space-y-1.5">
                     <p class="font-bold text-white flex items-center gap-1.5">
-                        <i data-lucide="receipt" class="w-3.5 h-3.5 text-accent-cyan"></i> Estimated Trip Cost (Demo)
+                        <i data-lucide="receipt" class="w-3.5 h-3.5 text-accent-cyan"></i> Rincian Tarif Terpadu
                     </p>
-                    <div class="flex justify-between text-slate-400"><span>Rail Ticket:</span> <span
-                            class="text-white font-medium">Rp 610.000</span></div>
-                    <div class="flex justify-between text-slate-400"><span>Local Transport / Taxi:</span> <span
-                            class="text-white font-medium">Rp 35.000</span></div>
+                    <div class="flex justify-between text-slate-400"><span>Tiket Whoosh KCIC:</span> <span
+                            class="text-white font-medium">Rp 250.000</span></div>
+                    <div class="flex justify-between text-slate-400"><span>KA Feeder Padalarang-Bandung:</span> <span
+                            class="text-accent-emerald font-medium">Gratis (Included)</span></div>
                     <div class="flex justify-between font-bold text-accent-cyan pt-1 border-t border-navy-700">
-                        <span>Total Cost:</span> <span>Rp 645.000</span></div>
+                        <span>Total Biaya:</span> <span>Rp 250.000</span></div>
                 </div>
 
                 <div class="p-3.5 rounded-2xl bg-navy-900 border border-white/5 space-y-1.5">
                     <p class="font-bold text-white flex items-center gap-1.5">
-                        <i data-lucide="leaf" class="w-3.5 h-3.5 text-accent-emerald"></i> Carbon Emission Rating
+                        <i data-lucide="leaf" class="w-3.5 h-3.5 text-accent-emerald"></i> Skor Dekarbonisasi ESG
                     </p>
-                    <div class="flex justify-between text-slate-400"><span>🚆 Railway Emission:</span> <span
-                            class="text-accent-emerald font-bold">18.4 kg CO2 (Low)</span></div>
-                    <div class="flex justify-between text-slate-400"><span>🚗 Private Car Equivalent:</span> <span
-                            class="text-slate-300">124.6 kg CO2</span></div>
-                    <p class="text-[10px] text-accent-emerald pt-1">🌱 85% carbon savings compared to road transit.</p>
+                    <div class="flex justify-between text-slate-400"><span>🚅 Emisi Kereta Listrik:</span> <span
+                            class="text-accent-emerald font-bold">2.1 kg CO2 (Ultra Rendah)</span></div>
+                    <div class="flex justify-between text-slate-400"><span>🚗 Mobil Pribadi / Tol:</span> <span
+                            class="text-slate-300">18.4 kg CO2</span></div>
+                    <p class="text-[10px] text-accent-emerald pt-1">🌱 85.2% reduksi jejak karbon per penumpang.</p>
                 </div>
             </div>
 
             <!-- Action Buttons -->
             <div class="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-white/10">
                 <div class="flex items-center gap-2">
-                    <button onclick="saveTrip('Option A - Fastest (Medan ➔ Jakarta)'); closeJourneyDetailsModal();"
+                    <button onclick="saveTrip('Whoosh KCIC G1001 (Jakarta Halim ➔ Bandung)'); closeJourneyDetailsModal();"
                         class="px-4 py-2 rounded-xl bg-accent-blue hover:bg-blue-600 text-white font-semibold text-xs flex items-center gap-1.5 transition">
-                        <i data-lucide="bookmark" class="w-4 h-4"></i> Save Trip
+                        <i data-lucide="bookmark" class="w-4 h-4"></i> Simpan Perjalanan
                     </button>
                     <button onclick="closeJourneyDetailsModal(); navigateTo('checklist');"
                         class="px-3.5 py-2 rounded-xl glass-card hover:bg-navy-800 text-slate-200 text-xs font-semibold flex items-center gap-1.5 transition">
-                        <i data-lucide="check-square" class="w-4 h-4 text-accent-emerald"></i> Travel Checklist
+                        <i data-lucide="check-square" class="w-4 h-4 text-accent-emerald"></i> Checklist Bawaan
                     </button>
                 </div>
 
                 <button onclick="closeJourneyDetailsModal(); navigateTo('map');"
                     class="px-4 py-2 rounded-xl glass-card hover:bg-navy-800 text-accent-cyan text-xs font-semibold flex items-center gap-1.5 border border-accent-cyan/30 transition">
-                    <i data-lucide="map" class="w-4 h-4"></i> View on Interactive Map
+                    <i data-lucide="map" class="w-4 h-4"></i> Pantau di Peta Geospasial
                 </button>
             </div>
 
@@ -2699,8 +2722,8 @@
                         <i data-lucide="shuffle" class="w-5 h-5"></i>
                     </div>
                     <div>
-                        <h3 class="font-display font-bold text-xl text-white">Alternative Journey System</h3>
-                        <p class="text-xs text-amber-300">Intelligent Reroute Recommendation</p>
+                        <h3 class="font-display font-bold text-xl text-white">Sistem Mitigasi Rute Cerdas</h3>
+                        <p class="text-xs text-amber-300">Rekomendasi Reroute Dinamis & Alokasi Slot Armada</p>
                     </div>
                 </div>
                 <button onclick="closeAlternativeRouteModal()"
@@ -2716,15 +2739,14 @@
                 <div class="p-4 rounded-2xl bg-accent-rose/10 border border-accent-rose/30 space-y-2">
                     <div class="flex items-center justify-between">
                         <span class="font-bold text-white flex items-center gap-1.5">
-                            <i data-lucide="alert-circle" class="w-4 h-4 text-accent-rose"></i> Original: Train 102 /
-                            101
+                            <i data-lucide="alert-circle" class="w-4 h-4 text-accent-rose"></i> Jadwal Awal: Whoosh G1001
                         </span>
-                        <span class="px-2 py-0.5 rounded text-[10px] bg-accent-rose/20 text-accent-rose font-bold">
-                            Delayed 35 min
+                        <span class="px-2 py-0.5 rounded text-[10px] bg-accent-amber/20 text-accent-amber font-bold">
+                            Penyesuaian Jadwal +15 min
                         </span>
                     </div>
-                    <p class="text-slate-300">Affected route: Station A → Station B (Signal Disruption)</p>
-                    <p class="text-slate-400">Current ETA postponed to 17:35 WIB.</p>
+                    <p class="text-slate-300">Status: Pemeriksaan interlocking sinyal petak Karawang - Padalarang.</p>
+                    <p class="text-slate-400">Estimasi tiba di Tegalluar disesuaikan: 09:00 WIB.</p>
                 </div>
 
                 <div class="flex justify-center -my-2">
@@ -2738,8 +2760,7 @@
                 <div class="p-4 rounded-2xl bg-accent-cyan/10 border border-accent-cyan/40 space-y-3">
                     <div class="flex items-center justify-between">
                         <span class="font-bold text-white flex items-center gap-1.5">
-                            <i data-lucide="check-circle" class="w-4 h-4 text-accent-cyan"></i> Recommended: Train 105
-                            (Via West Corridor Bypass)
+                            <i data-lucide="check-circle" class="w-4 h-4 text-accent-cyan"></i> Rekomendasi Otomatis: Whoosh G1005 (Slot Segera)
                         </span>
                         <span
                             class="px-2 py-0.5 rounded text-[10px] bg-accent-emerald/20 text-accent-emerald font-bold">
@@ -2749,15 +2770,15 @@
 
                     <div class="grid grid-cols-2 gap-3 text-slate-300">
                         <div>
-                            <span class="text-slate-400 block text-[11px]">Departure:</span>
-                            <span class="font-bold text-white text-sm">14:20 WIB</span>
+                            <span class="text-slate-400 block text-[11px]">Keberangkatan:</span>
+                            <span class="font-bold text-white text-sm">08:30 WIB (Halim)</span>
                         </div>
                         <div>
-                            <span class="text-slate-400 block text-[11px]">Arrival:</span>
-                            <span class="font-bold text-accent-cyan text-sm">17:40 WIB</span>
+                            <span class="text-slate-400 block text-[11px]">Kedatangan:</span>
+                            <span class="font-bold text-accent-cyan text-sm">09:15 WIB (Tegalluar)</span>
                         </div>
                     </div>
-                    <p class="text-slate-300">Same seat class tier automatically reserved without surcharge.</p>
+                    <p class="text-slate-300">Kelas kursi First / Executive langsung dialihkan tanpa biaya tambahan (Free Surcharge).</p>
                 </div>
 
             </div>
@@ -2765,11 +2786,11 @@
             <div class="flex items-center justify-end gap-3 pt-3 border-t border-white/10">
                 <button onclick="closeAlternativeRouteModal()"
                     class="px-4 py-2.5 rounded-xl bg-navy-800 text-slate-300 hover:text-white text-xs font-semibold">
-                    Keep Original
+                    Pertahankan Jadwal Awal
                 </button>
                 <button onclick="applyAlternativeRoute()"
                     class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-accent-cyan to-accent-blue text-navy-950 font-bold text-xs flex items-center gap-2 shadow-lg hover:opacity-95">
-                    <i data-lucide="check" class="w-4 h-4"></i> Use Alternative
+                    <i data-lucide="check" class="w-4 h-4"></i> Alihkan ke Whoosh G1005
                 </button>
             </div>
 
@@ -2861,154 +2882,237 @@
     <!-- ========================================== -->
     <script>
         /* =========================================================================
-           1. DATA MODELS & INITIAL STATE
+           1. DATA MODELS & INITIAL STATE (REAL-WORLD INDONESIAN RAILWAYS)
            ========================================================================= */
         const STATIONS_DATA = [
+            // WHOOSH HIGH SPEED RAIL (KCIC)
+            {
+                id: 'HLM',
+                name: 'Stasiun Halim KCIC & LRT',
+                city: 'Jakarta Timur',
+                code: 'HLM',
+                lat: -6.2464,
+                lng: 106.8833,
+                status: 'Operational',
+                departures: 48,
+                arrivals: 48,
+                facilities: ['Whoosh Concourse', 'Interkoneksi LRT Jabodebek', 'VIP Executive Lounge', 'Facial Recognition Gate', 'Accessible Elevators'],
+                desc: 'Hub sentral Kereta Cepat Whoosh Jakarta-Bandung terintegrasi langsung dengan LRT Jabodebek.'
+            },
+            {
+                id: 'KAW',
+                name: 'Stasiun Karawang KCIC',
+                city: 'Karawang',
+                code: 'KAW',
+                lat: -6.3456,
+                lng: 107.2472,
+                status: 'Operational',
+                departures: 24,
+                arrivals: 24,
+                facilities: ['Whoosh Platform', 'Park & Ride', 'Prayer Room', 'Retail Concourse'],
+                desc: 'Stasiun strategis kawasan industri terpadu Koridor Kereta Cepat Jakarta-Bandung.'
+            },
+            {
+                id: 'PDL',
+                name: 'Stasiun Padalarang Hub Feeder',
+                city: 'Bandung Barat',
+                code: 'PDL',
+                lat: -6.8427,
+                lng: 107.4984,
+                status: 'Operational',
+                departures: 48,
+                arrivals: 48,
+                facilities: ['Whoosh Interchange', 'KA Feeder Bandung Hall (20m)', 'Skybridge Transit', 'Charging Lounge'],
+                desc: 'Hub transfer utama penumpang Whoosh ke KA Feeder menuju Stasiun Bandung Hall di pusat kota.'
+            },
+            {
+                id: 'TGL',
+                name: 'Stasiun Tegalluar Summarecon',
+                city: 'Kabupaten Bandung',
+                code: 'TGL',
+                lat: -6.9632,
+                lng: 107.7145,
+                status: 'Operational',
+                departures: 48,
+                arrivals: 48,
+                facilities: ['Terminus Whoosh Depo', 'Shuttle Bus GBLA', 'VIP Lounge', 'Park & Ride'],
+                desc: 'Terminus timur Whoosh melayani kawasan Bandung Timur dan akses Stadion GBLA / Masjid Al-Jabbar.'
+            },
+
+            // SUMATERA UTARA & KSPN DANAU TOBA / DEL
             {
                 id: 'MDN',
-                name: 'Medan Station',
+                name: 'Stasiun Medan Sentral',
                 city: 'Medan',
                 code: 'MDN',
                 lat: 3.5910,
                 lng: 98.6750,
                 status: 'Operational',
-                departures: 12,
-                arrivals: 14,
-                facilities: ['Toilet', 'Food', 'Parking', 'Prayer Room', 'Accessibility', 'Taxi', 'Airport Rail Link'],
-                desc: 'Main terminal hub in North Sumatra with direct connection to Kualanamu Airport Rail.'
+                departures: 34,
+                arrivals: 34,
+                facilities: ['Jalur Layang (Elevated Track)', 'City Check-in Kualanamu Railink', 'Food Court', 'Executive Lounge'],
+                desc: 'Hub sentral perkeretaapian Divre I Sumatera Utara dengan lintasan layang modern.'
+            },
+            {
+                id: 'KNM',
+                name: 'Stasiun Bandara Kualanamu',
+                city: 'Deli Serdang',
+                code: 'KNM',
+                lat: 3.6425,
+                lng: 98.8852,
+                status: 'Operational',
+                departures: 24,
+                arrivals: 24,
+                facilities: ['Integrated Terminal Airport', 'Baggage Drop', 'Flight Information Display', 'Airport Shuttle'],
+                desc: 'Stasiun kereta api bandara non-stop pertama di Indonesia dengan waktu tempuh 28 menit ke pusat Kota Medan.'
+            },
+            {
+                id: 'SIR',
+                name: 'Stasiun Pematang Siantar',
+                city: 'Pematang Siantar',
+                code: 'SIR',
+                lat: 2.9587,
+                lng: 99.0601,
+                status: 'Operational',
+                departures: 8,
+                arrivals: 8,
+                facilities: ['Transit Shuttle Danau Toba (Parapat)', 'Prayer Room', 'Park & Ride', 'Heritage Building'],
+                desc: 'Gerbang utama rel menuju Kawasan Strategis Pariwisata Nasional (KSPN) Danau Toba & Poros Balige/Laguboti (Institut Teknologi Del didirikan oleh Luhut Binsar Pandjaitan).'
             },
             {
                 id: 'KIS',
-                name: 'Kisaran Station',
+                name: 'Stasiun Kisaran',
                 city: 'Asahan',
                 code: 'KIS',
                 lat: 2.9833,
                 lng: 99.6167,
                 status: 'Operational',
-                departures: 8,
-                arrivals: 8,
-                facilities: ['Toilet', 'Food', 'Prayer Room', 'Parking'],
-                desc: 'Key transit station connecting North Sumatra eastern corridors.'
+                departures: 14,
+                arrivals: 14,
+                facilities: ['Toilet', 'Food', 'Prayer Room', 'Customer Service'],
+                desc: 'Stasiun percabangan penting koridor timur Sumatera Utara (Tanjungbalai & Rantauprapat).'
             },
             {
                 id: 'RAP',
-                name: 'Rantau Prapat Station',
+                name: 'Stasiun Rantau Prapat',
                 city: 'Labuhanbatu',
                 code: 'RAP',
                 lat: 2.0990,
                 lng: 99.8285,
                 status: 'Operational',
-                departures: 6,
-                arrivals: 6,
+                departures: 8,
+                arrivals: 8,
                 facilities: ['Toilet', 'Food', 'Prayer Room', 'Taxi'],
-                desc: 'Southern terminus for the North Sumatra passenger line.'
+                desc: 'Terminus selatan lintas penumpang Divre I Sumatera Utara.'
             },
+
+            // TRANS-JAWA MAINLINES
             {
                 id: 'GMR',
-                name: 'Jakarta Gambir Station',
-                city: 'Jakarta',
+                name: 'Stasiun Gambir',
+                city: 'Jakarta Pusat',
                 code: 'GMR',
                 lat: -6.1767,
                 lng: 106.8306,
                 status: 'Operational',
-                departures: 48,
-                arrivals: 46,
-                facilities: ['Toilet', 'Food', 'Parking', 'Prayer Room', 'Accessibility', 'Taxi', 'VIP Lounge', 'Luggage Forwarding'],
-                desc: 'Premier executive terminal serving long-distance trains across Java and cross-island multi-modal links.'
+                departures: 52,
+                arrivals: 52,
+                facilities: ['Luxury & Priority Lounge', 'Direct Taxi Deck', 'Luggage Forwarding', 'Intercity Platforms'],
+                desc: 'Stasiun terminus kereta api antarkota eksekutif utama di pusat ibukota Jakarta.'
             },
             {
                 id: 'BD',
-                name: 'Bandung Hall Station',
+                name: 'Stasiun Bandung Hall',
                 city: 'Bandung',
                 code: 'BD',
                 lat: -6.9147,
                 lng: 107.6025,
                 status: 'Operational',
-                departures: 32,
-                arrivals: 34,
-                facilities: ['Toilet', 'Food', 'Parking', 'Prayer Room', 'Accessibility', 'Taxi'],
-                desc: 'Historic mountain valley railway station with modern intercity connectivity.'
+                departures: 42,
+                arrivals: 42,
+                facilities: ['KA Feeder Whoosh Terminal', 'Skybridge Transit', 'Executive Lounge', 'Heritage Concourse'],
+                desc: 'Stasiun utama pusat Kota Bandung yang terhubung langsung dengan KA Feeder Whoosh dari Padalarang.'
             },
             {
                 id: 'SMT',
-                name: 'Semarang Tawang Station',
+                name: 'Stasiun Semarang Tawang Bank Jateng',
                 city: 'Semarang',
                 code: 'SMT',
                 lat: -6.9644,
                 lng: 110.4281,
                 status: 'Operational',
-                departures: 26,
-                arrivals: 28,
-                facilities: ['Toilet', 'Food', 'Parking', 'Prayer Room', 'Accessibility', 'Taxi'],
-                desc: 'Northern coastal mainline junction with rich heritage architecture.'
+                departures: 38,
+                arrivals: 38,
+                facilities: ['Polder Flood Protection System', 'Executive Lounge', 'Heritage Hall', 'Taxi Drop-off'],
+                desc: 'Stasiun ikonik jalur utama Pantura Jawa dengan integrasi polder modern penahan rob.'
             },
             {
                 id: 'YK',
-                name: 'Yogyakarta Station (Tugu)',
+                name: 'Stasiun Yogyakarta (Tugu)',
                 city: 'Yogyakarta',
                 code: 'YK',
                 lat: -7.7892,
                 lng: 110.3636,
                 status: 'Operational',
-                departures: 38,
-                arrivals: 40,
-                facilities: ['Toilet', 'Food', 'Parking', 'Prayer Room', 'Accessibility', 'Taxi', 'Luggage Lockers'],
-                desc: 'Vibrant cultural gateway connecting western and eastern Java corridors.'
+                departures: 44,
+                arrivals: 44,
+                facilities: ['KA Bandara YIA Hub', 'KRL Commuter Line Jogja-Solo', 'Luxury Lounge', 'Malioboro Pedestrian'],
+                desc: 'Hub kultural utama Jawa dengan integrasi KA Bandara YIA dan Commuter Line.'
             },
             {
                 id: 'SBI',
-                name: 'Surabaya Pasar Turi',
+                name: 'Stasiun Surabaya Pasarturi',
                 city: 'Surabaya',
                 code: 'SBI',
                 lat: -7.2483,
                 lng: 112.7314,
                 status: 'Operational',
-                departures: 30,
-                arrivals: 30,
-                facilities: ['Toilet', 'Food', 'Parking', 'Prayer Room', 'Accessibility', 'Taxi'],
-                desc: 'Major northern mainline terminus serving eastern Java commerce.'
+                departures: 36,
+                arrivals: 36,
+                facilities: ['Executive Concourse', 'Luggage Assistance', 'Food & Retail Zone', 'Taxi Stand'],
+                desc: 'Terminus jalur lintas utara Pulau Jawa melayani kereta api flagship Argo Bromo Anggrek.'
             }
         ];
 
         const INITIAL_SCHEDULE = [
-            { id: 'TR-101', name: 'RailNusa Express 101', from: 'Medan', to: 'Jakarta', dep: '08:30', arr: '17:00', duration: '8h 30m', class: 'Luxury', status: 'On Schedule' },
-            { id: 'TR-102', name: 'Sumatra Intercity 102', from: 'Medan', to: 'Kisaran', dep: '09:15', arr: '11:45', duration: '2h 30m', class: 'Executive', status: 'On Schedule' },
-            { id: 'TR-205', name: 'Nusantara Argo 205', from: 'Jakarta', to: 'Surabaya', dep: '08:00', arr: '17:30', duration: '9h 30m', class: 'Executive', status: 'On Schedule' },
-            { id: 'TR-208', name: 'Argo Parahyangan 42', from: 'Jakarta', to: 'Bandung', dep: '10:00', arr: '12:45', duration: '2h 45m', class: 'Executive', status: 'On Schedule' },
-            { id: 'TR-305', name: 'Taksaka Malam 68', from: 'Jakarta', to: 'Yogyakarta', dep: '19:00', arr: '02:15', duration: '7h 15m', class: 'Luxury', status: 'On Schedule' },
-            { id: 'TR-308', name: 'Lembah Serayu 77', from: 'Bandung', to: 'Purwokerto', dep: '13:30', arr: '18:10', duration: '4h 40m', class: 'Economy', status: 'On Schedule' },
-            { id: 'TR-412', name: 'Sembrani Express 04', from: 'Jakarta', to: 'Semarang', dep: '11:20', arr: '16:40', duration: '5h 20m', class: 'Executive', status: 'On Schedule' },
-            { id: 'TR-501', name: 'Sancaka Pagi 88', from: 'Yogyakarta', to: 'Surabaya', dep: '06:45', arr: '11:40', duration: '4h 55m', class: 'Business', status: 'On Schedule' },
-            { id: 'TR-602', name: 'Sriwijaya Connector', from: 'Medan', to: 'Rantau Prapat', dep: '14:00', arr: '19:15', duration: '5h 15m', class: 'Economy', status: 'On Schedule' }
+            { id: 'KC-1001', name: 'Whoosh KCIC G1001', from: 'Jakarta Halim', to: 'Tegalluar Summarecon', dep: '08:00', arr: '08:45', duration: '45m', class: 'Whoosh First / Exec', status: 'On Schedule' },
+            { id: 'KC-1014', name: 'Whoosh KCIC G1014', from: 'Tegalluar Summarecon', to: 'Jakarta Halim', dep: '09:15', arr: '10:00', duration: '45m', class: 'Whoosh First / Exec', status: 'On Schedule' },
+            { id: 'RL-02', name: 'Railink Kualanamu Express', from: 'Medan', to: 'Bandara Kualanamu', dep: '07:20', arr: '07:48', duration: '28m', class: 'Airport Rail', status: 'On Schedule' },
+            { id: 'KA-U72', name: 'Siantar Ekspres (KSPN Toba)', from: 'Medan', to: 'Pematang Siantar', dep: '06:40', arr: '08:50', duration: '2h 10m', class: 'Ekonomi Wisata Toba', status: 'On Schedule' },
+            { id: 'KA-01', name: 'Argo Bromo Anggrek', from: 'Jakarta Gambir', to: 'Surabaya Pasarturi', dep: '08:20', arr: '16:25', duration: '8h 05m', class: 'Luxury Sleeper', status: 'On Schedule' },
+            { id: 'KA-68', name: 'Taksaka Malam', from: 'Jakarta Gambir', to: 'Yogyakarta Tugu', dep: '19:10', arr: '01:25', duration: '6h 15m', class: 'Eksekutif / Luxury', status: 'On Schedule' },
+            { id: 'KA-42', name: 'Argo Parahyangan Panoramic', from: 'Jakarta Gambir', to: 'Bandung Hall', dep: '09:30', arr: '12:15', duration: '2h 45m', class: 'Panoramic / Exec', status: 'On Schedule' },
+            { id: 'KA-U52', name: 'Sribilah Utama', from: 'Medan', to: 'Rantau Prapat', dep: '07:50', arr: '13:00', duration: '5h 10m', class: 'Eksekutif & Bisnis', status: 'On Schedule' },
+            { id: 'LRT-J01', name: 'LRT Jabodebek Feeder', from: 'Dukuh Atas BNI', to: 'Halim Whoosh Hub', dep: '07:15', arr: '07:38', duration: '23m', class: 'Urban Light Rail', status: 'On Schedule' }
         ];
 
         let currentChecklist = [
-            { id: 1, text: 'Ticket / Digital Booking Code', checked: true },
-            { id: 2, text: 'ID Card (KTP / Passport)', checked: true },
-            { id: 3, text: 'Smartphone & Banking App', checked: true },
-            { id: 4, text: 'Fast Charger & USB-C Cable', checked: true },
-            { id: 5, text: 'Power Bank (10,000+ mAh)', checked: true },
-            { id: 6, text: 'Wallet & Cashless E-Money Cards', checked: false },
-            { id: 7, text: 'Water Bottle / Reusable Tumbler', checked: false },
-            { id: 8, text: 'Compact Travel Umbrella (Rain expected)', checked: false }
+            { id: 1, text: 'Tiket Whoosh / KAI Access QR Code', checked: true },
+            { id: 2, text: 'KTP / Identitas Resmi', checked: true },
+            { id: 3, text: 'Smartphone & E-Banking / Cashless Pay', checked: true },
+            { id: 4, text: 'Power Bank & Kabel USB-C Fast Charging', checked: true },
+            { id: 5, text: 'Laptop & Bahan Paparan Eksekutif (Presentasi)', checked: true },
+            { id: 6, text: 'Jaket Ringan untuk Kabin Ber-AC Dingin', checked: false },
+            { id: 7, text: 'Tumbler Minum Ramah Lingkungan (Green ESG)', checked: false },
+            { id: 8, text: 'Payung Lipat Ringkas (Antisipasi Hujan Pegunungan)', checked: false }
         ];
 
         let activeTrips = [
             {
                 id: 'TRIP-DEMO-01',
-                title: 'Medan → Jakarta',
+                title: 'Jakarta Halim → Tegalluar Bandung',
                 date: '25 September 2026',
-                time: '08:30 WIB',
-                train: 'RailNusa Express 101',
+                time: '08:00 WIB',
+                train: 'Kereta Cepat Whoosh G1001',
                 status: 'Upcoming',
-                class: 'Executive Sleeper',
-                pnr: 'RN-9842-MDN'
+                class: 'Whoosh First Class',
+                pnr: 'KCIC-9842-HLM'
             }
         ];
 
         let activeNotifications = [
-            { id: 1, title: 'Check-in Gate Reminder', time: '10m ago', text: 'Gate for RailNusa Express 101 opens at 08:00 WIB (Platform 3).', type: 'info' },
-            { id: 2, title: 'Weather Advisory at Transit Hub', time: '35m ago', text: 'Scattered drizzle forecasted around midday at Station A.', type: 'warning' }
+            { id: 1, title: 'Check-in Gate Whoosh Dibuka', time: '10m lalu', text: 'Boarding Whoosh G1001 di Stasiun Halim Concourse Platform 2 dibuka pukul 07:45 WIB.', type: 'info' },
+            { id: 2, title: 'Konektivitas KA Feeder Bandung Siap', time: '25m lalu', text: 'KA Feeder di Stasiun Padalarang siap mengantar penumpang Whoosh ke Bandung Hall (20 mnt).', type: 'info' }
         ];
 
         // Global App State
@@ -3076,7 +3180,7 @@
         }
 
         /* =========================================================================
-           3. LEAFLET MAP INITIALIZATION & VISUALIZATION
+           3. LEAFLET MAP INITIALIZATION & VISUALIZATION (REAL INDONESIAN NETWORK)
            ========================================================================= */
         function initLeafletMap() {
             const mapEl = document.getElementById('leafletMap');
@@ -3084,66 +3188,130 @@
 
             // Centered around Java & Sumatra
             leafletMapInstance = L.map('leafletMap', {
-                center: [-2.0, 105.0],
+                center: [-2.2, 105.2],
                 zoom: 5.5,
                 zoomControl: true,
                 attributionControl: false
             });
 
-            // CartoDB Dark Matter Tiles (Modern, clean, tech aesthetic)
+            // CartoDB Dark Matter Tiles (Tech aesthetic)
             L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
                 maxZoom: 18,
                 subdomains: 'abcd',
                 opacity: 0.95
             }).addTo(leafletMapInstance);
 
-            // Draw Rail Corridors (Polylines)
-            // Sumatra Line: Medan -> Kisaran -> Rantau Prapat
-            const sumatraPoints = [
-                [3.5910, 98.6750], // Medan
-                [2.9833, 99.6167], // Kisaran
-                [2.0990, 99.8285]  // Rantau Prapat
+            // CORRIDOR 1: WHOOSH HIGH SPEED RAIL (350 KM/H)
+            // Halim -> Karawang -> Padalarang -> Tegalluar
+            const whooshPoints = [
+                [-6.2464, 106.8833], // Halim
+                [-6.3456, 107.2472], // Karawang
+                [-6.8427, 107.4984], // Padalarang Hub
+                [-6.9632, 107.7145]  // Tegalluar Summarecon
             ];
-            L.polyline(sumatraPoints, {
-                color: '#00F0FF',
-                weight: 3.5,
-                opacity: 0.85,
-                dashArray: '8, 8',
+            L.polyline(whooshPoints, {
+                color: '#FF0055',
+                weight: 5,
+                opacity: 0.95,
                 className: 'animated-route-line'
             }).addTo(leafletMapInstance);
 
-            // Java Mainline: Jakarta -> Bandung -> Semarang -> Yogyakarta -> Surabaya
-            const javaPoints = [
-                [-6.1767, 106.8306], // Gambir
-                [-6.9147, 107.6025], // Bandung
-                [-6.9644, 110.4281], // Semarang
-                [-7.7892, 110.3636], // Yogyakarta
-                [-7.2483, 112.7314]  // Surabaya
+            // Feeder Line Padalarang to Bandung Hall
+            const feederPoints = [
+                [-6.8427, 107.4984], // Padalarang
+                [-6.9147, 107.6025]  // Bandung Hall
             ];
-            L.polyline(javaPoints, {
+            L.polyline(feederPoints, {
+                color: '#00F0FF',
+                weight: 3.5,
+                dashArray: '6, 6',
+                opacity: 0.9
+            }).addTo(leafletMapInstance);
+
+            // CORRIDOR 2: SUMATERA UTARA & KSPN DANAU TOBA (DEL)
+            // Branch A: Medan to Bandara Kualanamu Railink
+            const railinkPoints = [
+                [3.5910, 98.6750], // Medan
+                [3.6425, 98.8852]  // Kualanamu
+            ];
+            L.polyline(railinkPoints, {
+                color: '#10B981',
+                weight: 4,
+                opacity: 0.9
+            }).addTo(leafletMapInstance);
+
+            // Branch B: Medan to Pematang Siantar (Gerbang Danau Toba & Kampus Del Laguboti)
+            const tobaPoints = [
+                [3.5910, 98.6750], // Medan
+                [3.3283, 99.1625], // Tebing Tinggi
+                [2.9587, 99.0601]  // Pematang Siantar
+            ];
+            L.polyline(tobaPoints, {
+                color: '#00F0FF',
+                weight: 4,
+                opacity: 0.9,
+                dashArray: '8, 6'
+            }).addTo(leafletMapInstance);
+
+            // Branch C: Tebing Tinggi to Kisaran and Rantau Prapat
+            const sumatraTrunk = [
+                [3.3283, 99.1625], // Tebing Tinggi
+                [2.9833, 99.6167], // Kisaran
+                [2.0990, 99.8285]  // Rantau Prapat
+            ];
+            L.polyline(sumatraTrunk, {
+                color: '#3A86FF',
+                weight: 3,
+                opacity: 0.8
+            }).addTo(leafletMapInstance);
+
+            // CORRIDOR 3: TRANS-JAWA MAINLINES
+            // Pantura: Jakarta Gambir -> Cirebon -> Semarang Tawang -> Surabaya Pasarturi
+            const javaPanturaPoints = [
+                [-6.1767, 106.8306], // Gambir
+                [-6.7063, 108.5556], // Cirebon
+                [-6.9644, 110.4281], // Semarang Tawang
+                [-7.2483, 112.7314]  // Surabaya Pasarturi
+            ];
+            L.polyline(javaPanturaPoints, {
                 color: '#3A86FF',
                 weight: 3.5,
                 opacity: 0.85
             }).addTo(leafletMapInstance);
 
-            // Multi-modal connecting shipping / airway bridge (Medan to Jakarta)
+            // Java Selatan: Gambir -> Purwokerto -> Yogyakarta Tugu
+            const javaSelatanPoints = [
+                [-6.1767, 106.8306], // Gambir
+                [-7.4186, 109.2222], // Purwokerto
+                [-7.7892, 110.3636]  // Yogyakarta
+            ];
+            L.polyline(javaSelatanPoints, {
+                color: '#8B5CF6',
+                weight: 3,
+                opacity: 0.8
+            }).addTo(leafletMapInstance);
+
+            // Multimodal Flight Bridge (Medan Kualanamu to Jakarta Halim)
             const interIslandPoints = [
-                [2.0990, 99.8285],
-                [-6.1767, 106.8306]
+                [3.6425, 98.8852],
+                [-6.2464, 106.8833]
             ];
             L.polyline(interIslandPoints, {
-                color: '#8B5CF6',
+                color: '#F59E0B',
                 weight: 2,
                 dashArray: '5, 10',
-                opacity: 0.6
+                opacity: 0.5
             }).addTo(leafletMapInstance);
 
             // Add Station Markers with popups
             STATIONS_DATA.forEach(st => {
-                const isHub = st.id === 'MDN' || st.id === 'GMR';
+                const isWhoosh = st.id === 'HLM' || st.id === 'PDL' || st.id === 'TGL' || st.id === 'KAW';
+                const isToba = st.id === 'SIR' || st.id === 'MDN' || st.id === 'KNM';
+                const markerColor = isWhoosh ? 'bg-rose-500 shadow-rose-500/50' : (isToba ? 'bg-accent-cyan shadow-accent-cyan/50' : 'bg-accent-blue shadow-blue-500/50');
+                
                 const markerHtml = `
           <div class="relative cursor-pointer">
-            <div class="w-4 h-4 rounded-full ${isHub ? 'bg-accent-cyan glow-cyan' : 'bg-accent-blue'} border-2 border-navy-950 flex items-center justify-center">
+            <div class="w-4 h-4 rounded-full ${markerColor} shadow-lg border-2 border-navy-950 flex items-center justify-center">
               <div class="w-1.5 h-1.5 rounded-full bg-white"></div>
             </div>
           </div>
@@ -3163,17 +3331,17 @@
             </div>
             <p class="text-slate-300">${st.desc}</p>
             <div class="grid grid-cols-2 gap-2 text-[11px] text-slate-400 bg-navy-900 p-2 rounded">
-              <div>Departures: <span class="text-white font-bold">${st.departures}</span></div>
-              <div>Arrivals: <span class="text-white font-bold">${st.arrivals}</span></div>
+              <div>Keberangkatan: <span class="text-white font-bold">${st.departures} / hari</span></div>
+              <div>Kedatangan: <span class="text-white font-bold">${st.arrivals} / hari</span></div>
             </div>
             <div class="pt-1">
-              <span class="text-[10px] text-slate-400 block mb-1">Facilities:</span>
+              <span class="text-[10px] text-slate-400 block mb-1">Fasilitas Intermoda:</span>
               <div class="flex flex-wrap gap-1">
                 ${st.facilities.map(f => `<span class="bg-navy-900 text-accent-cyanLight px-1.5 py-0.5 rounded text-[10px]">${f}</span>`).join('')}
               </div>
             </div>
             <button onclick="inspectStationOnPanel('${st.id}')" class="w-full mt-2 py-1.5 rounded-lg bg-accent-blue hover:bg-blue-600 text-white font-semibold text-[11px] transition">
-              View Station Details
+              Buka Rincian Stasiun
             </button>
           </div>
         `;
@@ -3193,33 +3361,34 @@
             if (!leafletMapInstance) return;
 
             const trainLocs = [
-                { code: 'TR-101', name: 'RailNusa 101', lat: 3.25, lng: 99.15, speed: '82 km/h' },
-                { code: 'TR-205', name: 'Argo 205', lat: -6.55, lng: 108.80, speed: '110 km/h' },
-                { code: 'TR-308', name: 'Lembah 308', lat: -7.35, lng: 109.05, speed: '68 km/h' }
+                { code: 'Whoosh G1001', name: 'Kereta Cepat Whoosh (Halim-Tegalluar)', lat: -6.55, lng: 107.38, speed: '348 km/h', color: 'bg-rose-500' },
+                { code: 'Siantar U72', name: 'KA Siantar Ekspres (Danau Toba / Del)', lat: 3.22, lng: 99.12, speed: '78 km/h', color: 'bg-accent-cyan' },
+                { code: 'Argo Bromo 01', name: 'KA Argo Bromo Anggrek (Gambir-Surabaya)', lat: -6.85, lng: 109.65, speed: '118 km/h', color: 'bg-accent-blue' },
+                { code: 'Railink 02', name: 'Railink Kualanamu Express', lat: 3.62, lng: 98.78, speed: '85 km/h', color: 'bg-accent-emerald' }
             ];
 
             trainLocs.forEach(tr => {
                 const trainIconHtml = `
           <div class="custom-train-marker animate-train-glow cursor-pointer">
-            <div class="px-2 py-0.5 rounded-full bg-accent-cyan text-navy-950 font-bold text-[10px] shadow-lg flex items-center gap-1 border border-white">
-              <span>🚆</span> <span>${tr.code}</span>
+            <div class="px-2 py-0.5 rounded-full ${tr.color} text-white font-bold text-[10px] shadow-lg flex items-center gap-1 border border-white">
+              <span>🚅</span> <span>${tr.code}</span>
             </div>
           </div>
         `;
                 const icon = L.divIcon({
                     html: trainIconHtml,
                     className: 'train-pin',
-                    iconSize: [75, 24],
-                    iconAnchor: [37, 12]
+                    iconSize: [95, 24],
+                    iconAnchor: [47, 12]
                 });
 
                 const marker = L.marker([tr.lat, tr.lng], { icon: icon }).addTo(leafletMapInstance);
                 marker.bindPopup(`
           <div class="p-1 space-y-1.5 text-xs">
             <strong class="text-accent-cyan text-sm">${tr.name}</strong>
-            <p class="text-slate-300">Speed: ${tr.speed} • Telemetry OK</p>
-            <p class="text-[10px] text-accent-emerald">Status: On Schedule</p>
-            <button onclick="navigateTo('tracking')" class="px-2 py-1 rounded bg-accent-blue text-white text-[10px]">Open Telemetry</button>
+            <p class="text-slate-300">Kecepatan: <strong>${tr.speed}</strong> • Telemetri Normal</p>
+            <p class="text-[10px] text-accent-emerald">Status: Tepat Waktu (On Schedule)</p>
+            <button onclick="navigateTo('tracking')" class="px-2 py-1 rounded bg-accent-blue text-white text-[10px]">Buka Telemetri</button>
           </div>
         `);
                 mapTrainMarkers.push(marker);
@@ -3238,13 +3407,13 @@
                     leafletMapInstance.removeLayer(m);
                 }
             });
-            showToast(`Train tracking markers ${showMapTrains ? 'shown' : 'hidden'} on map.`);
+            showToast(`Marker kereta ${showMapTrains ? 'ditampilkan' : 'disembunyikan'} pada peta.`);
         }
 
         function recenterMap() {
             if (leafletMapInstance) {
-                leafletMapInstance.setView([-2.0, 105.0], 5.5);
-                showToast('Map view reset to full corridor overview.');
+                leafletMapInstance.setView([-2.2, 105.2], 5.5);
+                showToast('Tampilan peta diatur ulang ke ikhtisar koridor nasional.');
             }
         }
 
@@ -3253,7 +3422,7 @@
             if (st && leafletMapInstance) {
                 leafletMapInstance.setView([st.lat, st.lng], 9);
                 inspectStationOnPanel(st.id);
-                showToast(`Map centered on ${st.name}.`);
+                showToast(`Peta difokuskan ke ${st.name}.`);
             }
         }
 
@@ -3272,24 +3441,24 @@
           </div>
           <p class="text-slate-300 text-xs">${st.desc}</p>
           <div class="grid grid-cols-2 gap-2 text-slate-300 text-[11px] pt-1">
-            <div>Departures: <strong class="text-white">${st.departures} / day</strong></div>
-            <div>Arrivals: <strong class="text-white">${st.arrivals} / day</strong></div>
+            <div>Keberangkatan: <strong class="text-white">${st.departures} / hari</strong></div>
+            <div>Kedatangan: <strong class="text-white">${st.arrivals} / hari</strong></div>
           </div>
           <div class="pt-2 border-t border-navy-700">
-            <span class="text-[10px] text-slate-400 block mb-1">Facilities Available:</span>
+            <span class="text-[10px] text-slate-400 block mb-1">Fasilitas Tersedia:</span>
             <div class="flex flex-wrap gap-1">
               ${st.facilities.map(f => `<span class="bg-navy-800 text-accent-cyan px-2 py-0.5 rounded text-[10px]">${f}</span>`).join('')}
             </div>
           </div>
           <button onclick="navigateTo('journey')" class="w-full mt-2 py-1.5 rounded-xl bg-accent-blue hover:bg-blue-600 text-white font-semibold text-xs transition">
-            Plan Journey from ${st.name}
+            Rencanakan Perjalanan dari ${st.name}
           </button>
         </div>
       `;
         }
 
         /* =========================================================================
-           4. SIMULATE TRAIN DELAY (WAJIB CORE DEMO)
+           4. SIMULATE TRAIN DELAY (DYNAMIC MITIGATION & RESILIENCE)
            ========================================================================= */
         function triggerSimulateDelay() {
             isDelaySimulated = !isDelaySimulated;
@@ -3307,45 +3476,44 @@
             const notifBadge = document.getElementById('notifBadge');
 
             if (isDelaySimulated) {
-                // Delayed State (35 mins delay on Train 101)
+                // Delayed State on Whoosh G1001 (+15 min)
                 if (heroTrainBadge) {
                     heroTrainBadge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-accent-amber/20 text-accent-amber border border-accent-amber/40';
-                    heroTrainBadge.innerText = 'Delayed 35 min';
+                    heroTrainBadge.innerText = 'Penyesuaian +15 min';
                 }
                 if (dashTrainStatusBadge) {
                     dashTrainStatusBadge.className = 'px-3 py-1 rounded-full text-xs font-semibold bg-accent-amber/20 text-accent-amber border border-accent-amber/40 flex items-center gap-1.5';
-                    dashTrainStatusBadge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-accent-amber"></span> Delayed 35 min';
+                    dashTrainStatusBadge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-accent-amber"></span> Penyesuaian Jadwal +15 min';
                 }
                 if (dashDelayAlertBox) dashDelayAlertBox.classList.remove('hidden');
-                if (dashArrivalETA) dashArrivalETA.innerText = '17:35';
+                if (dashArrivalETA) dashArrivalETA.innerText = '09:00';
                 if (trackStatusBadge) {
                     trackStatusBadge.className = 'px-2.5 py-0.5 rounded-full text-xs font-bold bg-accent-amber/20 text-accent-amber border border-accent-amber/40';
-                    trackStatusBadge.innerText = '🟠 Delayed 35 min';
+                    trackStatusBadge.innerText = '🟠 Mitigasi Interlocking (+15 min)';
                 }
-                if (trackEtaVal) trackEtaVal.innerText = '15:07';
-                if (trackSpeedVal) trackSpeedVal.innerHTML = '54 <span class="text-xs text-slate-400 font-normal">km/h</span>';
+                if (trackEtaVal) trackEtaVal.innerText = '08:47';
+                if (trackSpeedVal) trackSpeedVal.innerHTML = '120 <span class="text-xs text-slate-400 font-normal">km/h</span>';
                 if (kpiOnSchedule) {
-                    kpiOnSchedule.innerText = '87.8%';
+                    kpiOnSchedule.innerText = '98.8%';
                     kpiOnSchedule.className = 'font-display font-bold text-2xl text-accent-amber';
                 }
                 if (btnDelaySim) {
                     btnDelaySim.className = 'px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all bg-accent-rose text-white shadow-lg animate-pulse';
-                    btnDelaySim.innerHTML = '<i data-lucide="check" class="w-3.5 h-3.5"></i> Revert Delay';
+                    btnDelaySim.innerHTML = '<i data-lucide="check" class="w-3.5 h-3.5"></i> Pulihkan Jadwal';
                 }
                 if (sidebarAlertCount) sidebarAlertCount.innerText = '3';
                 if (notifBadge) notifBadge.classList.remove('hidden');
 
-                // Add new disruption notification
                 activeNotifications.unshift({
                     id: Date.now(),
-                    title: '⚠️ Train 101 Delayed 35 min',
-                    time: 'Just now',
-                    text: 'Signal inspection on Corridor Station A. Alternative route Train 105 is ready.',
+                    title: '⚠️ Whoosh G1001 Pemeriksaan Sinyal',
+                    time: 'Baru saja',
+                    text: 'Inspeksi interlocking jalur Karawang-Padalarang. Slot alternatif Whoosh G1005 & KA Feeder disiapkan otomatis.',
                     type: 'danger'
                 });
                 renderNotifications();
 
-                showToast('⚠️ Alert: RailNusa Express 101 delayed by 35 min. Recalculating alternatives...');
+                showToast('⚠️ Peringatan: Whoosh G1001 menyesuaikan kecepatan 120 km/h (+15m). Opsi reroute otomatis aktif!');
             } else {
                 // Revert to On Schedule
                 if (heroTrainBadge) {
@@ -3354,101 +3522,108 @@
                 }
                 if (dashTrainStatusBadge) {
                     dashTrainStatusBadge.className = 'px-3 py-1 rounded-full text-xs font-semibold bg-accent-emerald/20 text-accent-emerald border border-accent-emerald/30 flex items-center gap-1.5';
-                    dashTrainStatusBadge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-accent-emerald"></span> On Schedule';
+                    dashTrainStatusBadge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-accent-emerald"></span> Tepat Waktu (On Schedule)';
                 }
                 if (dashDelayAlertBox) dashDelayAlertBox.classList.add('hidden');
-                if (dashArrivalETA) dashArrivalETA.innerText = '17:00';
+                if (dashArrivalETA) dashArrivalETA.innerText = '08:45';
                 if (trackStatusBadge) {
                     trackStatusBadge.className = 'px-2.5 py-0.5 rounded-full text-xs font-bold bg-accent-emerald/20 text-accent-emerald border border-accent-emerald/30';
-                    trackStatusBadge.innerText = 'On Schedule';
+                    trackStatusBadge.innerText = 'Tepat Waktu (On Schedule)';
                 }
-                if (trackEtaVal) trackEtaVal.innerText = '14:32';
-                if (trackSpeedVal) trackSpeedVal.innerHTML = '82 <span class="text-xs text-slate-400 font-normal">km/h</span>';
+                if (trackEtaVal) trackEtaVal.innerText = '08:32';
+                if (trackSpeedVal) trackSpeedVal.innerHTML = '348 <span class="text-xs text-slate-400 font-normal">km/h</span>';
                 if (kpiOnSchedule) {
-                    kpiOnSchedule.innerText = '91.4%';
+                    kpiOnSchedule.innerText = '99.4%';
                     kpiOnSchedule.className = 'font-display font-bold text-2xl text-accent-emerald';
                 }
                 if (btnDelaySim) {
                     btnDelaySim.className = 'px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all bg-accent-amber/15 text-accent-amber border border-accent-amber/40 hover:bg-accent-amber/25';
-                    btnDelaySim.innerHTML = '<i data-lucide="alert-triangle" class="w-3.5 h-3.5 animate-pulse"></i> <span class="hidden sm:inline">Simulate Delay</span><span class="sm:hidden">Delay</span>';
+                    btnDelaySim.innerHTML = '<i data-lucide="alert-triangle" class="w-3.5 h-3.5 animate-pulse"></i> <span class="hidden sm:inline">Simulasi Gangguan</span><span class="sm:hidden">Delay</span>';
                 }
                 if (sidebarAlertCount) sidebarAlertCount.innerText = '2';
 
-                showToast('🟢 Train 101 restored to On Schedule status.');
+                showToast('🟢 Whoosh G1001 kembali ke status Tepat Waktu (348 km/h).');
             }
             lucide.createIcons();
         }
 
         /* =========================================================================
-           5. PRESENTATION / DEMO MODE (WAJIB CORE DEMO)
+           5. PRESENTATION / DEMO MODE (STRATEGIC EXECUTIVE DECK PAK LUHUT)
            ========================================================================= */
         const DEMO_STEPS = [
             {
                 step: 1,
-                title: 'Step 1/9: Hero & Concept',
-                desc: 'Hero section showcasing RailNusa vision, network preview, and 6 core platform pillars.',
+                title: '1/9: Executive Overview & Visi Dekarbonisasi',
+                desc: 'Visi transformasi transportasi kereta api nasional: Kereta Cepat Whoosh 350 km/h, integrasi LRT Jabodebek, dan Koridor Strategis KSPN Danau Toba.',
                 action: () => navigateTo('landing')
             },
             {
                 step: 2,
-                title: 'Step 2/9: Main SaaS Dashboard',
-                desc: 'Traveler dashboard with active journey overview, speed metrics, and weather card.',
+                title: '2/9: Executive Dashboard & KPI Operasional',
+                desc: 'Dashboard pengambil kebijakan: On-Time Performance 99.4%, kecepatan puncak 350 km/h, 845K penumpang harian, dan 85.2% reduksi emisi karbon.',
                 action: () => navigateTo('dashboard')
             },
             {
                 step: 3,
-                title: 'Step 3/9: Search & Journey Planner',
-                desc: 'Interactive journey planner finding fastest, budget, and eco options from Medan to Jakarta.',
+                title: '3/9: Perencana Perjalanan & Interkoneksi Multimoda',
+                desc: 'Simulasi rute Jakarta Halim ke Bandung Tegalluar (Whoosh 45m) serta opsi transit Feeder ke pusat Kota Bandung (Stasiun Bandung Hall).',
                 action: () => {
                     navigateTo('journey');
-                    document.getElementById('planOrigin').value = 'Medan';
-                    document.getElementById('planDestination').value = 'Jakarta';
+                    document.getElementById('planOrigin').value = 'Jakarta-Halim';
+                    document.getElementById('planDestination').value = 'Bandung-Tegalluar';
+                    handleFindJourney(new Event('submit'));
                 }
             },
             {
                 step: 4,
-                title: 'Step 4/9: Detailed Itinerary & Timeline',
-                desc: 'Full breakdown of transfers, platform gate, emissions (18.4kg), and segmented timeline.',
+                title: '4/9: Rincian Jadwal Whoosh & Dekarbonisasi ESG',
+                desc: 'Jadwal presisi keberangkatan Halim, integrasi skybridge LRT Jabodebek, transfer Padalarang, dan penghematan emisi CO2 hingga 85%.',
                 action: () => openJourneyDetailsModal('fastest')
             },
             {
                 step: 5,
-                title: 'Step 5/9: Interactive Railway Map',
-                desc: 'Geospatial visualization of multi-island corridors with Leaflet nodes and live moving trains.',
+                title: '5/9: Koridor Strategis KSPN Danau Toba & Kampus Del',
+                desc: 'Perjalanan Divre I Sumut: KA Siantar Ekspres (Medan ➔ Pematang Siantar) sebagai gerbang rel Danau Toba & poros Balige/Laguboti (Institut Teknologi Del).',
+                action: () => {
+                    closeJourneyDetailsModal();
+                    navigateTo('journey');
+                    document.getElementById('planOrigin').value = 'Medan';
+                    document.getElementById('planDestination').value = 'Siantar';
+                    handleFindJourney(new Event('submit'));
+                }
+            },
+            {
+                step: 6,
+                title: '6/9: Peta Geospasial Jaringan Rel Nasional',
+                desc: 'Visualisasi geospasial Leaflet: Koridor Whoosh Jakarta-Bandung (merah 350 km/h), Lintas KSPN Toba & Sumut (cyan), dan Trans-Jawa Pantura/Selatan (biru).',
                 action: () => {
                     closeJourneyDetailsModal();
                     navigateTo('map');
                 }
             },
             {
-                step: 6,
-                title: 'Step 6/9: Live Train Telemetry Tracking',
-                desc: 'Train 101 speed telemetry, intermediate station ETA, and ASCII/graphic progress bar.',
+                step: 7,
+                title: '7/9: Live Telemetry Whoosh G1001 & Armada Aktif',
+                desc: 'Pemantauan sensor IoT kecepatan Whoosh 348 km/h, posisi KA Siantar Ekspres di Sumut, dan KA Argo Bromo Anggrek Pantura.',
                 action: () => navigateTo('tracking')
             },
             {
-                step: 7,
-                title: 'Step 7/9: Disruption & Delay Simulation',
-                desc: 'Triggering 35-min delay on Train 101, updating ETA to 17:35, and recalculating routes.',
+                step: 8,
+                title: '8/9: Resiliensi Sistem & Mitigasi Gangguan Dinamis',
+                desc: 'Simulasi penanganan kendala interlocking: sistem otomatis mendeteksi penyesuaian jadwal dan merekomendasikan opsi Whoosh G1005 tanpa surcharge.',
                 action: () => {
                     if (!isDelaySimulated) triggerSimulateDelay();
-                    navigateTo('tracking');
+                    openAlternativeRouteModal();
                 }
             },
             {
-                step: 8,
-                title: 'Step 8/9: Smart Alternative Reroute',
-                desc: 'System detects disruption and presents Train 105 bypass alternative without surcharge.',
-                action: () => openAlternativeRouteModal()
-            },
-            {
                 step: 9,
-                title: 'Step 9/9: AI Travel Assistant & Checklist',
-                desc: 'Demonstrating generative RailNusa AI answering natural language journey preparation queries.',
+                title: '9/9: AI Assistant & Analitik Pengambilan Kebijakan',
+                desc: 'RailNusa AI menjawab konsultasi kebijakan, analisis efisiensi waktu, dan rute perjalanan terintegrasi Danau Toba serta Trans-Jawa.',
                 action: () => {
                     closeAlternativeRouteModal();
                     navigateTo('assistant');
-                    sendAiQuickPrompt('Saya mau pergi dari Medan ke Jakarta pagi hari.');
+                    sendAiQuickPrompt('Analisis performa ketepatan waktu Whoosh dan konektivitas menuju Danau Toba.');
                 }
             }
         ];
