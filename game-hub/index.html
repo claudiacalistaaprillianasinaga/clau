@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GameHub 🎮 - Belajar & Bermain Seru!</title>
+  <meta name="description" content="Tiga game seru: Kuis Bahasa ala Duolingo, Puzzle Geser, dan Teka-Teki Seru. Asah otak sambil bersenang-senang!" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Animated Background Particles -->
+  <div class="particles" id="particles"></div>
+
+  <!-- MAIN NAVIGATION -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">🎮</span>
+        <span class="logo-text">GameHub</span>
+      </div>
+      <nav class="score-bar">
+        <div class="stat-badge" id="total-xp-badge">
+          <span class="stat-icon">⭐</span>
+          <span class="stat-val" id="total-xp">0</span>
+          <span class="stat-lbl">XP</span>
+        </div>
+        <div class="stat-badge" id="streak-badge">
+          <span class="stat-icon">🔥</span>
+          <span class="stat-val" id="streak-count">0</span>
+          <span class="stat-lbl">Streak</span>
+        </div>
+        <div class="stat-badge">
+          <span class="stat-icon">🏆</span>
+          <span class="stat-val" id="level-val">1</span>
+          <span class="stat-lbl">Level</span>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===========================
+       HOME SCREEN
+  =========================== -->
+  <main id="home-screen" class="screen active">
+    <section class="hero">
+      <div class="hero-badge">✨ 3 Game Seru Menunggumu!</div>
+      <h1 class="hero-title">Belajar &amp; Bermain<br /><span class="gradient-text">Setiap Hari</span></h1>
+      <p class="hero-sub">Asah otakmu dengan game bahasa, puzzle seru, dan teka-teki mengasyikkan</p>
+    </section>
+
+    <div class="game-cards">
+      <!-- Card 1: Language Quiz -->
+      <div class="game-card" id="card-language" onclick="showGame('language')">
+        <div class="card-glow glow-green"></div>
+        <div class="card-icon-wrap">
+          <div class="card-emoji">🦉</div>
+          <div class="card-badge-xp">+10 XP</div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Kuis Bahasa</h2>
+          <p class="card-desc">Terjemahkan kata dan kalimat dalam berbagai bahasa. Mirip Duolingo tapi lebih seru!</p>
+          <div class="card-tags">
+            <span class="tag tag-green">Bahasa</span>
+            <span class="tag tag-blue">Edukasi</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="card-diff">
+            <span class="diff-dot easy"></span> Mudah - Sulit
+          </div>
+          <button class="card-btn btn-green">Main Sekarang →</button>
+        </div>
+      </div>
+
+      <!-- Card 2: Sliding Puzzle -->
+      <div class="game-card" id="card-puzzle" onclick="showGame('puzzle')">
+        <div class="card-glow glow-purple"></div>
+        <div class="card-icon-wrap">
+          <div class="card-emoji">🧩</div>
+          <div class="card-badge-xp">+15 XP</div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Puzzle Geser</h2>
+          <p class="card-desc">Susun potongan gambar dengan menggeser kotak-kotak. Uji kemampuan spasialmu!</p>
+          <div class="card-tags">
+            <span class="tag tag-purple">Puzzle</span>
+            <span class="tag tag-pink">Logika</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="card-diff">
+            <span class="diff-dot medium"></span> Menantang
+          </div>
+          <button class="card-btn btn-purple">Main Sekarang →</button>
+        </div>
+      </div>
+
+      <!-- Card 3: Riddles -->
+      <div class="game-card" id="card-riddle" onclick="showGame('riddle')">
+        <div class="card-glow glow-orange"></div>
+        <div class="card-icon-wrap">
+          <div class="card-emoji">🔮</div>
+          <div class="card-badge-xp">+20 XP</div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Teka-Teki Seru</h2>
+          <p class="card-desc">Pecahkan teka-teki jenaka dan misterius. Berapa banyak yang bisa kamu jawab benar?</p>
+          <div class="card-tags">
+            <span class="tag tag-orange">Teka-Teki</span>
+            <span class="tag tag-red">Brain Teaser</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="card-diff">
+            <span class="diff-dot hard"></span> Sulit
+          </div>
+          <button class="card-btn btn-orange">Main Sekarang →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Daily Progress -->
+    <div class="daily-progress">
+      <div class="daily-header">
+        <span>🎯 Target Harian</span>
+        <span id="daily-pct">0%</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="daily-bar"></div>
+      </div>
+      <p class="daily-tip">Mainkan 3 game hari ini untuk mendapatkan bonus XP!</p>
+    </div>
+  </main>
+
+  <!-- ===========================
+       GAME 1: LANGUAGE QUIZ
+  =========================== -->
+  <section id="language-screen" class="screen game-screen">
+    <div class="game-header">
+      <button class="back-btn" onclick="goHome()">← Kembali</button>
+      <div class="game-title-wrap">
+        <span class="game-emoji">🦉</span>
+        <h2>Kuis Bahasa</h2>
+      </div>
+      <div class="game-lives" id="lang-lives">❤️❤️❤️</div>
+    </div>
+
+    <div class="game-content" id="language-content">
+      <!-- Progress bar -->
+      <div class="quest-progress">
+        <div class="quest-bar-track">
+          <div class="quest-bar-fill" id="lang-progress-bar"></div>
+        </div>
+        <span id="lang-q-num">1/10</span>
+      </div>
+
+      <!-- Question Area -->
+      <div class="question-card" id="lang-question-card">
+        <div class="question-level-badge" id="lang-level-badge">Level 1</div>
+        <div class="question-flag" id="lang-flag">🇬🇧</div>
+        <p class="question-instruction" id="lang-instruction">Apa arti kata ini dalam Bahasa Indonesia?</p>
+        <div class="question-word" id="lang-word">Hello</div>
+      </div>
+
+      <!-- Answer Options -->
+      <div class="answer-grid" id="lang-answers"></div>
+
+      <!-- Feedback -->
+      <div class="feedback-panel" id="lang-feedback" style="display:none">
+        <div class="feedback-icon" id="lang-feedback-icon"></div>
+        <div class="feedback-text" id="lang-feedback-text"></div>
+        <button class="btn-next" id="lang-next-btn" onclick="nextLangQuestion()">Lanjut →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===========================
+       GAME 2: SLIDING PUZZLE
+  =========================== -->
+  <section id="puzzle-screen" class="screen game-screen">
+    <div class="game-header">
+      <button class="back-btn" onclick="goHome()">← Kembali</button>
+      <div class="game-title-wrap">
+        <span class="game-emoji">🧩</span>
+        <h2>Puzzle Geser</h2>
+      </div>
+      <div class="puzzle-timer" id="puzzle-timer">⏱ 0:00</div>
+    </div>
+
+    <div class="game-content">
+      <div class="puzzle-info-bar">
+        <div class="puzzle-stat">
+          <span class="ps-label">Langkah</span>
+          <span class="ps-val" id="move-count">0</span>
+        </div>
+        <div class="puzzle-difficulty-select">
+          <button class="diff-btn active" onclick="setPuzzleSize(3, this)">3×3</button>
+          <button class="diff-btn" onclick="setPuzzleSize(4, this)">4×4</button>
+          <button class="diff-btn" onclick="setPuzzleSize(5, this)">5×5</button>
+        </div>
+        <div class="puzzle-stat">
+          <span class="ps-label">Rekor</span>
+          <span class="ps-val" id="puzzle-best">—</span>
+        </div>
+      </div>
+
+      <div class="puzzle-wrapper">
+        <div class="puzzle-grid" id="puzzle-grid"></div>
+        <div class="puzzle-win-overlay" id="puzzle-win" style="display:none">
+          <div class="win-content">
+            <div class="win-emoji">🎉</div>
+            <h3>Selesai!</h3>
+            <p id="win-stats">0 langkah • 0:00</p>
+            <div class="win-xp">+15 XP</div>
+            <button class="btn-play-again" onclick="initPuzzle()">Main Lagi</button>
+            <button class="btn-play-again btn-outline" onclick="goHome()">Menu Utama</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="puzzle-controls">
+        <button class="ctrl-btn" onclick="shufflePuzzle()">🔀 Acak Ulang</button>
+        <button class="ctrl-btn" onclick="solvePuzzle()">💡 Petunjuk</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===========================
+       GAME 3: RIDDLES
+  =========================== -->
+  <section id="riddle-screen" class="screen game-screen">
+    <div class="game-header">
+      <button class="back-btn" onclick="goHome()">← Kembali</button>
+      <div class="game-title-wrap">
+        <span class="game-emoji">🔮</span>
+        <h2>Teka-Teki Seru</h2>
+      </div>
+      <div class="game-lives" id="riddle-lives">❤️❤️❤️</div>
+    </div>
+
+    <div class="game-content">
+      <div class="quest-progress">
+        <div class="quest-bar-track">
+          <div class="quest-bar-fill" id="riddle-progress-bar"></div>
+        </div>
+        <span id="riddle-q-num">1/10</span>
+      </div>
+
+      <div class="riddle-card" id="riddle-card">
+        <div class="riddle-category" id="riddle-category">🤔 Logika</div>
+        <div class="riddle-question-icon">🔮</div>
+        <p class="riddle-text" id="riddle-text">Loading...</p>
+        <div class="riddle-hint-wrap">
+          <button class="hint-btn" id="hint-btn" onclick="showHint()">💡 Tampilkan Petunjuk</button>
+          <div class="riddle-hint" id="riddle-hint" style="display:none"></div>
+        </div>
+      </div>
+
+      <!-- Answer input -->
+      <div class="riddle-answer-wrap">
+        <div class="riddle-options" id="riddle-options"></div>
+      </div>
+
+      <!-- Feedback -->
+      <div class="feedback-panel" id="riddle-feedback" style="display:none">
+        <div class="feedback-icon" id="riddle-feedback-icon"></div>
+        <div class="feedback-text" id="riddle-feedback-text"></div>
+        <div class="riddle-explanation" id="riddle-explanation"></div>
+        <button class="btn-next" id="riddle-next-btn" onclick="nextRiddle()">Teka-Teki Berikutnya →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===========================
+       GAME COMPLETE MODAL
+  =========================== -->
+  <div class="modal-overlay" id="complete-modal" style="display:none">
+    <div class="modal-box">
+      <div class="modal-confetti" id="confetti-container"></div>
+      <div class="modal-emoji" id="modal-emoji">🏆</div>
+      <h2 id="modal-title">Game Selesai!</h2>
+      <p id="modal-desc">Kamu luar biasa!</p>
+      <div class="modal-xp" id="modal-xp">+0 XP</div>
+      <div class="modal-stars" id="modal-stars">⭐⭐⭐</div>
+      <div class="modal-btns">
+        <button class="btn-modal" onclick="restartGame()">🔄 Main Lagi</button>
+        <button class="btn-modal btn-modal-outline" onclick="closeModal()">🏠 Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- XP Toast -->
+  <div class="xp-toast" id="xp-toast" style="display:none"></div>
+
+  <script src="game.js"></script>
+</body>
+</html>

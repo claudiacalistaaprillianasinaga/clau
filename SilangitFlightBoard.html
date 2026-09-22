@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bandara Silangit (DTB) - Informasi Keberangkatan & Kedatangan Pesawat</title>
+  <meta name="description" content="Informasi jadwal keberangkatan dan kedatangan penerbangan real-time Bandara Internasional Raja Sisingamangaraja XII / Silangit (DTB)." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-main: #060913;
+      --bg-panel: #0d1322;
+      --bg-card: #131b2e;
+      --bg-hover: #1a253d;
+      --border: rgba(255, 255, 255, 0.08);
+
+      --accent-blue: #38bdf8;
+      --accent-green: #22c55e;
+      --accent-yellow: #eab308;
+      --accent-red: #ef4444;
+      --accent-purple: #a855f7;
+
+      --text-main: #f8fafc;
+      --text-sub: #94a3b8;
+      --text-muted: #64748b;
+
+      --font-display: 'Chakra Petch', sans-serif;
+      --font-sans: 'Inter', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    /* Top Bar */
+    .top-bar {
+      background: rgba(13, 19, 34, 0.95);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .top-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .airport-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .airport-logo {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 16px rgba(2, 132, 199, 0.4);
+    }
+
+    .airport-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: 0.5px;
+      line-height: 1.2;
+    }
+
+    .airport-sub {
+      font-size: 0.8rem;
+      color: var(--accent-blue);
+      font-weight: 600;
+    }
+
+    .live-status-bar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 0.85rem;
+    }
+
+    .live-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(34, 197, 94, 0.15);
+      color: var(--accent-green);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent-green);
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.3); }
+    }
+
+    .info-badge {
+      color: var(--text-sub);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 20px;
+    }
+
+    /* Hero Weather Banner */
+    .hero-banner {
+      background: linear-gradient(135deg, rgba(2, 132, 199, 0.2), rgba(15, 23, 42, 0.8));
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      align-items: center;
+    }
+
+    .weather-box h3 {
+      font-size: 0.85rem;
+      color: var(--text-sub);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .weather-val {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .weather-desc {
+      font-size: 0.85rem;
+      color: var(--accent-blue);
+    }
+
+    /* Tabs & Controls */
+    .board-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .nav-tabs {
+      display: flex;
+      background: var(--bg-panel);
+      padding: 4px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-sub);
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 10px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tab-btn.active {
+      background: var(--accent-blue);
+      color: #000;
+      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+    }
+
+    .search-box {
+      position: relative;
+      flex: 1;
+      max-width: 320px;
+    }
+
+    .search-input {
+      width: 100%;
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 16px 10px 40px;
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent-blue);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+    }
+
+    /* Flight Board Table */
+    .fids-board {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.95rem;
+    }
+
+    th {
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-sub);
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    td {
+      padding: 18px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      vertical-align: middle;
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    tr:hover td {
+      background: var(--bg-hover);
+    }
+
+    .time-cell {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--accent-blue);
+    }
+
+    .flight-num {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+
+    .airline-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .airline-logo-badge {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.75rem;
+      color: #fff;
+    }
+
+    .destination-cell {
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+
+    .gate-cell {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--text-sub);
+    }
+
+    /* Status Badges */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .status-boarding {
+      background: rgba(34, 197, 94, 0.15);
+      color: var(--accent-green);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      box-shadow: 0 0 12px rgba(34, 197, 94, 0.2);
+    }
+
+    .status-scheduled {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent-blue);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+
+    .status-delayed {
+      background: rgba(234, 179, 8, 0.15);
+      color: var(--accent-yellow);
+      border: 1px solid rgba(234, 179, 8, 0.3);
+    }
+
+    .status-departed, .status-landed {
+      background: rgba(148, 163, 184, 0.15);
+      color: var(--text-sub);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+    }
+
+    /* Footer */
+    .footer {
+      max-width: 1200px;
+      margin: 40px auto 20px;
+      padding: 0 20px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .top-inner { flex-direction: column; align-items: flex-start; }
+      .nav-tabs { width: 100%; justify-content: center; }
+      .search-box { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <header class="top-bar">
+    <div class="top-inner">
+      <div class="airport-brand">
+        <div class="airport-logo">✈️</div>
+        <div>
+          <h1 class="airport-title">BANDARA SILANGIT (DTB)</h1>
+          <div class="airport-sub">Bandara Internasional Raja Sisingamangaraja XII • Danau Toba</div>
+        </div>
+      </div>
+      <div class="live-status-bar">
+        <div class="live-badge">
+          <div class="pulse-dot"></div> LIVE UPDATE
+        </div>
+        <div class="info-badge">
+          🕒 <span id="current-time">00:00:00 WIB</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Hero Airport Info -->
+    <div class="hero-banner">
+      <div class="weather-box">
+        <h3>📍 Lokasi &amp; Cuaca</h3>
+        <div class="weather-val">
+          🌤️ 24°C
+        </div>
+        <div class="weather-desc">Siborong-borong, Tapanuli Utara • Cerah Berawan</div>
+      </div>
+      <div class="weather-box">
+        <h3>🛫 Kode Bandara</h3>
+        <div class="weather-val" style="color: var(--accent-blue);">
+          DTB / WIMN
+        </div>
+        <div class="weather-desc">Elevation: 1,420 m (4,660 ft)</div>
+      </div>
+      <div class="weather-box">
+        <h3>📊 Ringkasan Hari Ini</h3>
+        <div class="weather-val" style="font-size: 1.6rem;">
+          12 Penerbangan
+        </div>
+        <div class="weather-desc">8 Keberangkatan • 4 Kedatangan</div>
+      </div>
+    </div>
+
+    <!-- Board Controls -->
+    <div class="board-controls">
+      <div class="nav-tabs">
+        <button class="tab-btn active" id="tab-departure" onclick="switchTab('departure')">
+          🛫 Keberangkatan (Departures)
+        </button>
+        <button class="tab-btn" id="tab-arrival" onclick="switchTab('arrival')">
+          🛬 Kedatangan (Arrivals)
+        </button>
+      </div>
+
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" class="search-input" id="search-input" placeholder="Cari maskapai, kota, atau kode..." onkeyup="filterFlights()" />
+      </div>
+    </div>
+
+    <!-- Flight Table -->
+    <div class="fids-board">
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Waktu</th>
+              <th>Penerbangan</th>
+              <th>Maskapai</th>
+              <th id="th-dest">Tujuan</th>
+              <th>Gate / Ruang</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="flight-table-body">
+            <!-- Dynamic flight rows inserted by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <p>© 2026 Bandara Internasional Raja Sisingamangaraja XII (Silangit - DTB). Data diperbarui secara real-time.</p>
+  </footer>
+
+  <script>
+    // Data Keberangkatan (Departures)
+    const departures = [
+      { time: '08:30', flight: 'ID 7289', airline: 'Batik Air', logoColor: '#b91c1c', logoText: 'BATIK', dest: 'Jakarta (CGK)', gate: 'Gate 1', status: 'BOARDING', type: 'boarding' },
+      { time: '09:15', flight: 'QG 925',  airline: 'Citilink', logoColor: '#15803d', logoText: 'CITI',  dest: 'Jakarta (HLP)', gate: 'Gate 2', status: 'DIPROSES', type: 'scheduled' },
+      { time: '10:40', flight: 'IU 890',  airline: 'Super Air Jet', logoColor: '#d97706', logoText: 'SAJ', dest: 'Medan (KNO)', gate: 'Gate 1', status: 'TEPAT WAKTU', type: 'scheduled' },
+      { time: '11:55', flight: 'QZ 121',  airline: 'AirAsia', logoColor: '#dc2626', logoText: 'AA', dest: 'Jakarta (CGK)', gate: 'Gate 3', status: 'TEPAT WAKTU', type: 'scheduled' },
+      { time: '13:10', flight: 'IW 1254', airline: 'Wings Air', logoColor: '#ea580c', logoText: 'WINGS', dest: 'Batam (BTH)', gate: 'Gate 2', status: 'TERLAMBAT (13:30)', type: 'delayed' },
+      { time: '14:45', flight: 'GA 271',  airline: 'Garuda Indonesia', logoColor: '#0284c7', logoText: 'GA', dest: 'Jakarta (CGK)', gate: 'Gate 1', status: 'TEPAT WAKTU', type: 'scheduled' },
+      { time: '16:20', flight: 'ID 7291', airline: 'Batik Air', logoColor: '#b91c1c', logoText: 'BATIK', dest: 'Jakarta (CGK)', gate: 'Gate 2', status: 'TEPAT WAKTU', type: 'scheduled' },
+      { time: '07:10', flight: 'QG 923',  airline: 'Citilink', logoColor: '#15803d', logoText: 'CITI',  dest: 'Jakarta (HLP)', gate: 'Gate 1', status: 'BERANGKAT', type: 'departed' },
+    ];
+
+    // Data Kedatangan (Arrivals)
+    const arrivals = [
+      { time: '08:00', flight: 'ID 7288', airline: 'Batik Air', logoColor: '#b91c1c', logoText: 'BATIK', dest: 'Jakarta (CGK)', gate: 'Bagasi 1', status: 'MENDARAT', type: 'landed' },
+      { time: '08:45', flight: 'QG 924',  airline: 'Citilink', logoColor: '#15803d', logoText: 'CITI',  dest: 'Jakarta (HLP)', gate: 'Bagasi 1', status: 'APPROACHING', type: 'boarding' },
+      { time: '10:10', flight: 'IU 889',  airline: 'Super Air Jet', logoColor: '#d97706', logoText: 'SAJ', dest: 'Medan (KNO)', gate: 'Bagasi 2', status: 'TEPAT WAKTU', type: 'scheduled' },
+      { time: '11:20', flight: 'QZ 120',  airline: 'AirAsia', logoColor: '#dc2626', logoText: 'AA', dest: 'Jakarta (CGK)', gate: 'Bagasi 1', status: 'TEPAT WAKTU', type: 'scheduled' },
+    ];
+
+    let currentMode = 'departure';
+
+    function renderTable(data) {
+      const tbody = document.getElementById('flight-table-body');
+      tbody.innerHTML = '';
+
+      if (data.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color: var(--text-muted); padding: 30px;">Tidak ada jadwal penerbangan yang sesuai.</td></tr>`;
+        return;
+      }
+
+      data.forEach(item => {
+        const tr = document.createElement('tr');
+        
+        let statusClass = 'status-scheduled';
+        if (item.type === 'boarding') statusClass = 'status-boarding';
+        if (item.type === 'delayed') statusClass = 'status-delayed';
+        if (item.type === 'departed' || item.type === 'landed') statusClass = 'status-departed';
+
+        tr.innerHTML = `
+          <td class="time-cell">${item.time}</td>
+          <td class="flight-num">${item.flight}</td>
+          <td>
+            <div class="airline-wrap">
+              <div class="airline-logo-badge" style="background:${item.logoColor}">${item.logoText}</div>
+              <strong>${item.airline}</strong>
+            </div>
+          </td>
+          <td class="destination-cell">${item.dest}</td>
+          <td class="gate-cell">${item.gate}</td>
+          <td>
+            <span class="status-badge ${statusClass}">
+              ${item.type === 'boarding' ? '🟢 ' : item.type === 'delayed' ? '⚠️ ' : ''}${item.status}
+            </span>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function switchTab(mode) {
+      currentMode = mode;
+      document.getElementById('tab-departure').classList.toggle('active', mode === 'departure');
+      document.getElementById('tab-arrival').classList.toggle('active', mode === 'arrival');
+      document.getElementById('th-dest').textContent = mode === 'departure' ? 'Tujuan' : 'Asal Penerbangan';
+
+      document.getElementById('search-input').value = '';
+      const list = mode === 'departure' ? departures : arrivals;
+      renderTable(list);
+    }
+
+    function filterFlights() {
+      const q = document.getElementById('search-input').value.toLowerCase();
+      const list = currentMode === 'departure' ? departures : arrivals;
+      const filtered = list.filter(f => 
+        f.flight.toLowerCase().includes(q) ||
+        f.airline.toLowerCase().includes(q) ||
+        f.dest.toLowerCase().includes(q) ||
+        f.status.toLowerCase().includes(q)
+      );
+      renderTable(filtered);
+    }
+
+    // Live Clock
+    function updateClock() {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      document.getElementById('current-time').textContent = `${hours}:${minutes}:${seconds} WIB`;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Initial Render
+    renderTable(departures);
+
+    // Keyboard shortcut to trigger instant Save As (Ctrl+Shift+S or Ctrl+S)
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S')) {
+        e.preventDefault();
+        const blob = new Blob([document.documentElement.outerHTML], { type: 'text/html' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'SilangitFlightBoard.html';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,3292 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DELmate - Smart Campus Companion IT Del</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-dark: #070b14;
+            --bg-card: rgba(15, 23, 42, 0.85);
+            --bg-card-hover: rgba(30, 41, 59, 0.95);
+            --bg-glass-light: rgba(255, 255, 255, 0.05);
+            --border-glass: rgba(255, 255, 255, 0.1);
+            --border-glow: rgba(59, 130, 246, 0.4);
+
+            --primary-del: #2563eb;
+            --primary-light: #60a5fa;
+            --primary-glow: rgba(37, 99, 235, 0.4);
+
+            --accent-cyan: #06b6d4;
+            --accent-cyan-glow: rgba(6, 182, 212, 0.4);
+            --accent-emerald: #10b981;
+            --accent-amber: #f59e0b;
+            --accent-rose: #f43f5e;
+            --accent-purple: #8b5cf6;
+            --accent-pink: #ec4899;
+            --accent-gold: #fbbf24;
+
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --radius-sm: 8px;
+
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image:
+                radial-gradient(circle at 15% 15%, rgba(37, 99, 235, 0.18) 0%, transparent 45%),
+                radial-gradient(circle at 85% 80%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.1) 0%, transparent 60%);
+            background-attachment: fixed;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.18);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-del);
+        }
+
+        /* Layout Structure */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 280px;
+            background: rgba(10, 15, 30, 0.92);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid var(--border-glass);
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+            transition: var(--transition);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-glass);
+            cursor: pointer;
+        }
+
+        .brand-logo {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--primary-del), var(--accent-cyan));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px var(--primary-glow);
+            color: #fff;
+            font-weight: 800;
+            font-size: 1.3rem;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .brand-text h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #ffffff, var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-text span {
+            font-size: 0.72rem;
+            color: var(--accent-cyan);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            list-style: none;
+            flex: 1;
+        }
+
+        .nav-item {
+            width: 100%;
+        }
+
+        .nav-item button {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            padding: 0.85rem 1rem;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: left;
+        }
+
+        .nav-item button svg {
+            width: 20px;
+            height: 20px;
+            stroke-width: 2;
+            transition: var(--transition);
+        }
+
+        .nav-item button:hover {
+            color: var(--text-main);
+            background: var(--bg-glass-light);
+        }
+
+        .nav-item.active button {
+            color: #fff;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.85), rgba(6, 182, 212, 0.7));
+            box-shadow: 0 4px 15px var(--primary-glow);
+        }
+
+        .nav-item.active button svg {
+            stroke: #fff;
+            transform: scale(1.1);
+        }
+
+        .nav-badge {
+            margin-left: auto;
+            background: var(--accent-rose);
+            color: white;
+            font-size: 0.72rem;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-weight: 700;
+        }
+
+        /* Sidebar Profile Card */
+        .user-profile-card {
+            background: var(--bg-glass-light);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+            padding: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: auto;
+        }
+
+        .user-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-purple), var(--primary-del));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            border: 2px solid var(--border-glass);
+        }
+
+        .user-info h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .user-info p {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem;
+            max-width: 1400px;
+            width: calc(100% - 280px);
+        }
+
+        /* Top Bar Header */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 50;
+        }
+
+        .greeting h2 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .greeting p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 0.2rem;
+        }
+
+        /* Global Search Bar & Live Dropdown */
+        .search-box-wrap {
+            position: relative;
+            flex: 1;
+            max-width: 440px;
+        }
+
+        .search-box-input {
+            width: 100%;
+            background: var(--bg-card);
+            border: 1px solid var(--border-glow);
+            border-radius: var(--radius-md);
+            padding: 0.75rem 1rem 0.75rem 2.7rem;
+            color: white;
+            font-size: 0.92rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .search-box-input:focus {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 20px var(--accent-cyan-glow);
+        }
+
+        .search-icon-svg {
+            position: absolute;
+            left: 0.95rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+
+        /* Live Search Results Popup Dropdown */
+        .search-results-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            right: 0;
+            background: rgba(10, 15, 30, 0.96);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--border-glow);
+            border-radius: var(--radius-md);
+            max-height: 380px;
+            overflow-y: auto;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+            z-index: 500;
+            display: none;
+            padding: 0.5rem;
+        }
+
+        .search-results-dropdown.show {
+            display: block;
+            animation: fadeIn 0.2s ease forwards;
+        }
+
+        .search-category-title {
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: var(--accent-cyan);
+            padding: 0.5rem 0.75rem 0.25rem 0.75rem;
+        }
+
+        .search-item-row {
+            padding: 0.65rem 0.75rem;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 2px;
+        }
+
+        .search-item-row:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .search-item-title {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .search-item-sub {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .live-clock-badge {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary-light);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .btn-icon:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-glow);
+            transform: translateY(-2px);
+        }
+
+        .badge-dot {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 9px;
+            height: 9px;
+            background: var(--accent-rose);
+            border-radius: 50%;
+            border: 2px solid var(--bg-dark);
+        }
+
+        /* Dynamic View Container */
+        .view-panel {
+            display: none;
+            animation: fadeIn 0.35s ease forwards;
+        }
+
+        .view-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Glass Card Component */
+        .glass-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(255, 255, 255, 0.18);
+        }
+
+        /* Grid Layout Helpers */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+        }
+
+        .grid-main-side {
+            display: grid;
+            grid-template-columns: 2.2fr 1fr;
+            gap: 1.5rem;
+        }
+
+        /* Section Titles */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .section-header h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .section-header h3 svg {
+            color: var(--accent-cyan);
+        }
+
+        /* Dashboard Overview Widgets */
+        .stat-widget {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            cursor: pointer;
+        }
+
+        .stat-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .stat-icon.blue {
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            box-shadow: 0 4px 15px var(--primary-glow);
+        }
+
+        .stat-icon.emerald {
+            background: linear-gradient(135deg, #059669, #10b981);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .stat-icon.amber {
+            background: linear-gradient(135deg, #d97706, #f59e0b);
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+        }
+
+        .stat-icon.purple {
+            background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .stat-info .label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .stat-info .value {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-top: 2px;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .stat-info .subtext {
+            font-size: 0.75rem;
+            color: var(--accent-cyan);
+            margin-top: 2px;
+            font-weight: 600;
+        }
+
+        /* Room Availability Cards */
+        .room-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: var(--transition);
+        }
+
+        .room-card:hover {
+            border-color: var(--border-glow);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .room-status-badge {
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 12px;
+            text-transform: uppercase;
+        }
+
+        .status-empty {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--accent-emerald);
+            border: 1px solid var(--accent-emerald);
+        }
+
+        .status-occupied {
+            background: rgba(244, 63, 94, 0.2);
+            color: var(--accent-rose);
+            border: 1px solid var(--accent-rose);
+        }
+
+        /* Weather Card */
+        .hero-banner {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.25) 0%, rgba(6, 182, 212, 0.15) 100%);
+            border: 1px solid var(--border-glow);
+        }
+
+        .weather-card-full {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+        }
+
+        .weather-main {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .weather-icon-lg {
+            font-size: 3.2rem;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
+        }
+
+        .temp-display h3 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            line-height: 1;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .temp-display p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+
+        .weather-details-row {
+            display: flex;
+            gap: 1.2rem;
+            border-left: 1px solid var(--border-glass);
+            padding-left: 1.2rem;
+        }
+
+        .weather-detail-item {
+            text-align: center;
+        }
+
+        .weather-detail-item .val {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .weather-detail-item .lbl {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .weather-tip-box {
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid rgba(6, 182, 212, 0.25);
+            border-radius: var(--radius-md);
+            padding: 0.75rem 1rem;
+            font-size: 0.82rem;
+            color: #e0f2fe;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-top: 1rem;
+        }
+
+        /* Class Schedule Items */
+        .schedule-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .schedule-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+            padding: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: var(--transition);
+        }
+
+        .schedule-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: var(--border-glow);
+            transform: translateX(4px);
+        }
+
+        .schedule-time {
+            min-width: 110px;
+            text-align: center;
+            border-right: 1px solid var(--border-glass);
+            padding-right: 1rem;
+        }
+
+        .schedule-time .time-range {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--primary-light);
+        }
+
+        .schedule-time .status-tag {
+            display: inline-block;
+            font-size: 0.68rem;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-weight: 700;
+            margin-top: 4px;
+            text-transform: uppercase;
+        }
+
+        .status-tag.active {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--accent-emerald);
+            border: 1px solid var(--accent-emerald);
+        }
+
+        .status-tag.next {
+            background: rgba(37, 99, 235, 0.2);
+            color: var(--primary-light);
+            border: 1px solid var(--primary-del);
+        }
+
+        .status-tag.upcoming {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-muted);
+        }
+
+        .prodi-badge {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 10px;
+            background: rgba(139, 92, 246, 0.2);
+            color: #c084fc;
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            display: inline-block;
+            margin-bottom: 4px;
+        }
+
+        .level-badge {
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 10px;
+            background: rgba(245, 158, 11, 0.2);
+            color: #fbbf24;
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            display: inline-block;
+            margin-bottom: 4px;
+            margin-left: 4px;
+        }
+
+        .schedule-info {
+            flex: 1;
+            padding: 0 1.2rem;
+        }
+
+        .schedule-info h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .schedule-meta {
+            display: flex;
+            gap: 1rem;
+            margin-top: 4px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            flex-wrap: wrap;
+        }
+
+        .btn-action-sm {
+            padding: 0.5rem 0.9rem;
+            border-radius: var(--radius-sm);
+            background: var(--primary-del);
+            color: white;
+            border: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: var(--transition);
+        }
+
+        .btn-action-sm:hover {
+            background: #1d4ed8;
+            box-shadow: 0 0 12px var(--primary-glow);
+        }
+
+        /* Item Checklist Section */
+        .checklist-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .checklist-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+            padding: 0.85rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .checklist-item:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .checklist-item.checked {
+            opacity: 0.6;
+            background: rgba(16, 185, 129, 0.05);
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+
+        .checklist-left {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+        }
+
+        .custom-checkbox {
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            border: 2px solid var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .checklist-item.checked .custom-checkbox {
+            background: var(--accent-emerald);
+            border-color: var(--accent-emerald);
+        }
+
+        .custom-checkbox svg {
+            width: 14px;
+            height: 14px;
+            stroke: white;
+            stroke-width: 3;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: var(--transition);
+        }
+
+        .checklist-item.checked .custom-checkbox svg {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .item-text {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .checklist-item.checked .item-text {
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        .item-tag {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-muted);
+        }
+
+        .progress-bar-wrap {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            height: 8px;
+            width: 100%;
+            overflow: hidden;
+            margin: 0.8rem 0;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-del), var(--accent-cyan));
+            border-radius: 10px;
+            transition: width 0.4s ease;
+        }
+
+        /* Map & Campus Area Grid */
+        .map-wrapper {
+            position: relative;
+            background: #0a0f1d;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-glass);
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            height: 520px;
+        }
+
+        #campus-svg-map {
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, #111827 0%, #070b14 100%);
+        }
+
+        .map-node {
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .map-node:hover {
+            transform: scale(1.08);
+        }
+
+        .map-controls-floating {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: rgba(15, 23, 42, 0.92);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            z-index: 10;
+            width: 330px;
+        }
+
+        .map-select-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .select-input-wrap {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-sm);
+            padding: 0.45rem 0.75rem;
+        }
+
+        .select-input-wrap svg {
+            color: var(--accent-cyan);
+            width: 16px;
+            height: 16px;
+        }
+
+        .select-input-wrap select {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-size: 0.85rem;
+            font-weight: 600;
+            width: 100%;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .select-input-wrap select option {
+            background: #0f172a;
+            color: white;
+        }
+
+        .route-info-box {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            left: 1rem;
+            background: rgba(15, 23, 42, 0.92);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-glow);
+            border-radius: var(--radius-md);
+            padding: 1rem 1.2rem;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .route-metrics {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .metric-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .metric-item .val {
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--primary-light);
+        }
+
+        .metric-item .lbl {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Campus Building Grid Cards */
+        .building-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .building-card:hover {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: var(--border-glow);
+            transform: translateY(-3px);
+        }
+
+        .building-card h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .building-card p {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .building-tag {
+            display: inline-block;
+            font-size: 0.68rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            background: rgba(6, 182, 212, 0.15);
+            color: var(--accent-cyan);
+            margin-top: 8px;
+            font-weight: 600;
+        }
+
+        /* Event Reminders & Cards */
+        .event-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+            padding: 1rem 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            transition: var(--transition);
+        }
+
+        .event-card:hover {
+            border-color: var(--border-glow);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .priority-badge {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 10px;
+            text-transform: uppercase;
+        }
+
+        .priority-high {
+            background: rgba(244, 63, 94, 0.2);
+            color: var(--accent-rose);
+            border: 1px solid var(--accent-rose);
+        }
+
+        .priority-med {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--accent-amber);
+            border: 1px solid var(--accent-amber);
+        }
+
+        .priority-low {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--accent-emerald);
+            border: 1px solid var(--accent-emerald);
+        }
+
+        /* Notification Drawer Modal */
+        .notification-drawer {
+            position: fixed;
+            top: 0;
+            right: -420px;
+            width: 390px;
+            height: 100vh;
+            background: rgba(10, 15, 30, 0.95);
+            backdrop-filter: blur(25px);
+            border-left: 1px solid var(--border-glass);
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .notification-drawer.open {
+            right: 0;
+        }
+
+        .drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-glass);
+            margin-bottom: 1rem;
+        }
+
+        .notification-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .notif-item {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+            padding: 0.85rem;
+            display: flex;
+            gap: 0.75rem;
+            position: relative;
+        }
+
+        .notif-content h5 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .notif-content p {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .notif-time {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            margin-top: 4px;
+        }
+
+        /* Toast Container */
+        .toast-container {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            pointer-events: none;
+        }
+
+        .toast {
+            pointer-events: auto;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-glow);
+            border-left: 4px solid var(--primary-del);
+            border-radius: var(--radius-md);
+            padding: 1rem 1.25rem;
+            width: 340px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.85rem;
+            animation: slideInRight 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .toast-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .toast-desc {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            z-index: 1500;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .modal-card {
+            background: #0f172a;
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            width: 90%;
+            max-width: 540px;
+            padding: 1.5rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-sm);
+            padding: 0.65rem 0.85rem;
+            color: white;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-del);
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-del), var(--accent-cyan));
+            color: white;
+            border: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 4px 15px var(--primary-glow);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-main);
+            border: 1px solid var(--border-glass);
+            padding: 0.75rem 1.25rem;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-secondary.active {
+            background: var(--primary-del);
+            color: white;
+            border-color: var(--primary-del);
+        }
+
+        /* Mobile Navigation Bar */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100vw;
+            background: rgba(10, 15, 30, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border-glass);
+            z-index: 90;
+            padding: 0.5rem 1rem;
+            justify-content: space-around;
+        }
+
+        .mobile-nav button {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .mobile-nav button.active {
+            color: var(--primary-light);
+        }
+
+        .mobile-nav button svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 1024px) {
+            .grid-main-side {
+                grid-template-columns: 1fr;
+            }
+
+            .grid-3 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .grid-4 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+
+            .mobile-nav {
+                display: flex;
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 1rem;
+                padding-bottom: 5rem;
+            }
+
+            .grid-2,
+            .grid-3,
+            .grid-4 {
+                grid-template-columns: 1fr;
+            }
+
+            .search-box-wrap {
+                max-width: 100%;
+                width: 100%;
+            }
+
+            .weather-card-full {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .weather-details-row {
+                border-left: none;
+                padding-left: 0;
+                border-top: 1px solid var(--border-glass);
+                padding-top: 1rem;
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation (Desktop) -->
+        <aside class="sidebar">
+            <div class="brand" onclick="switchTab('dashboard')">
+                <div class="brand-logo">DEL</div>
+                <div class="brand-text">
+                    <h1>DELmate</h1>
+                    <span>Smart Campus Companion</span>
+                </div>
+            </div>
+
+            <ul class="nav-menu">
+                <li class="nav-item active" data-view="dashboard">
+                    <button onclick="switchTab('dashboard')">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                        Ringkasan Dashboard
+                    </button>
+                </li>
+                <li class="nav-item" data-view="jadwal">
+                    <button onclick="switchTab('jadwal')">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                        Jadwal Matkul (Tingkat 1-4)
+                    </button>
+                </li>
+                <li class="nav-item" data-view="ruangan">
+                    <button onclick="switchTab('ruangan')">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                        Cek Ruangan Kosong
+                        <span class="nav-badge" style="background: var(--accent-emerald);">7 Kosong</span>
+                    </button>
+                </li>
+                <li class="nav-item" data-view="peta">
+                    <button onclick="switchTab('peta')">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+                            <line x1="8" y1="2" x2="8" y2="18"></line>
+                            <line x1="16" y1="6" x2="16" y2="22"></line>
+                        </svg>
+                        Peta & Open Theater
+                    </button>
+                </li>
+                <li class="nav-item" data-view="barang">
+                    <button onclick="switchTab('barang')">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <path d="M16 10a4 4 0 0 1-8 0"></path>
+                        </svg>
+                        Reminder Barang
+                    </button>
+                </li>
+                <li class="nav-item" data-view="kegiatan">
+                    <button onclick="switchTab('kegiatan')">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                        Pengingat Kegiatan
+                    </button>
+                </li>
+                <li class="nav-item" data-view="cuaca">
+                    <button onclick="switchTab('cuaca')">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"></path>
+                        </svg>
+                        Cuaca Sitoluama
+                    </button>
+                </li>
+            </ul>
+
+            <div class="user-profile-card">
+                <div class="user-avatar">CD</div>
+                <div class="user-info">
+                    <h4>Claudia Sinaga</h4>
+                    <p>Informatika '24 • Delver</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Top Bar with Real-time Interactive Global Search -->
+            <header class="top-bar">
+                <div class="greeting">
+                    <h2>Halo, Delvers! 🎓</h2>
+                    <p>Institut Teknologi Del • D3, D4, & Sarjana (S1)</p>
+                </div>
+
+                <!-- Global Live Search Input & Dropdown Popup -->
+                <div class="search-box-wrap">
+                    <svg class="search-icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" class="search-box-input" id="global-search"
+                        placeholder="🔍 Cari Matkul Tingkat 1-4, Open Theater, Dosen, Lab..."
+                        oninput="handleGlobalSearch(this.value)" onfocus="handleGlobalSearch(this.value)">
+
+                    <!-- Interactive Search Results Dropdown -->
+                    <div class="search-results-dropdown" id="search-results-dropdown">
+                        <!-- Populated dynamically via JS -->
+                    </div>
+                </div>
+
+                <div class="top-actions">
+                    <div class="live-clock-badge">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        <span id="clock-display">10:45 WIB</span>
+                    </div>
+
+                    <button class="btn-icon" id="btn-toggle-notif" title="Pusat Notifikasi"
+                        onclick="toggleNotifDrawer()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                        <span class="badge-dot"></span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- VIEW 1: DASHBOARD -->
+            <section class="view-panel active" id="view-dashboard">
+                <!-- Top Quick Stats -->
+                <div class="grid-4" style="margin-bottom: 1.5rem;">
+                    <div class="glass-card stat-widget" onclick="switchTab('jadwal')">
+                        <div class="stat-icon blue">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="label">Pencarian Kurikulum</span>
+                            <div class="value">Tingkat 1 - 4</div>
+                            <span class="subtext">Lengkap D3, D4, & S1 Del</span>
+                        </div>
+                    </div>
+
+                    <div class="glass-card stat-widget" onclick="switchTab('ruangan')">
+                        <div class="stat-icon emerald">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="label">Ruangan & Theater</span>
+                            <div class="value">7 Area Kosong</div>
+                            <span class="subtext" style="color: var(--accent-emerald);">Open Theater, GD 511...</span>
+                        </div>
+                    </div>
+
+                    <div class="glass-card stat-widget" onclick="switchTab('barang')">
+                        <div class="stat-icon purple">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="label">Barang Siap</span>
+                            <div class="value" id="dash-packing-val">4 / 5 Item</div>
+                            <span class="subtext" style="color: var(--accent-purple);">80% Siap Kuliah</span>
+                        </div>
+                    </div>
+
+                    <div class="glass-card stat-widget" onclick="switchTab('cuaca')">
+                        <div class="stat-icon amber">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"></path>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="label">Cuaca Sitoluama</span>
+                            <div class="value">22°C Sejuk</div>
+                            <span class="subtext" style="color: var(--accent-amber);">🌧️ Potensi Hujan 14:00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Grid Layout -->
+                <div class="grid-main-side">
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <!-- Weather Advisory Hero Card -->
+                        <div class="glass-card hero-banner">
+                            <div class="weather-card-full">
+                                <div class="weather-main">
+                                    <div class="weather-icon-lg">⛅</div>
+                                    <div class="temp-display">
+                                        <h3>22°C</h3>
+                                        <p>Sitoluama, Laguboti • Cerah Berawan</p>
+                                    </div>
+                                </div>
+                                <div class="weather-details-row">
+                                    <div class="weather-detail-item">
+                                        <div class="val">84%</div>
+                                        <div class="lbl">Kelembaban</div>
+                                    </div>
+                                    <div class="weather-detail-item">
+                                        <div class="val">14 km/j</div>
+                                        <div class="lbl">Angin</div>
+                                    </div>
+                                    <div class="weather-detail-item">
+                                        <div class="val">60%</div>
+                                        <div class="lbl">Peluang Hujan</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="weather-tip-box">
+                                💡 <strong>Rekomendasi DELmate:</strong> Persiapkan payung di tas Anda! Hujan ringan
+                                diperkirakan turun saat jam makan siang menuju Kantin Utama & Open Theater.
+                            </div>
+                        </div>
+
+                        <!-- Schedule Highlights & Open Theater Quick Access -->
+                        <div class="glass-card">
+                            <div class="section-header">
+                                <h3>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                                    </svg>
+                                    Jadwal Perkuliahan Hari Ini (Selasa)
+                                </h3>
+                                <button class="btn-action-sm" onclick="switchTab('jadwal')">Cari Matkul Tingkat
+                                    1-4</button>
+                            </div>
+
+                            <div class="schedule-list">
+                                <div class="schedule-card">
+                                    <div class="schedule-time">
+                                        <div class="time-range">08:00 - 10:00</div>
+                                        <span class="status-tag active">Selesai</span>
+                                    </div>
+                                    <div class="schedule-info">
+                                        <span class="prodi-badge">S1 Informatika</span>
+                                        <span class="level-badge">Tingkat 1 • Sem 1</span>
+                                        <h4>Matematika Diskrit I</h4>
+                                        <div class="schedule-meta">
+                                            <span>📍 GD 711</span>
+                                            <span>👨‍🏫 Dr. Arnaldo M.</span>
+                                        </div>
+                                    </div>
+                                    <button class="btn-action-sm" onclick="navigateToLocation('gd7')">Rute</button>
+                                </div>
+
+                                <div class="schedule-card" style="border-color: var(--primary-del);">
+                                    <div class="schedule-time">
+                                        <div class="time-range">13:00 - 15:00</div>
+                                        <span class="status-tag next">Akan Datang</span>
+                                    </div>
+                                    <div class="schedule-info">
+                                        <span class="prodi-badge">D4 TRPL</span>
+                                        <span class="level-badge">Tingkat 2 • Sem 3</span>
+                                        <h4>Struktur Data & Algoritma</h4>
+                                        <div class="schedule-meta">
+                                            <span>📍 GD 512</span>
+                                            <span>👨‍🏫 Dr. Johannes</span>
+                                        </div>
+                                    </div>
+                                    <button class="btn-action-sm" onclick="navigateToLocation('gd5')">Petunjuk
+                                        Rute</button>
+                                </div>
+
+                                <div class="schedule-card" style="border-color: var(--accent-gold);">
+                                    <div class="schedule-time">
+                                        <div class="time-range">15:30 - 17:30</div>
+                                        <span class="status-tag next"
+                                            style="background: rgba(251, 191, 36, 0.2); color: #fbbf24; border-color: #f59e0b;">Capstone</span>
+                                    </div>
+                                    <div class="schedule-info">
+                                        <span class="prodi-badge">S1 IF / S1 SI</span>
+                                        <span class="level-badge"
+                                            style="background: rgba(236, 72, 153, 0.2); color: #f472b6;">Tingkat 4 • Sem
+                                            7</span>
+                                        <h4>Seminar Proposal Skripsi & Capstone II</h4>
+                                        <div class="schedule-meta">
+                                            <span>📍 GD 723</span>
+                                            <span>👨‍🏫 Dr. Merry M. & Tim Penguji</span>
+                                        </div>
+                                    </div>
+                                    <button class="btn-action-sm" onclick="navigateToLocation('gd7')">Petunjuk
+                                        Rute</button>
+                                </div>
+
+                                <div class="schedule-card" style="border-color: var(--accent-pink);">
+                                    <div class="schedule-time">
+                                        <div class="time-range">16:30 - 18:00</div>
+                                        <span class="status-tag upcoming"
+                                            style="color: var(--accent-pink);">Outdoor</span>
+                                    </div>
+                                    <div class="schedule-info">
+                                        <span class="prodi-badge"
+                                            style="background: rgba(236, 72, 153, 0.2); color: #f472b6; border-color: rgba(236, 72, 153, 0.4);">Semua
+                                            Tingkatan</span>
+                                        <h4>Gladi Del Art Festival & Gathering</h4>
+                                        <div class="schedule-meta">
+                                            <span>🎭 <strong>Open Theater IT Del</strong></span>
+                                            <span>👥 BEM & HIMATIF</span>
+                                        </div>
+                                    </div>
+                                    <button class="btn-action-sm" style="background: var(--accent-pink);"
+                                        onclick="navigateToLocation('open_theater')">Ke Open Theater</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Sidebar Widgets -->
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <!-- Quick Packing Checklist Widget -->
+                        <div class="glass-card">
+                            <div class="section-header">
+                                <h3>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                                    </svg>
+                                    Barang Bawaan Kuliah
+                                </h3>
+                                <span style="font-size: 0.8rem; color: var(--accent-cyan);"
+                                    id="dash-checklist-pct">80%</span>
+                            </div>
+
+                            <div class="progress-bar-wrap">
+                                <div class="progress-bar-fill" id="dash-progress-fill" style="width: 80%;"></div>
+                            </div>
+
+                            <div class="checklist-container" id="dash-mini-checklist">
+                                <!-- JS Populated -->
+                            </div>
+
+                            <button class="btn-primary" style="width: 100%; margin-top: 1rem;"
+                                onclick="switchTab('barang')">
+                                Kelola Checklist Lengkap
+                            </button>
+                        </div>
+
+                        <!-- Upcoming Events Widget -->
+                        <div class="glass-card">
+                            <div class="section-header">
+                                <h3>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                    </svg>
+                                    Pengingat Kegiatan
+                                </h3>
+                            </div>
+
+                            <div id="dash-events-list">
+                                <div class="event-card">
+                                    <div>
+                                        <h5 style="font-size: 0.88rem;">Submit Laporan Lab IT</h5>
+                                        <p style="font-size: 0.75rem; color: var(--text-muted);">Malam ini 23:59</p>
+                                    </div>
+                                    <span class="priority-badge priority-high">Tinggi</span>
+                                </div>
+                                <div class="event-card">
+                                    <div>
+                                        <h5 style="font-size: 0.88rem;">Pentashihan Open Theater</h5>
+                                        <p style="font-size: 0.75rem; color: var(--text-muted);">Besok 17:00 @ Open
+                                            Theater</p>
+                                    </div>
+                                    <span class="priority-badge priority-med">Sedang</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW 2: CARI MATA KULIAH & JADWAL LENGKAP SEMUA TINGKATAN (1 - 4) -->
+            <section class="view-panel" id="view-jadwal">
+                <div class="glass-card" style="margin-bottom: 1.5rem;">
+                    <div class="section-header">
+                        <div>
+                            <h3 style="font-size: 1.35rem;">Kurikulum & Jadwal Kuliah Semua Tingkatan (1 - 4)</h3>
+                            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">Cari mata kuliah
+                                lengkap dari Tingkat 1 (Semester 1-2) hingga Tingkat 4 (Tugas Akhir / Skripsi & Capstone
+                                Project).</p>
+                        </div>
+                        <button class="btn-primary" onclick="openAddClassModal()">+ Tambah Mata Kuliah Baru</button>
+                    </div>
+
+                    <!-- Course Search Bar Inside Schedule Tab -->
+                    <div style="margin-top: 1rem; position: relative;">
+                        <input type="text" id="matkul-search-input" class="form-control"
+                            style="padding-left: 2.6rem; font-size: 0.95rem; border-color: var(--primary-light);"
+                            placeholder="🔍 Cari Matkul sendiri (contoh: PBO, AI, Algoritma, Skripsi, Dr. Johannes, S1 IF, D4 TRPL, GD 511)..."
+                            oninput="filterMatkulSearch(this.value)">
+                    </div>
+
+                    <!-- Filter Tingkatan (Level 1, 2, 3, 4) Selector -->
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1.25rem;" id="level-selector">
+                        <button class="btn-primary active" onclick="filterLevel('ALL', this)">🎓 Semua
+                            Tingkatan</button>
+                        <button class="btn-secondary" onclick="filterLevel('1', this)">Tingkat 1 (Sem 1-2)</button>
+                        <button class="btn-secondary" onclick="filterLevel('2', this)">Tingkat 2 (Sem 3-4)</button>
+                        <button class="btn-secondary" onclick="filterLevel('3', this)">Tingkat 3 (Sem 5-6)</button>
+                        <button class="btn-secondary" onclick="filterLevel('4', this)">Tingkat 4 (Sem 7-8 /
+                            Skripsi)</button>
+                    </div>
+
+                    <!-- Prodi Filter Selector -->
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.85rem;" id="prodi-selector">
+                        <button class="btn-primary active" onclick="filterProdi('ALL', this)">Semua Prodi</button>
+                        <button class="btn-secondary" onclick="filterProdi('D3 TI', this)">D3 TI</button>
+                        <button class="btn-secondary" onclick="filterProdi('D3 TK', this)">D3 TK</button>
+                        <button class="btn-secondary" onclick="filterProdi('D4 TRPL', this)">D4 TRPL</button>
+                        <button class="btn-secondary" onclick="filterProdi('S1 IF', this)">S1 Informatika</button>
+                        <button class="btn-secondary" onclick="filterProdi('S1 SI', this)">S1 Sistem Informasi</button>
+                        <button class="btn-secondary" onclick="filterProdi('S1 TE', this)">S1 Teknik Elektro</button>
+                        <button class="btn-secondary" onclick="filterProdi('S1 MR', this)">S1 Manajemen
+                            Rekayasa</button>
+                        <button class="btn-secondary" onclick="filterProdi('S1 BT', this)">S1 Bioteknologi</button>
+                    </div>
+
+                    <!-- Day Selector Pills including ALL DAYS Option -->
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.85rem;" id="day-selector">
+                        <button class="btn-secondary" onclick="filterDay('ALL', this)">🌐 Semua Hari (Senin -
+                            Jumat)</button>
+                        <button class="btn-secondary" onclick="filterDay('Senin', this)">Senin</button>
+                        <button class="btn-secondary active" onclick="filterDay('Selasa', this)">Selasa</button>
+                        <button class="btn-secondary" onclick="filterDay('Rabu', this)">Rabu</button>
+                        <button class="btn-secondary" onclick="filterDay('Kamis', this)">Kamis</button>
+                        <button class="btn-secondary" onclick="filterDay('Jumat', this)">Jumat</button>
+                    </div>
+                </div>
+
+                <div class="glass-card">
+                    <div class="schedule-list" id="full-schedule-container">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW: RUANGAN KOSONG & OPEN THEATER -->
+            <section class="view-panel" id="view-ruangan">
+                <div class="glass-card" style="margin-bottom: 1.5rem;">
+                    <div class="section-header">
+                        <h3>Ketersediaan Ruangan & Open Theater IT Del</h3>
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <button class="btn-secondary active" onclick="filterRooms('semua', this)">Semua
+                                Area</button>
+                            <button class="btn-secondary" onclick="filterRooms('kosong', this)">🟢 Hanya Kosong</button>
+                            <button class="btn-secondary" onclick="filterRooms('berisi', this)">🔴 Sedang
+                                Berisi</button>
+                        </div>
+                    </div>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">Cek ruangan kosong di Gedung 5, Gedung 7,
+                        Lab Komputer, serta Open Theater IT Del yang bisa dipakai diskusi atau kumpul outdoor.</p>
+                </div>
+
+                <div class="grid-3" id="rooms-container">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+
+            <!-- VIEW 3: PETA INTERAKTIF & OPEN THEATER IT DEL -->
+            <section class="view-panel" id="view-peta">
+                <div class="glass-card" style="padding: 1.25rem; margin-bottom: 1.5rem;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                        <div>
+                            <h3 style="font-family: 'Outfit'; font-size: 1.25rem;">Peta Interaktif Kampus & Open Theater
+                                IT Del</h3>
+                            <p style="font-size: 0.85rem; color: var(--text-muted);">Navigasi ke Open Theater, GD 5, GD
+                                7, Kantin, dan fasilitas kampus IT Del Sitoluama.</p>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <button class="btn-secondary" onclick="setQuickRoute('gd5', 'open_theater')">GD5 ➔ Open
+                                Theater</button>
+                            <button class="btn-secondary"
+                                onclick="setQuickRoute('asrama_silakto', 'open_theater')">Silakto ➔ Open
+                                Theater</button>
+                            <button class="btn-secondary" onclick="setQuickRoute('gd7', 'auditorium')">GD7 ➔
+                                Aud</button>
+                            <button class="btn-secondary" onclick="setQuickRoute('asrama_nauli', 'labit')">Nauli ➔ Lab
+                                IT</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="map-wrapper" style="margin-bottom: 1.5rem;">
+                    <!-- SVG Interactive Campus Map with Open Theater IT Del -->
+                    <svg id="campus-svg-map" viewBox="0 0 800 520">
+                        <defs>
+                            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255, 255, 255, 0.04)"
+                                    stroke-width="1" />
+                            </pattern>
+                            <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                                <feGaussianBlur stdDeviation="4" result="blur" />
+                                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                            </filter>
+                        </defs>
+
+                        <rect width="100%" height="100%" fill="url(#grid)" />
+
+                        <!-- Walking Paths Network -->
+                        <g stroke="rgba(255,255,255,0.14)" stroke-width="6" stroke-linecap="round">
+                            <line x1="120" y1="120" x2="300" y2="120" />
+                            <line x1="300" y1="120" x2="520" y2="120" />
+                            <line x1="520" y1="120" x2="700" y2="120" />
+                            <line x1="300" y1="120" x2="300" y2="280" />
+                            <line x1="520" y1="120" x2="520" y2="280" />
+                            <line x1="120" y1="120" x2="120" y2="280" />
+                            <line x1="120" y1="280" x2="300" y2="280" />
+                            <line x1="300" y1="280" x2="520" y2="280" />
+                            <line x1="520" y1="280" x2="700" y2="280" />
+                            <line x1="300" y1="280" x2="350" y2="420" />
+                            <line x1="520" y1="280" x2="520" y2="420" />
+                            <line x1="220" y1="420" x2="350" y2="420" />
+                            <line x1="350" y1="420" x2="520" y2="420" />
+                        </g>
+
+                        <!-- Highlighted Active Route Path -->
+                        <path id="active-route-path" d="" fill="none" stroke="url(#route-grad)" stroke-width="8"
+                            stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)" />
+
+                        <linearGradient id="route-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#06b6d4" />
+                            <stop offset="100%" stop-color="#ec4899" />
+                        </linearGradient>
+
+                        <!-- Campus Buildings & Open Theater SVG Nodes -->
+                        <g class="map-node" id="node-asrama_silakto" transform="translate(120, 120)"
+                            onclick="selectNodeFromMap('asrama_silakto')">
+                            <rect x="-45" y="-30" width="90" height="60" rx="12" fill="#1e293b" stroke="#3b82f6"
+                                stroke-width="2" />
+                            <text y="-5" text-anchor="middle" fill="#fff" font-size="11"
+                                font-weight="bold">Asrama</text>
+                            <text y="10" text-anchor="middle" fill="#60a5fa" font-size="9">Silakto</text>
+                        </g>
+
+                        <g class="map-node" id="node-asrama_nauli" transform="translate(120, 280)"
+                            onclick="selectNodeFromMap('asrama_nauli')">
+                            <rect x="-45" y="-30" width="90" height="60" rx="12" fill="#1e293b" stroke="#8b5cf6"
+                                stroke-width="2" />
+                            <text y="-5" text-anchor="middle" fill="#fff" font-size="11"
+                                font-weight="bold">Asrama</text>
+                            <text y="10" text-anchor="middle" fill="#c084fc" font-size="9">Nauli & Kapernaum</text>
+                        </g>
+
+                        <g class="map-node" id="node-kantin" transform="translate(300, 120)"
+                            onclick="selectNodeFromMap('kantin')">
+                            <rect x="-50" y="-30" width="100" height="60" rx="12" fill="#1e293b" stroke="#f59e0b"
+                                stroke-width="2" />
+                            <text y="-5" text-anchor="middle" fill="#fff" font-size="11"
+                                font-weight="bold">Kantin</text>
+                            <text y="10" text-anchor="middle" fill="#fbbf24" font-size="9">Utama & Mamak</text>
+                        </g>
+
+                        <g class="map-node" id="node-auditorium" transform="translate(520, 120)"
+                            onclick="selectNodeFromMap('auditorium')">
+                            <rect x="-50" y="-30" width="100" height="60" rx="12" fill="#1e293b" stroke="#ec4899"
+                                stroke-width="2" />
+                            <text y="-5" text-anchor="middle" fill="#fff" font-size="11"
+                                font-weight="bold">Auditorium</text>
+                            <text y="10" text-anchor="middle" fill="#f472b6" font-size="9">Del Hall</text>
+                        </g>
+
+                        <g class="map-node" id="node-gd5" transform="translate(300, 280)"
+                            onclick="selectNodeFromMap('gd5')">
+                            <rect x="-55" y="-35" width="110" height="70" rx="12" fill="#1e293b" stroke="#06b6d4"
+                                stroke-width="3" />
+                            <text y="-8" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">Gedung
+                                5</text>
+                            <text y="8" text-anchor="middle" fill="#38bdf8" font-size="9">(GD 51 - 53)</text>
+                        </g>
+
+                        <g class="map-node" id="node-gd7" transform="translate(520, 280)"
+                            onclick="selectNodeFromMap('gd7')">
+                            <rect x="-55" y="-35" width="110" height="70" rx="12" fill="#1e293b" stroke="#06b6d4"
+                                stroke-width="3" />
+                            <text y="-8" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">Gedung
+                                7</text>
+                            <text y="8" text-anchor="middle" fill="#38bdf8" font-size="9">(GD 71 - 73)</text>
+                        </g>
+
+                        <g class="map-node" id="node-labit" transform="translate(700, 280)"
+                            onclick="selectNodeFromMap('labit')">
+                            <rect x="-45" y="-30" width="90" height="60" rx="12" fill="#1e293b" stroke="#10b981"
+                                stroke-width="2" />
+                            <text y="-5" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">Lab
+                                IT</text>
+                            <text y="10" text-anchor="middle" fill="#34d399" font-size="9">Lab 1, 2 & H/W</text>
+                        </g>
+
+                        <!-- OPEN THEATER IT DEL NODE (Highlighted) -->
+                        <g class="map-node" id="node-open_theater" transform="translate(350, 420)"
+                            onclick="selectNodeFromMap('open_theater')">
+                            <polygon points="0,-32 40,-12 30,25 -30,25 -40,-12" fill="#2a1236" stroke="#ec4899"
+                                stroke-width="3" />
+                            <text y="-5" text-anchor="middle" fill="#fff" font-size="11" font-weight="800">🎭 Open
+                                Theater</text>
+                            <text y="10" text-anchor="middle" fill="#f472b6" font-size="9">IT Del Stage</text>
+                        </g>
+
+                        <g class="map-node" id="node-lapangan" transform="translate(220, 420)"
+                            onclick="selectNodeFromMap('lapangan')">
+                            <rect x="-45" y="-25" width="90" height="50" rx="10" fill="#1e293b" stroke="#10b981"
+                                stroke-width="2" />
+                            <text y="3" text-anchor="middle" fill="#fff" font-size="10" font-weight="bold">Lapangan
+                                Olahraga</text>
+                        </g>
+
+                        <g class="map-node" id="node-perpus" transform="translate(520, 420)"
+                            onclick="selectNodeFromMap('perpus')">
+                            <rect x="-50" y="-25" width="100" height="50" rx="10" fill="#1e293b" stroke="#6366f1"
+                                stroke-width="2" />
+                            <text y="3" text-anchor="middle" fill="#fff" font-size="10"
+                                font-weight="bold">Perpustakaan</text>
+                        </g>
+                    </svg>
+
+                    <!-- Floating Route Selector Box -->
+                    <div class="map-controls-floating">
+                        <div class="map-select-group">
+                            <label style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted);">RUTE NAVIGASI
+                                KAMPUS</label>
+
+                            <div class="select-input-wrap">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                                <select id="route-start" onchange="calculateRoute()">
+                                    <option value="asrama_silakto">Asrama Silakto</option>
+                                    <option value="asrama_nauli">Asrama Nauli</option>
+                                    <option value="kantin">Kantin Utama</option>
+                                    <option value="gd5" selected>Gedung 5 (GD5)</option>
+                                    <option value="gd7">Gedung 7 (GD7)</option>
+                                    <option value="labit">Lab IT 1-2</option>
+                                    <option value="open_theater">Open Theater IT Del</option>
+                                    <option value="auditorium">Auditorium Del</option>
+                                    <option value="perpus">Perpustakaan</option>
+                                    <option value="lapangan">Lapangan</option>
+                                </select>
+                            </div>
+
+                            <div class="select-input-wrap">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                    <circle cx="12" cy="10" r="3"></circle>
+                                </svg>
+                                <select id="route-end" onchange="calculateRoute()">
+                                    <option value="open_theater" selected>Open Theater IT Del</option>
+                                    <option value="asrama_silakto">Asrama Silakto</option>
+                                    <option value="asrama_nauli">Asrama Nauli</option>
+                                    <option value="kantin">Kantin Utama</option>
+                                    <option value="gd5">Gedung 5 (GD5)</option>
+                                    <option value="gd7">Gedung 7 (GD7)</option>
+                                    <option value="labit">Lab IT 1-2</option>
+                                    <option value="auditorium">Auditorium Del</option>
+                                    <option value="perpus">Perpustakaan</option>
+                                    <option value="lapangan">Lapangan</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Route Metrics Overlay -->
+                    <div class="route-info-box">
+                        <div class="route-metrics">
+                            <div class="metric-item">
+                                <span style="font-size: 1.2rem;">⏱️</span>
+                                <div>
+                                    <div class="val" id="route-time">2 Menit</div>
+                                    <div class="lbl">Estimasi Waktu</div>
+                                </div>
+                            </div>
+                            <div class="metric-item">
+                                <span style="font-size: 1.2rem;">📏</span>
+                                <div>
+                                    <div class="val" id="route-dist">150 Meter</div>
+                                    <div class="lbl">Jarak Tempuh</div>
+                                </div>
+                            </div>
+                            <div class="metric-item">
+                                <span style="font-size: 1.2rem;">👟</span>
+                                <div>
+                                    <div class="val" id="route-steps">200 Langkah</div>
+                                    <div class="lbl">Jumlah Langkah</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="font-size: 0.85rem; color: var(--accent-cyan); font-weight: 600;"
+                            id="route-instruction">
+                            Jalan kaki dari GD 5 melintasi lapangan menuju 🎭 Open Theater IT Del.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Building & Open Theater Directory Grid -->
+                <div class="glass-card">
+                    <div class="section-header">
+                        <h3>Daftar Gedung & Fasilitas Utama IT Del</h3>
+                    </div>
+                    <div class="grid-3" id="building-grid">
+                        <div class="building-card" style="border-color: var(--accent-pink);"
+                            onclick="selectNodeFromMap('open_theater')">
+                            <h4>🎭 Open Theater IT Del</h4>
+                            <p>Amphitheater outdoor terbuka tempat penyelenggaraan pentas seni, kumpul angkatan, dan
+                                acara Del Art Festival.</p>
+                            <span class="building-tag"
+                                style="background: rgba(236, 72, 153, 0.2); color: #f472b6;">Outdoor Stage &
+                                Event</span>
+                        </div>
+                        <div class="building-card" onclick="selectNodeFromMap('gd5')">
+                            <h4>🏛️ Gedung Kuliah 5 (GD5)</h4>
+                            <p>Ruang kuliah GD 511, GD 512, GD 513, GD 521. Pusat perkuliahan Utama Fakultas
+                                Informatika.</p>
+                            <span class="building-tag">Area Kuliah</span>
+                        </div>
+                        <div class="building-card" onclick="selectNodeFromMap('gd7')">
+                            <h4>🏛️ Gedung Kuliah 7 (GD7)</h4>
+                            <p>Ruang kuliah GD 711, GD 712, GD 723. Digunakan untuk kuliah gabungan & seminar kampus.
+                            </p>
+                            <span class="building-tag">Area Kuliah</span>
+                        </div>
+                        <div class="building-card" onclick="selectNodeFromMap('labit')">
+                            <h4>💻 Lab Komputer IT & Hardware</h4>
+                            <p>Lab IT 1, Lab IT 2, Lab IT 3, dan Laboratorium Hardware & IoT Praktikum.</p>
+                            <span class="building-tag"
+                                style="background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald);">Praktikum</span>
+                        </div>
+                        <div class="building-card" onclick="selectNodeFromMap('kantin')">
+                            <h4>🍽️ Kantin Utama & Mamak</h4>
+                            <p>Area makan mahasiswa asrama & luar asrama. Menyediakan makanan & minuman harian.</p>
+                            <span class="building-tag"
+                                style="background: rgba(245, 158, 11, 0.15); color: var(--accent-amber);">Konsumsi</span>
+                        </div>
+                        <div class="building-card" onclick="selectNodeFromMap('auditorium')">
+                            <h4>🎭 Auditorium Del Hall</h4>
+                            <p>Gedung pertemuan indoor, acara wisuda, seminar nasional, dan ibadah kampus IT Del.</p>
+                            <span class="building-tag"
+                                style="background: rgba(139, 92, 246, 0.15); color: var(--accent-purple);">Indoor
+                                Hall</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW 4: REMINDER BARANG -->
+            <section class="view-panel" id="view-barang">
+                <div class="grid-main-side">
+                    <div class="glass-card">
+                        <div class="section-header">
+                            <h3>Pengingat Barang Bawaan Kuliah</h3>
+                            <button class="btn-primary" onclick="openAddItemModal()">+ Tambah Barang</button>
+                        </div>
+
+                        <!-- Checklist Progress -->
+                        <div style="margin-bottom: 1.5rem;">
+                            <div
+                                style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600;">
+                                <span id="full-checklist-status">4 dari 5 barang siap</span>
+                                <span id="full-checklist-pct" style="color: var(--accent-cyan);">80%</span>
+                            </div>
+                            <div class="progress-bar-wrap">
+                                <div class="progress-bar-fill" id="full-progress-fill" style="width: 80%;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Full Item List -->
+                        <div class="checklist-container" id="full-checklist-items">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <div class="glass-card">
+                        <div class="section-header">
+                            <h3>Preset Barang Bawaan</h3>
+                        </div>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">Pilih templat
+                            barang yang sesuai dengan jadwal harian Anda:</p>
+
+                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                            <button class="btn-primary" onclick="loadPreset('kuliah', this)">📚 Hari Kuliah
+                                Teori</button>
+                            <button class="btn-secondary" onclick="loadPreset('lab', this)">💻 Hari Praktikum Lab
+                                IT</button>
+                            <button class="btn-secondary" onclick="loadPreset('hardware', this)">🔌 Lab Hardware &
+                                IoT</button>
+                            <button class="btn-secondary" onclick="loadPreset('asrama', this)">🏠 Barang Keluar
+                                Asrama</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW 5: PENGINGAT KEGIATAN -->
+            <section class="view-panel" id="view-kegiatan">
+                <div class="glass-card" style="margin-bottom: 1.5rem;">
+                    <div class="section-header">
+                        <h3>Pengingat Kegiatan & Deadline Tugas</h3>
+                        <button class="btn-primary" onclick="openAddEventModal()">+ Tambah Kegiatan Baru</button>
+                    </div>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">Pantau deadline tugas, quiz, rapat
+                        himpunan, serta agenda kampus di Open Theater.</p>
+                </div>
+
+                <div class="glass-card">
+                    <div id="full-events-container">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW 6: CUACA SITOLUAMA -->
+            <section class="view-panel" id="view-cuaca">
+                <div class="glass-card" style="margin-bottom: 1.5rem;">
+                    <div class="section-header">
+                        <h3>Cuaca Kampus Sitoluama & Rekomendasi</h3>
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <button class="btn-secondary active" onclick="simulateWeather('cerah')">☀️ Cerah
+                                Berawan</button>
+                            <button class="btn-secondary" onclick="simulateWeather('hujan')">🌧️ Hujan Gerimis</button>
+                            <button class="btn-secondary" onclick="simulateWeather('badai')">⛈️ Hujan Lebat &
+                                Angin</button>
+                        </div>
+                    </div>
+
+                    <div class="weather-card-full" style="margin-top: 1.5rem;">
+                        <div class="weather-main">
+                            <div class="weather-icon-lg" id="weather-sim-icon">🌧️</div>
+                            <div class="temp-display">
+                                <h3 id="weather-sim-temp">21°C</h3>
+                                <p id="weather-sim-desc">Sitoluama • Hujan Gerimis Lokal</p>
+                            </div>
+                        </div>
+                        <div class="weather-details-row">
+                            <div class="weather-detail-item">
+                                <div class="val" id="weather-sim-hum">92%</div>
+                                <div class="lbl">Kelembaban</div>
+                            </div>
+                            <div class="weather-detail-item">
+                                <div class="val" id="weather-sim-wind">18 km/j</div>
+                                <div class="lbl">Kecepatan Angin</div>
+                            </div>
+                            <div class="weather-detail-item">
+                                <div class="val" id="weather-sim-rain">85%</div>
+                                <div class="lbl">Peluang Presipitasi</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="weather-tip-box" id="weather-sim-adv">
+                        🌧️ <strong>Peringatan Cuaca:</strong> Hujan gerimis melanda kawasan Sitoluama. Siapkan payung
+                        sebelum melintasi area terbuka menuju Lapangan/Kantin/Open Theater!
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Notification Drawer Hub -->
+    <div class="notification-drawer" id="notif-drawer">
+        <div class="drawer-header">
+            <h4>Pusat Notifikasi</h4>
+            <button class="btn-icon" style="width: 32px; height: 32px;" onclick="toggleNotifDrawer()">✕</button>
+        </div>
+        <div class="notification-list" id="notif-list-container">
+            <!-- JS Populated -->
+        </div>
+    </div>
+
+    <!-- Add Item Modal -->
+    <div class="modal-overlay" id="add-item-modal">
+        <div class="modal-card">
+            <h3 style="font-family: 'Outfit'; margin-bottom: 1rem;">Tambah Barang Bawaan</h3>
+            <div class="form-group">
+                <label>Nama Barang</label>
+                <input type="text" class="form-control" id="new-item-name"
+                    placeholder="Misal: Flashdisk 32GB, Buku Modul">
+            </div>
+            <div class="form-group">
+                <label>Kategori</label>
+                <select class="form-control" id="new-item-cat">
+                    <option value="Kuliah">Kuliah</option>
+                    <option value="Praktikum">Praktikum</option>
+                    <option value="Pribadi">Pribadi</option>
+                </select>
+            </div>
+            <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 1.5rem;">
+                <button class="btn-secondary" onclick="closeModal('add-item-modal')">Batal</button>
+                <button class="btn-primary" onclick="addNewChecklistItem()">Simpan Barang</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Event Modal -->
+    <div class="modal-overlay" id="add-event-modal">
+        <div class="modal-card">
+            <h3 style="font-family: 'Outfit'; margin-bottom: 1rem;">Tambah Kegiatan / Deadline</h3>
+            <div class="form-group">
+                <label>Judul Kegiatan</label>
+                <input type="text" class="form-control" id="new-event-title"
+                    placeholder="Misal: Latihan Seni Open Theater">
+            </div>
+            <div class="form-group">
+                <label>Waktu / Deadline</label>
+                <input type="text" class="form-control" id="new-event-time" placeholder="Misal: Besok 17:00 WIB">
+            </div>
+            <div class="form-group">
+                <label>Prioritas</label>
+                <select class="form-control" id="new-event-priority">
+                    <option value="high">Tinggi</option>
+                    <option value="med">Sedang</option>
+                    <option value="low">Rendah</option>
+                </select>
+            </div>
+            <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 1.5rem;">
+                <button class="btn-secondary" onclick="closeModal('add-event-modal')">Batal</button>
+                <button class="btn-primary" onclick="addNewEvent()">Simpan Kegiatan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Class Modal -->
+    <div class="modal-overlay" id="add-class-modal">
+        <div class="modal-card">
+            <h3 style="font-family: 'Outfit'; margin-bottom: 1rem;">Tambah Mata Kuliah Baru</h3>
+            <div class="form-group">
+                <label>Nama Mata Kuliah</label>
+                <input type="text" class="form-control" id="new-class-subject"
+                    placeholder="Misal: Pemrograman Berbasis Objek">
+            </div>
+            <div class="form-group">
+                <label>Tingkatan (Level)</label>
+                <select class="form-control" id="new-class-level">
+                    <option value="1">Tingkat 1 (Semester 1 - 2)</option>
+                    <option value="2">Tingkat 2 (Semester 3 - 4)</option>
+                    <option value="3">Tingkat 3 (Semester 5 - 6)</option>
+                    <option value="4">Tingkat 4 (Semester 7 - 8 / Skripsi)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Program Studi (Prodi)</label>
+                <select class="form-control" id="new-class-prodi">
+                    <option value="D3 TI">D3 Teknologi Informasi</option>
+                    <option value="D3 TK">D3 Teknologi Komputer</option>
+                    <option value="D4 TRPL">D4 Rekayasa Perangkat Lunak</option>
+                    <option value="S1 IF" selected>S1 Informatika</option>
+                    <option value="S1 SI">S1 Sistem Informasi</option>
+                    <option value="S1 TE">S1 Teknik Elektro</option>
+                    <option value="S1 MR">S1 Manajemen Rekayasa</option>
+                    <option value="S1 BT">S1 Bioteknologi</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Hari</label>
+                <select class="form-control" id="new-class-day">
+                    <option value="Senin">Senin</option>
+                    <option value="Selasa" selected>Selasa</option>
+                    <option value="Rabu">Rabu</option>
+                    <option value="Kamis">Kamis</option>
+                    <option value="Jumat">Jumat</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Jam Perkuliahan</label>
+                <input type="text" class="form-control" id="new-class-time" placeholder="Misal: 10:00 - 12:00">
+            </div>
+            <div class="form-group">
+                <label>Ruangan</label>
+                <input type="text" class="form-control" id="new-class-room"
+                    placeholder="Misal: GD 512, Lab IT 1, Open Theater">
+            </div>
+            <div class="form-group">
+                <label>Dosen Pengampu</label>
+                <input type="text" class="form-control" id="new-class-lecturer" placeholder="Misal: Dr. Johannes">
+            </div>
+            <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 1.5rem;">
+                <button class="btn-secondary" onclick="closeModal('add-class-modal')">Batal</button>
+                <button class="btn-primary" onclick="addNewClass()">Simpan Jadwal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Alerts Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Mobile Navigation Bar -->
+    <nav class="mobile-nav">
+        <button class="active" onclick="switchTab('dashboard')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            Dashboard
+        </button>
+        <button onclick="switchTab('jadwal')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+            </svg>
+            Cari Matkul
+        </button>
+        <button onclick="switchTab('ruangan')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            </svg>
+            Ruangan
+        </button>
+        <button onclick="switchTab('peta')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+            </svg>
+            Peta & Theater
+        </button>
+    </nav>
+
+    <!-- JavaScript Application Engine -->
+    <script>
+        // Global State
+        const appState = {
+            currentDay: 'Selasa',
+            currentProdiFilter: 'ALL',
+            currentLevelFilter: 'ALL',
+            searchQuery: '',
+            rooms: [
+                { name: "Open Theater IT Del", building: "Area Outdoor Kampus", floor: "Amphitheater Open Air", status: "kosong", capacity: "300 Kursi / Panggung", nextClass: "🟢 Kosong (Siap untuk gathering & latihan seni)", node: "open_theater" },
+                { name: "GD 511", building: "Gedung 5", floor: "Lantai 1", status: "kosong", capacity: "40 Kursi", nextClass: "Bisa dipakai diskusi sampai 14:00", node: "gd5" },
+                { name: "GD 512", building: "Gedung 5", floor: "Lantai 1", status: "berisi", capacity: "40 Kursi", currentSubject: "Struktur Data (Dr. Johannes)", node: "gd5" },
+                { name: "GD 521", building: "Gedung 5", floor: "Lantai 2", status: "kosong", capacity: "50 Kursi", nextClass: "Kosong seharian ini", node: "gd5" },
+                { name: "GD 711", building: "Gedung 7", floor: "Lantai 1", status: "berisi", capacity: "60 Kursi", currentSubject: "Matematika Diskrit II", node: "gd7" },
+                { name: "GD 712", building: "Gedung 7", floor: "Lantai 1", status: "kosong", capacity: "60 Kursi", nextClass: "Kosong (Bisa dipakai belajar mandiri)", node: "gd7" },
+                { name: "GD 723", building: "Gedung 7", floor: "Lantai 2", status: "kosong", capacity: "45 Kursi", nextClass: "Kosong sampai 15:30", node: "gd7" },
+                { name: "Lab IT 1", building: "Lab IT", floor: "Lantai 1", status: "berisi", capacity: "35 Unit Komputer", currentSubject: "Pemrograman Web", node: "labit" },
+                { name: "Lab IT 2", building: "Lab IT", floor: "Lantai 1", status: "kosong", capacity: "35 Unit Komputer", nextClass: "Bisa dipakai praktikum mandiri", node: "labit" },
+                { name: "Lab IT 3", building: "Lab IT", floor: "Lantai 2", status: "kosong", capacity: "30 Unit Komputer", nextClass: "Kosong (AC Nyala)", node: "labit" },
+                { name: "Lab Hardware & IoT", building: "Lab IT", floor: "Lantai 2", status: "berisi", capacity: "25 Workbench", currentSubject: "Praktikum Sistem Tertanam", node: "labit" }
+            ],
+            checklist: [
+                { id: 1, text: "Kartu Tanda Mahasiswa (KTM)", checked: true, category: "Wajib" },
+                { id: 2, text: "Laptop & Charger", checked: true, category: "Kuliah" },
+                { id: 3, text: "Jas Lab Komputer", checked: true, category: "Praktikum" },
+                { id: 4, text: "Buku Catatan & Pulpen", checked: true, category: "Kuliah" },
+                { id: 5, text: "Tumbler Air Minum", checked: false, category: "Pribadi" }
+            ],
+            // Comprehensive Accurate IT Del Curriculum Covering ALL Levels (Tingkat 1 - 4) Across ALL Study Programs (D3, D4, & S1)
+            schedules: {
+                Senin: [
+                    // Tingkat 1 (Sem 1)
+                    { time: "08:00 - 10:00", prodi: "S1 IF", tingkat: 1, sem: "Sem 1", subject: "Matematika Diskrit I", room: "GD 711", lecturer: "Dr. Arnaldo M.", status: "Selesai", node: "gd7" },
+                    { time: "08:00 - 10:00", prodi: "D3 TI", tingkat: 1, sem: "Sem 1", subject: "Dasar Pemrograman & Algoritma", room: "GD 511", lecturer: "Dr. Johannes", status: "Selesai", node: "gd5" },
+                    { time: "10:15 - 12:15", prodi: "D3 TK", tingkat: 1, sem: "Sem 1", subject: "Fisika Dasar & Rangkaian Listrik", room: "GD 531", lecturer: "Dr. Togar M.", status: "Selesai", node: "gd5" },
+
+                    // Tingkat 2 (Sem 3)
+                    { time: "10:30 - 12:30", prodi: "D4 TRPL", tingkat: 2, sem: "Sem 3", subject: "Analisis & Perancangan Perangkat Lunak", room: "GD 712", lecturer: "Ms. Sarah B.", status: "Selesai", node: "gd7" },
+                    { time: "10:30 - 12:30", prodi: "S1 SI", tingkat: 2, sem: "Sem 3", subject: "Manajemen Sistem Informasi Enterprise", room: "GD 521", lecturer: "Dr. Merry M.", status: "Selesai", node: "gd5" },
+
+                    // Tingkat 3 (Sem 5)
+                    { time: "13:30 - 16:00", prodi: "S1 IF", tingkat: 3, sem: "Sem 5", subject: "Kecerdasan Buatan & Machine Learning", room: "Lab IT 3", lecturer: "Dr. Johannes", status: "Mendatang", node: "labit" },
+                    { time: "14:00 - 16:00", prodi: "S1 TE", tingkat: 3, sem: "Sem 5", subject: "Sistem Otomasi Industri & IoT", room: "Lab Hardware", lecturer: "Tim Lab Elektro", status: "Mendatang", node: "labit" },
+
+                    // Tingkat 4 (Sem 7)
+                    { time: "15:30 - 17:30", prodi: "ALL", tingkat: 4, sem: "Sem 7", subject: "Tugas Akhir I / Metodologi Riset Skripsi", room: "GD 723", lecturer: "Tim Dosen Pembimbing Skripsi", status: "Mendatang", node: "gd7" }
+                ],
+                Selasa: [
+                    // Tingkat 1 (Sem 1-2)
+                    { time: "08:00 - 10:00", prodi: "S1 IF", tingkat: 1, sem: "Sem 2", subject: "Matematika Diskrit II", room: "GD 711", lecturer: "Dr. Arnaldo M.", status: "Selesai", node: "gd7" },
+                    { time: "08:00 - 10:00", prodi: "D3 TI", tingkat: 1, sem: "Sem 2", subject: "Praktikum Pemrograman Terstruktur", room: "Lab IT 1", lecturer: "Tim Lab IT", status: "Selesai", node: "labit" },
+                    { time: "10:15 - 12:15", prodi: "S1 MR", tingkat: 1, sem: "Sem 2", subject: "Pengantar Ekonomi & Bisnis", room: "GD 522", lecturer: "Dr. Rina S.", status: "Selesai", node: "gd5" },
+
+                    // Tingkat 2 (Sem 3-4)
+                    { time: "13:00 - 15:00", prodi: "D4 TRPL", tingkat: 2, sem: "Sem 3", subject: "Struktur Data & Algoritma Lanjut", room: "GD 512", lecturer: "Dr. Johannes", status: "Akan Datang", node: "gd5" },
+                    { time: "13:00 - 15:00", prodi: "S1 BT", tingkat: 2, sem: "Sem 4", subject: "Mikrobiologi Industri & Fermentasi", room: "GD 723", lecturer: "Dr. Yulia T.", status: "Akan Datang", node: "gd7" },
+                    { time: "15:30 - 17:30", prodi: "D3 TI", tingkat: 2, sem: "Sem 4", subject: "Praktikum Pengembangan Aplikasi Web", room: "Lab IT 2", lecturer: "Tim Dosen IT", status: "Mendatang", node: "labit" },
+
+                    // Tingkat 3 & 4 (Sem 6-8)
+                    { time: "15:30 - 17:30", prodi: "S1 IF / S1 SI", tingkat: 4, sem: "Sem 7", subject: "Seminar Proposal Skripsi & Capstone II", room: "GD 723", lecturer: "Dr. Merry M. & Tim Penguji", status: "Mendatang", node: "gd7" },
+                    { time: "16:30 - 18:00", prodi: "ALL", tingkat: "ALL", sem: "Semua", subject: "Gladi Del Art Festival & Performance", room: "Open Theater", lecturer: "Pembina Seni & UKM Del", status: "Mendatang", node: "open_theater" }
+                ],
+                Rabu: [
+                    // Tingkat 1 (Sem 1)
+                    { time: "08:00 - 10:30", prodi: "D3 TK", tingkat: 1, sem: "Sem 1", subject: "Logika Informatika & Rangkaian Digital", room: "Lab Hardware", lecturer: "Tim Lab Elektro", status: "Mendatang", node: "labit" },
+
+                    // Tingkat 2 (Sem 3)
+                    { time: "08:00 - 11:00", prodi: "S1 IF", tingkat: 2, sem: "Sem 3", subject: "Arsitektur & Organisasi Komputer", room: "GD 521", lecturer: "Dr. Togar M.", status: "Mendatang", node: "gd5" },
+                    { time: "14:00 - 16:30", prodi: "S1 SI", tingkat: 2, sem: "Sem 3", subject: "Tata Kelola Teknologi Informasi (COBIT)", room: "GD 712", lecturer: "Dr. Merry M.", status: "Mendatang", node: "gd7" },
+
+                    // Tingkat 3 (Sem 5)
+                    { time: "13:30 - 16:30", prodi: "D4 TRPL", tingkat: 3, sem: "Sem 5", subject: "Pengembangan Aplikasi Web Scale & Microservices", room: "Lab IT 3", lecturer: "Dr. Johannes", status: "Mendatang", node: "labit" },
+
+                    // Tingkat 4 (Sem 8)
+                    { time: "14:00 - 17:00", prodi: "ALL", tingkat: 4, sem: "Sem 8", subject: "Pameran Capstone Project Inovasi Kampus", room: "Auditorium", lecturer: "Dewan Penguji & Industri", status: "Mendatang", node: "auditorium" }
+                ],
+                Kamis: [
+                    // Tingkat 2 (Sem 4)
+                    { time: "09:00 - 11:30", prodi: "D3 TI", tingkat: 2, sem: "Sem 4", subject: "Pemrograman Berbasis Objek (PBO)", room: "GD 511", lecturer: "Dr. Arnaldo M.", status: "Mendatang", node: "gd5" },
+                    { time: "09:00 - 12:00", prodi: "S1 IF", tingkat: 2, sem: "Sem 4", subject: "Sistem Manajemen Basis Data (DBMS)", room: "GD 723", lecturer: "Dr. Merry M.", status: "Mendatang", node: "gd7" },
+
+                    // Tingkat 3 (Sem 6)
+                    { time: "13:00 - 15:30", prodi: "D4 TRPL", tingkat: 3, sem: "Sem 6", subject: "Keamanan Perangkat Lunak & Penetration Testing", room: "Lab IT 1", lecturer: "Tim Dosen Cybersecurity", status: "Mendatang", node: "labit" },
+
+                    // Tingkat 4 & General
+                    { time: "14:00 - 16:00", prodi: "ALL", tingkat: 4, sem: "Sem 7", subject: "Etika Profesi & Character Building Del", room: "Auditorium", lecturer: "Rektorat IT Del", status: "Mendatang", node: "auditorium" },
+                    { time: "16:30 - 18:00", prodi: "ALL", tingkat: "ALL", sem: "Semua", subject: "Pertunjukan Outdoor Himpunan", room: "Open Theater", lecturer: "Pembina Seni Del", status: "Mendatang", node: "open_theater" }
+                ],
+                Jumat: [
+                    // Tingkat 2 (Sem 4)
+                    { time: "08:00 - 10:00", prodi: "S1 TE", tingkat: 2, sem: "Sem 4", subject: "Jaringan Komputer & Telekomunikasi", room: "GD 531", lecturer: "Dr. Arnaldo M.", status: "Mendatang", node: "gd5" },
+
+                    // Tingkat 3 (Sem 6)
+                    { time: "08:00 - 10:00", prodi: "D4 TRPL", tingkat: 3, sem: "Sem 6", subject: "Praktek Kerja Lapangan / Magang MBKM", room: "GD 711", lecturer: "Tim Koordinator MBKM", status: "Mendatang", node: "gd7" },
+
+                    // All Levels
+                    { time: "10:15 - 11:45", prodi: "ALL", tingkat: "ALL", sem: "Semua", subject: "Ibadah & Persekutuan Kampus IT Del", room: "Auditorium", lecturer: "Panitia Kerohanian Kampus", status: "Mendatang", node: "auditorium" }
+                ]
+            },
+            events: [
+                { id: 1, title: "Submit Laporan Lab IT 2", time: "Hari Ini • 23:59 WIB", priority: "high", desc: "Modul 4 Queue & Stack" },
+                { id: 2, title: "Gladi Pentashihan Open Theater", time: "Besok • 17:00 WIB", priority: "med", desc: "Persiapan Del Art Festival @ Open Theater" },
+                { id: 3, title: "Piket Kebersihan Asrama", time: "Sabtu • 06:30 WIB", priority: "low", desc: "Kamar Silakto Lt 2" }
+            ],
+            notifications: [
+                { id: 1, title: "Peringatan Barang Bawaan", msg: "Tumbler air minum belum dicentang! Jangan lupa bawa air minum.", time: "10 menit lalu", icon: "🎒" },
+                { id: 2, title: "Jadwal Matkul Terdekat", msg: "Struktur Data (Tingkat 2) di GD 512 dimulai pukul 13:00 WIB.", time: "25 menit lalu", icon: "📚" },
+                { id: 3, title: "Open Theater IT Del", msg: "Gladi pertunjukan seni di Open Theater sore ini pukul 16:30 WIB.", time: "45 menit lalu", icon: "🎭" }
+            ],
+            mapNodes: {
+                asrama_silakto: { x: 120, y: 120, name: "Asrama Silakto" },
+                asrama_nauli: { x: 120, y: 280, name: "Asrama Nauli & Kapernaum" },
+                kantin: { x: 300, y: 120, name: "Kantin Utama & Mamak" },
+                auditorium: { x: 520, y: 120, name: "Auditorium Del Hall" },
+                gd5: { x: 300, y: 280, name: "Gedung 5 (GD5)" },
+                gd7: { x: 520, y: 280, name: "Gedung 7 (GD7)" },
+                labit: { x: 700, y: 280, name: "Lab IT 1-2 & Hardware" },
+                open_theater: { x: 350, y: 420, name: "Open Theater IT Del" },
+                lapangan: { x: 220, y: 420, name: "Lapangan Olahraga" },
+                perpus: { x: 520, y: 420, name: "Perpustakaan" }
+            }
+        };
+
+        // Initialize Application
+        document.addEventListener('DOMContentLoaded', () => {
+            initClock();
+            renderChecklists();
+            renderRooms('semua');
+            renderFullSchedule('Selasa');
+            renderEvents();
+            renderNotifications();
+            calculateRoute();
+
+            // Document click to close search dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                const searchWrap = document.querySelector('.search-box-wrap');
+                if (searchWrap && !searchWrap.contains(e.target)) {
+                    const dropdown = document.getElementById('search-results-dropdown');
+                    if (dropdown) dropdown.classList.remove('show');
+                }
+            });
+
+            setTimeout(() => {
+                showToast("🎓 DELmate Siap!", "Pencarian Matkul Tingkat 1 - 4 & Open Theater Aktif!");
+            }, 500);
+        });
+
+        // Live Clock Engine
+        function initClock() {
+            const clockEl = document.getElementById('clock-display');
+            const updateTime = () => {
+                const now = new Date();
+                clockEl.textContent = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB';
+            };
+            updateTime();
+            setInterval(updateTime, 1000);
+        }
+
+        // GLOBAL LIVE SEARCH ENGINE WITH POPUP DROPDOWN
+        function handleGlobalSearch(query) {
+            const dropdown = document.getElementById('search-results-dropdown');
+            if (!dropdown) return;
+
+            const q = query.trim().toLowerCase();
+            appState.searchQuery = q;
+
+            if (!q) {
+                dropdown.classList.remove('show');
+                dropdown.innerHTML = '';
+                return;
+            }
+
+            let resultsHTML = '';
+
+            // Search Courses (Mata Kuliah) across all levels
+            let matchedCourses = [];
+            Object.keys(appState.schedules).forEach(day => {
+                appState.schedules[day].forEach(c => {
+                    if (c.subject.toLowerCase().includes(q) ||
+                        c.prodi.toLowerCase().includes(q) ||
+                        c.lecturer.toLowerCase().includes(q) ||
+                        c.room.toLowerCase().includes(q) ||
+                        (c.tingkat && c.tingkat.toString().includes(q))) {
+                        matchedCourses.push({ ...c, day });
+                    }
+                });
+            });
+
+            if (matchedCourses.length > 0) {
+                resultsHTML += `<div class="search-category-title">📚 Mata Kuliah & Jadwal (Tingkat 1 - 4)</div>`;
+                matchedCourses.slice(0, 5).forEach(c => {
+                    resultsHTML += `
+                        <div class="search-item-row" onclick="selectSearchResult('course', '${c.subject.replace(/'/g, "\\'")}', '${c.day}')">
+                            <div>
+                                <div class="search-item-title">${c.subject}</div>
+                                <div class="search-item-sub">Tingkat ${c.tingkat || '1-4'} (${c.sem || 'Semua'}) • ${c.prodi} • ${c.day}, ${c.time} • 📍 ${c.room} (${c.lecturer})</div>
+                            </div>
+                            <span class="prodi-badge" style="font-size: 0.65rem;">${c.day}</span>
+                        </div>
+                    `;
+                });
+            }
+
+            // Search Rooms & Buildings (including Open Theater)
+            let matchedRooms = appState.rooms.filter(r =>
+                r.name.toLowerCase().includes(q) ||
+                r.building.toLowerCase().includes(q) ||
+                (r.currentSubject && r.currentSubject.toLowerCase().includes(q))
+            );
+
+            if (matchedRooms.length > 0) {
+                resultsHTML += `<div class="search-category-title">🏛️ Ruangan & Open Theater</div>`;
+                matchedRooms.forEach(r => {
+                    resultsHTML += `
+                        <div class="search-item-row" onclick="selectSearchResult('room', '${r.name.replace(/'/g, "\\'")}', '${r.node}')">
+                            <div>
+                                <div class="search-item-title">${r.name}</div>
+                                <div class="search-item-sub">${r.building} • Status: ${r.status === 'kosong' ? '🟢 KOSONG' : '🔴 BERISI'}</div>
+                            </div>
+                            <span style="font-size: 0.72rem; color: var(--accent-cyan);">Rute ➔</span>
+                        </div>
+                    `;
+                });
+            }
+
+            // Search Buildings / Map Landmarks
+            let mapKeys = Object.keys(appState.mapNodes).filter(k => appState.mapNodes[k].name.toLowerCase().includes(q));
+            if (mapKeys.length > 0) {
+                resultsHTML += `<div class="search-category-title">🗺️ Lokasi & Landmark Kampus</div>`;
+                mapKeys.forEach(k => {
+                    resultsHTML += `
+                        <div class="search-item-row" onclick="selectSearchResult('map', '${appState.mapNodes[k].name.replace(/'/g, "\\'")}', '${k}')">
+                            <div>
+                                <div class="search-item-title">📍 ${appState.mapNodes[k].name}</div>
+                                <div class="search-item-sub">Lihat Lokasi & Rute Peta Kampus</div>
+                            </div>
+                            <span style="font-size: 0.72rem; color: var(--accent-pink);">Navigasi</span>
+                        </div>
+                    `;
+                });
+            }
+
+            if (!resultsHTML) {
+                resultsHTML = `<div style="padding: 1rem; text-align: center; color: var(--text-muted); font-size: 0.85rem;">Tidak ada hasil ditemukan untuk "${query}"</div>`;
+            }
+
+            dropdown.innerHTML = resultsHTML;
+            dropdown.classList.add('show');
+
+            // Sync with current view if active
+            renderFullSchedule(appState.currentDay);
+            renderRooms('semua', q);
+        }
+
+        // Click search dropdown item helper
+        function selectSearchResult(type, title, arg2) {
+            const dropdown = document.getElementById('search-results-dropdown');
+            if (dropdown) dropdown.classList.remove('show');
+
+            if (type === 'course') {
+                switchTab('jadwal');
+                filterDay(arg2);
+                const matkulInput = document.getElementById('matkul-search-input');
+                if (matkulInput) {
+                    matkulInput.value = title;
+                    filterMatkulSearch(title);
+                }
+                showToast("📚 Matkul Ditemukan", `Menampilkan ${title} pada hari ${arg2}`);
+            } else if (type === 'room') {
+                switchTab('ruangan');
+                renderRooms('semua', title.toLowerCase());
+                showToast("🏛️ Detail Ruangan", `Menampilkan status ketersediaan ${title}`);
+            } else if (type === 'map') {
+                navigateToLocation(arg2);
+            }
+        }
+
+        // Dedicated Course Search in Jadwal View
+        function filterMatkulSearch(query) {
+            appState.searchQuery = query.trim().toLowerCase();
+            renderFullSchedule(appState.currentDay);
+        }
+
+        // TAB SWITCHING ENGINE
+        function switchTab(viewId) {
+            document.querySelectorAll('.nav-item').forEach(el => {
+                if (el.getAttribute('data-view') === viewId) el.classList.add('active');
+                else el.classList.remove('active');
+            });
+
+            document.querySelectorAll('.mobile-nav button').forEach(el => {
+                const navText = el.textContent.trim().toLowerCase();
+                if ((viewId === 'dashboard' && navText.includes('dashboard')) ||
+                    (viewId === 'jadwal' && navText.includes('jadwal')) ||
+                    (viewId === 'ruangan' && navText.includes('ruangan')) ||
+                    (viewId === 'peta' && navText.includes('peta'))) {
+                    el.classList.add('active');
+                } else el.classList.remove('active');
+            });
+
+            document.querySelectorAll('.view-panel').forEach(el => el.classList.remove('active'));
+            const targetView = document.getElementById(`view-${viewId}`);
+            if (targetView) targetView.classList.add('active');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // MULTI-PRODI, ALL-DAY & LEVEL (TINGKAT 1-4) SCHEDULE ENGINE
+        function renderFullSchedule(day) {
+            appState.currentDay = day;
+            const container = document.getElementById('full-schedule-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            let list = [];
+            if (day === 'ALL') {
+                Object.keys(appState.schedules).forEach(d => {
+                    appState.schedules[d].forEach(item => {
+                        list.push({ ...item, dayName: d });
+                    });
+                });
+            } else {
+                list = (appState.schedules[day] || []).map(item => ({ ...item, dayName: day }));
+            }
+
+            // Filter by Tingkatan (Level 1, 2, 3, 4)
+            if (appState.currentLevelFilter !== 'ALL') {
+                list = list.filter(item =>
+                    item.tingkat.toString() === appState.currentLevelFilter ||
+                    item.tingkat === 'ALL'
+                );
+            }
+
+            // Filter by selected Prodi
+            if (appState.currentProdiFilter !== 'ALL') {
+                list = list.filter(item => item.prodi === appState.currentProdiFilter || item.prodi === 'ALL');
+            }
+
+            // Filter by search query
+            if (appState.searchQuery) {
+                const q = appState.searchQuery;
+                list = list.filter(item =>
+                    item.subject.toLowerCase().includes(q) ||
+                    item.prodi.toLowerCase().includes(q) ||
+                    item.room.toLowerCase().includes(q) ||
+                    item.lecturer.toLowerCase().includes(q) ||
+                    (item.dayName && item.dayName.toLowerCase().includes(q)) ||
+                    (item.tingkat && item.tingkat.toString().includes(q))
+                );
+            }
+
+            if (list.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; color: var(--text-muted); padding: 3rem;">
+                        <p style="font-size: 1.1rem; font-weight: 700;">Tidak ada mata kuliah yang cocok untuk kriteria ini.</p>
+                        <p style="font-size: 0.85rem; margin-top: 4px;">Coba atur ulang filter Tingkatan, Prodi, atau pilih "🌐 Semua Hari".</p>
+                    </div>
+                `;
+                return;
+            }
+
+            list.forEach(item => {
+                let statusClass = 'upcoming';
+                if (item.status === 'Selesai') statusClass = 'active';
+                if (item.status === 'Akan Datang') statusClass = 'next';
+
+                const isTheater = item.room.toLowerCase().includes('theater');
+                const levelText = item.tingkat === 'ALL' ? 'Semua Tingkatan' : `Tingkat ${item.tingkat} • ${item.sem || ''}`;
+
+                const html = `
+                    <div class="schedule-card" style="${isTheater ? 'border-color: var(--accent-pink);' : ''}">
+                        <div class="schedule-time">
+                            <div class="time-range">${item.time}</div>
+                            <span class="status-tag ${statusClass}">${item.status}</span>
+                            <span style="display: block; font-size: 0.72rem; color: var(--accent-cyan); margin-top: 4px; font-weight: 700;">${item.dayName}</span>
+                        </div>
+                        <div class="schedule-info">
+                            <span class="prodi-badge" style="${isTheater ? 'background: rgba(236, 72, 153, 0.2); color: #f472b6; border-color: rgba(236, 72, 153, 0.4);' : ''}">${item.prodi}</span>
+                            <span class="level-badge">${levelText}</span>
+                            <h4>${item.subject}</h4>
+                            <div class="schedule-meta">
+                                <span>📍 Ruangan: <strong>${item.room}</strong></span>
+                                <span>👨‍🏫 Dosen: <strong>${item.lecturer}</strong></span>
+                            </div>
+                        </div>
+                        <button class="btn-action-sm" style="${isTheater ? 'background: var(--accent-pink);' : ''}" onclick="navigateToLocation('${item.node || 'gd5'}')">
+                            🧭 Petunjuk Rute
+                        </button>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', html);
+            });
+        }
+
+        function filterLevel(levelCode, btnEl) {
+            appState.currentLevelFilter = levelCode;
+            document.querySelectorAll('#level-selector button').forEach(b => b.className = 'btn-secondary');
+            if (btnEl) btnEl.className = 'btn-primary active';
+            renderFullSchedule(appState.currentDay);
+            showToast("🎓 Filter Tingkatan", `Menampilkan matkul Tingkat ${levelCode}`);
+        }
+
+        function filterProdi(prodiCode, btnEl) {
+            appState.currentProdiFilter = prodiCode;
+            document.querySelectorAll('#prodi-selector button').forEach(b => b.className = 'btn-secondary');
+            if (btnEl) btnEl.className = 'btn-primary active';
+            renderFullSchedule(appState.currentDay);
+            showToast("🎓 Filter Prodi", `Menampilkan mata kuliah prodi ${prodiCode}`);
+        }
+
+        function filterDay(day, btnEl) {
+            document.querySelectorAll('#day-selector button').forEach(b => b.className = 'btn-secondary');
+            if (btnEl) btnEl.className = 'btn-secondary active';
+            renderFullSchedule(day);
+        }
+
+        // ROOM & OPEN THEATER AVAILABILITY ENGINE
+        function renderRooms(filterType, searchQuery = '') {
+            const container = document.getElementById('rooms-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            let filtered = appState.rooms;
+
+            if (filterType === 'kosong') {
+                filtered = filtered.filter(r => r.status === 'kosong');
+            } else if (filterType === 'berisi') {
+                filtered = filtered.filter(r => r.status === 'berisi');
+            }
+
+            if (searchQuery) {
+                filtered = filtered.filter(r =>
+                    r.name.toLowerCase().includes(searchQuery) ||
+                    r.building.toLowerCase().includes(searchQuery) ||
+                    (r.currentSubject && r.currentSubject.toLowerCase().includes(searchQuery))
+                );
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<p style="text-align: center; color: var(--text-muted); grid-column: span 3; padding: 2rem;">Tidak ada ruangan/theater yang cocok dengan pencarian.</p>`;
+                return;
+            }
+
+            filtered.forEach(room => {
+                const isKosong = room.status === 'kosong';
+                const isTheater = room.node === 'open_theater';
+                const html = `
+                    <div class="room-card" style="${isTheater ? 'border-color: var(--accent-pink); background: rgba(236, 72, 153, 0.05);' : ''}">
+                        <div>
+                            <h4 style="font-size: 1rem; font-weight: 700; color: ${isTheater ? '#f472b6' : 'white'};">${room.name}</h4>
+                            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">${room.building} • ${room.floor}</p>
+                            <p style="font-size: 0.75rem; color: ${isKosong ? 'var(--accent-emerald)' : 'var(--accent-rose)'}; margin-top: 6px; font-weight: 600;">
+                                ${isKosong ? room.nextClass : '🔴 ' + room.currentSubject}
+                            </p>
+                        </div>
+                        <div style="text-align: right;">
+                            <span class="room-status-badge ${isKosong ? 'status-empty' : 'status-occupied'}">
+                                ${isKosong ? 'KOSONG' : 'BERISI'}
+                            </span>
+                            <button class="btn-action-sm" style="margin-top: 8px; font-size: 0.75rem; ${isTheater ? 'background: var(--accent-pink);' : ''}" onclick="navigateToLocation('${room.node}')">
+                                Rute
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', html);
+            });
+        }
+
+        function filterRooms(type, btnEl) {
+            document.querySelectorAll('#view-ruangan .btn-secondary').forEach(b => b.classList.remove('active'));
+            if (btnEl) btnEl.classList.add('active');
+            renderRooms(type);
+        }
+
+        // CHECKLIST ENGINE
+        function renderChecklists() {
+            const miniContainer = document.getElementById('dash-mini-checklist');
+            const fullContainer = document.getElementById('full-checklist-items');
+
+            if (miniContainer) miniContainer.innerHTML = '';
+            if (fullContainer) fullContainer.innerHTML = '';
+
+            let checkedCount = 0;
+
+            appState.checklist.forEach(item => {
+                if (item.checked) checkedCount++;
+
+                const itemHTML = `
+                    <div class="checklist-item ${item.checked ? 'checked' : ''}" onclick="toggleCheckItem(${item.id})">
+                        <div class="checklist-left">
+                            <div class="custom-checkbox">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <span class="item-text">${item.text}</span>
+                        </div>
+                        <span class="item-tag">${item.category}</span>
+                    </div>
+                `;
+
+                if (miniContainer) miniContainer.insertAdjacentHTML('beforeend', itemHTML);
+                if (fullContainer) fullContainer.insertAdjacentHTML('beforeend', itemHTML);
+            });
+
+            const total = appState.checklist.length;
+            const pct = Math.round((checkedCount / total) * 100);
+
+            if (document.getElementById('dash-packing-val')) document.getElementById('dash-packing-val').textContent = `${checkedCount} / ${total} Item`;
+            if (document.getElementById('dash-checklist-pct')) document.getElementById('dash-checklist-pct').textContent = `${pct}%`;
+            if (document.getElementById('dash-progress-fill')) document.getElementById('dash-progress-fill').style.width = `${pct}%`;
+            if (document.getElementById('full-progress-fill')) document.getElementById('full-progress-fill').style.width = `${pct}%`;
+            if (document.getElementById('full-checklist-status')) document.getElementById('full-checklist-status').textContent = `${checkedCount} dari ${total} barang siap`;
+        }
+
+        function toggleCheckItem(id) {
+            const item = appState.checklist.find(i => i.id === id);
+            if (item) {
+                item.checked = !item.checked;
+                renderChecklists();
+                if (item.checked) {
+                    showToast("✅ Barang Dicatat", `${item.text} telah dimasukkan ke dalam tas.`);
+                }
+            }
+        }
+
+        function loadPreset(presetType, btnEl) {
+            if (btnEl) {
+                document.querySelectorAll('#view-barang .btn-primary, #view-barang .btn-secondary').forEach(b => {
+                    b.className = 'btn-secondary';
+                });
+                btnEl.className = 'btn-primary';
+            }
+
+            if (presetType === 'kuliah') {
+                appState.checklist = [
+                    { id: 1, text: "Kartu Tanda Mahasiswa (KTM)", checked: true, category: "Wajib" },
+                    { id: 2, text: "Laptop & Charger", checked: true, category: "Kuliah" },
+                    { id: 4, text: "Buku Catatan & Pulpen", checked: true, category: "Kuliah" },
+                    { id: 5, text: "Tumbler Air Minum", checked: false, category: "Pribadi" }
+                ];
+            } else if (presetType === 'lab') {
+                appState.checklist = [
+                    { id: 1, text: "Kartu Tanda Mahasiswa (KTM)", checked: true, category: "Wajib" },
+                    { id: 2, text: "Jas Lab Komputer", checked: true, category: "Praktikum" },
+                    { id: 3, text: "Laptop & Mouse", checked: true, category: "Kuliah" },
+                    { id: 4, text: "Modul Praktikum PDF", checked: false, category: "Praktikum" }
+                ];
+            } else if (presetType === 'hardware') {
+                appState.checklist = [
+                    { id: 1, text: "KTM & Jas Lab", checked: true, category: "Wajib" },
+                    { id: 2, text: "Kit Arduino / ESP32", checked: false, category: "Praktikum" },
+                    { id: 3, text: "Kabel MicroUSB / Type-C", checked: true, category: "Praktikum" },
+                    { id: 4, text: "Laptop & IDE PlatformIO", checked: true, category: "Kuliah" }
+                ];
+            } else if (presetType === 'asrama') {
+                appState.checklist = [
+                    { id: 1, text: "Kunci Kamar Asrama", checked: true, category: "Asrama" },
+                    { id: 2, text: "Baju Olahraga / Piket", checked: false, category: "Asrama" },
+                    { id: 3, text: "Peralatan Mandi", checked: true, category: "Pribadi" }
+                ];
+            }
+            renderChecklists();
+            showToast("🎒 Preset Dimuat", `Checklist barang disesuaikan untuk ${presetType.toUpperCase()}`);
+        }
+
+        // MAP & ROUTE ENGINE (WITH OPEN THEATER IT DEL)
+        function selectNodeFromMap(nodeId) {
+            const endSelect = document.getElementById('route-end');
+            if (endSelect) endSelect.value = nodeId;
+            calculateRoute();
+            showToast("📍 Tujuan Dipilih", `Navigasi ke ${appState.mapNodes[nodeId] ? appState.mapNodes[nodeId].name : nodeId}`);
+        }
+
+        function navigateToLocation(nodeId) {
+            switchTab('peta');
+            selectNodeFromMap(nodeId);
+        }
+
+        function setQuickRoute(startNode, endNode) {
+            if (document.getElementById('route-start')) document.getElementById('route-start').value = startNode;
+            if (document.getElementById('route-end')) document.getElementById('route-end').value = endNode;
+            calculateRoute();
+        }
+
+        function calculateRoute() {
+            const startKey = document.getElementById('route-start') ? document.getElementById('route-start').value : 'gd5';
+            const endKey = document.getElementById('route-end') ? document.getElementById('route-end').value : 'open_theater';
+
+            const start = appState.mapNodes[startKey];
+            const end = appState.mapNodes[endKey];
+
+            if (!start || !end) return;
+
+            const pathEl = document.getElementById('active-route-path');
+            if (pathEl) {
+                const midX = (start.x + end.x) / 2;
+                const pathD = `M ${start.x} ${start.y} L ${midX} ${start.y} L ${midX} ${end.y} L ${end.x} ${end.y}`;
+                pathEl.setAttribute('d', pathD);
+            }
+
+            const dx = Math.abs(end.x - start.x);
+            const dy = Math.abs(end.y - start.y);
+            const pixelDist = Math.sqrt(dx * dx + dy * dy);
+
+            const meters = Math.round(pixelDist * 0.7);
+            const mins = Math.max(1, Math.round(meters / 75));
+            const steps = Math.round(meters * 1.35);
+
+            if (document.getElementById('route-time')) document.getElementById('route-time').textContent = `${mins} Menit`;
+            if (document.getElementById('route-dist')) document.getElementById('route-dist').textContent = `${meters} Meter`;
+            if (document.getElementById('route-steps')) document.getElementById('route-steps').textContent = `${steps} Langkah`;
+
+            if (document.getElementById('route-instruction')) {
+                document.getElementById('route-instruction').textContent =
+                    `Jalan kaki dari ${start.name} ➔ jalur pedestrian ➔ tiba di ${end.name}.`;
+            }
+        }
+
+        // EVENT REMINDERS ENGINE
+        function renderEvents() {
+            const container = document.getElementById('full-events-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            appState.events.forEach(ev => {
+                const html = `
+                    <div class="event-card">
+                        <div>
+                            <h4 style="font-size: 0.95rem; font-weight: 700;">${ev.title}</h4>
+                            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">${ev.desc}</p>
+                            <p style="font-size: 0.75rem; color: var(--accent-cyan); margin-top: 4px;">⏰ ${ev.time}</p>
+                        </div>
+                        <span class="priority-badge priority-${ev.priority}">${ev.priority.toUpperCase()}</span>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', html);
+            });
+        }
+
+        // WEATHER SIMULATOR
+        function simulateWeather(type) {
+            const icon = document.getElementById('weather-sim-icon');
+            const temp = document.getElementById('weather-sim-temp');
+            const desc = document.getElementById('weather-sim-desc');
+            const hum = document.getElementById('weather-sim-hum');
+            const wind = document.getElementById('weather-sim-wind');
+            const rain = document.getElementById('weather-sim-rain');
+            const adv = document.getElementById('weather-sim-adv');
+
+            if (type === 'cerah') {
+                if (icon) icon.textContent = '☀️';
+                if (temp) temp.textContent = '25°C';
+                if (desc) desc.textContent = 'Sitoluama • Cerah Segar';
+                if (hum) hum.textContent = '65%';
+                if (wind) wind.textContent = '8 km/j';
+                if (rain) rain.textContent = '10%';
+                if (adv) adv.innerHTML = '☀️ <strong>Cuaca Bagus:</strong> Cuaca cerah! Sangat nyaman untuk kumpul angkatan & acara outdoor di Open Theater IT Del.';
+                showToast("☀️ Update Cuaca", "Kondisi Sitoluama cerah berawan hari ini.");
+            } else if (type === 'hujan') {
+                if (icon) icon.textContent = '🌧️';
+                if (temp) temp.textContent = '21°C';
+                if (desc) desc.textContent = 'Sitoluama • Hujan Gerimis Lokal';
+                if (hum) hum.textContent = '92%';
+                if (wind) wind.textContent = '18 km/j';
+                if (rain) rain.textContent = '85%';
+                if (adv) adv.innerHTML = '🌧️ <strong>Peringatan Cuaca:</strong> Hujan gerimis melanda Sitoluama. Siapkan payung saat menuju Open Theater/Kantin!';
+                showToast("🌧️ Waspada Hujan", "Hujan gerimis melanda kawasan kampus Sitoluama.");
+            } else if (type === 'badai') {
+                if (icon) icon.textContent = '⛈️';
+                if (temp) temp.textContent = '19°C';
+                if (desc) desc.textContent = 'Sitoluama • Hujan Lebat & Angin Kencang';
+                if (hum) hum.textContent = '98%';
+                if (wind) wind.textContent = '28 km/j';
+                if (rain) rain.textContent = '95%';
+                if (adv) adv.innerHTML = '⛈️ <strong>Peringatan Badai:</strong> Hujan lebat & angin. Pindahkan kegiatan outdoor Open Theater ke Auditorium Del Hall!';
+                showToast("⛈️ Peringatan Hujan Lebat", "Gunakan koridor terhubung antar gedung kampus.");
+            }
+        }
+
+        // NOTIFICATION DRAWER & TOASTS
+        function toggleNotifDrawer() {
+            const drawer = document.getElementById('notif-drawer');
+            if (drawer) drawer.classList.toggle('open');
+        }
+
+        function renderNotifications() {
+            const container = document.getElementById('notif-list-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            appState.notifications.forEach(n => {
+                const html = `
+                    <div class="notif-item">
+                        <div class="notif-icon" style="background: rgba(37, 99, 235, 0.2); width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">${n.icon}</div>
+                        <div class="notif-content">
+                            <h5>${n.title}</h5>
+                            <p>${n.msg}</p>
+                            <div class="notif-time">${n.time}</div>
+                        </div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', html);
+            });
+        }
+
+        function showToast(title, desc) {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `
+                <div style="font-size: 1.2rem;">🔔</div>
+                <div>
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-desc">${desc}</div>
+                </div>
+            `;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100%)';
+                toast.style.transition = 'all 0.35s ease';
+                setTimeout(() => toast.remove(), 400);
+            }, 3500);
+        }
+
+        // MODAL HELPERS
+        function openAddItemModal() { document.getElementById('add-item-modal').classList.add('open'); }
+        function openAddEventModal() { document.getElementById('add-event-modal').classList.add('open'); }
+        function openAddClassModal() { document.getElementById('add-class-modal').classList.add('open'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+        function addNewChecklistItem() {
+            const name = document.getElementById('new-item-name').value.trim();
+            const cat = document.getElementById('new-item-cat').value;
+            if (!name) return;
+
+            appState.checklist.push({
+                id: Date.now(),
+                text: name,
+                checked: false,
+                category: cat
+            });
+
+            document.getElementById('new-item-name').value = '';
+            closeModal('add-item-modal');
+            renderChecklists();
+            showToast("✨ Barang Ditambahkan", `${name} ditambahkan ke daftar checklist.`);
+        }
+
+        function addNewEvent() {
+            const title = document.getElementById('new-event-title').value.trim();
+            const time = document.getElementById('new-event-time').value.trim();
+            const priority = document.getElementById('new-event-priority').value;
+
+            if (!title) return;
+
+            appState.events.unshift({
+                id: Date.now(),
+                title: title,
+                time: time || 'Hari Ini',
+                priority: priority,
+                desc: 'Pengingat kustom'
+            });
+
+            document.getElementById('new-event-title').value = '';
+            document.getElementById('new-event-time').value = '';
+            closeModal('add-event-modal');
+            renderEvents();
+            showToast("📅 Kegiatan Ditambahkan", `${title} telah dicatat dalam pengingat.`);
+        }
+
+        function addNewClass() {
+            const subject = document.getElementById('new-class-subject').value.trim();
+            const prodi = document.getElementById('new-class-prodi').value;
+            const level = document.getElementById('new-class-level').value;
+            const day = document.getElementById('new-class-day').value;
+            const time = document.getElementById('new-class-time').value.trim();
+            const room = document.getElementById('new-class-room').value.trim();
+            const lecturer = document.getElementById('new-class-lecturer').value.trim();
+
+            if (!subject) return;
+
+            if (!appState.schedules[day]) appState.schedules[day] = [];
+            const isTheater = room.toLowerCase().includes('theater');
+            appState.schedules[day].unshift({
+                time: time || '10:00 - 12:00',
+                prodi: prodi || 'S1 IF',
+                tingkat: parseInt(level) || 1,
+                sem: `Sem ${parseInt(level) * 2 - 1}`,
+                subject: subject,
+                room: room || 'GD 512',
+                lecturer: lecturer || 'Tim Dosen',
+                status: 'Mendatang',
+                node: isTheater ? 'open_theater' : (room.toLowerCase().includes('7') ? 'gd7' : (room.toLowerCase().includes('lab') ? 'labit' : 'gd5'))
+            });
+
+            document.getElementById('new-class-subject').value = '';
+            closeModal('add-class-modal');
+            renderFullSchedule(appState.currentDay);
+            showToast("📚 Kelas Ditambahkan", `${subject} (Tingkat ${level} • ${prodi}) ditambahkan.`);
+        }
+    </script>
+</body>
+
+</html>

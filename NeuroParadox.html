@@ -1,0 +1,1713 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEURO-PARADOX: The Dual-Brain Cognitive Reflex Lab 🧠⚡</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=JetBrains+Mono:wght@400;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #070913;
+            --bg-card: rgba(16, 21, 39, 0.82);
+            --bg-card-hover: rgba(26, 34, 62, 0.9);
+            --border-glow: rgba(0, 242, 254, 0.35);
+            --cyan: #00f2fe;
+            --magenta: #ff007f;
+            --neon-purple: #7928ca;
+            --neon-green: #00ff87;
+            --neon-amber: #ffb300;
+            --neon-red: #ff3366;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --font-ui: 'Outfit', sans-serif;
+            --font-code: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-ui);
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Interactive Neural Canvas Background */
+        #neural-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.55;
+        }
+
+        /* Container */
+        .app-wrapper {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 1100px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            min-height: 100vh;
+        }
+
+        /* Header Nav */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-glow);
+            border-radius: 20px;
+            padding: 14px 24px;
+            box-shadow: 0 10px 30px rgba(0, 242, 254, 0.1);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-icon {
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, var(--cyan), var(--magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulseGlow 2.5s infinite alternate ease-in-out;
+        }
+
+        .brand-titles h1 {
+            font-size: 1.45rem;
+            font-weight: 900;
+            letter-spacing: 1px;
+            background: linear-gradient(90deg, #ffffff, var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+        }
+
+        .brand-titles p {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 18px;
+            align-items: center;
+        }
+
+        .stat-pill {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-code);
+            font-size: 0.88rem;
+        }
+
+        .stat-pill .val {
+            font-weight: 800;
+            color: var(--cyan);
+        }
+
+        .audio-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .audio-btn:hover {
+            background: rgba(0, 242, 254, 0.2);
+            border-color: var(--cyan);
+        }
+
+        /* Mode Navigation Tabs */
+        .mode-bar {
+            display: flex;
+            gap: 12px;
+            background: rgba(16, 21, 39, 0.65);
+            backdrop-filter: blur(12px);
+            padding: 8px;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: 14px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-family: var(--font-ui);
+            font-weight: 700;
+            font-size: 0.92rem;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .mode-btn.active {
+            background: linear-gradient(135deg, rgba(0, 242, 254, 0.2), rgba(121, 40, 202, 0.35));
+            color: #fff;
+            border: 1px solid var(--cyan);
+            box-shadow: 0 4px 20px rgba(0, 242, 254, 0.25);
+        }
+
+        .mode-btn:hover:not(.active) {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Main Gaming Arena */
+        .arena-container {
+            position: relative;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-glow);
+            border-radius: 26px;
+            padding: 30px;
+            min-height: 480px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            transition: border-color 0.3s ease;
+        }
+
+        .arena-container.paradox-reverse {
+            border-color: var(--magenta);
+            box-shadow: 0 0 35px rgba(255, 0, 127, 0.3);
+        }
+
+        /* Global Game HUD Bar */
+        .game-hud {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .hud-timer-track {
+            flex: 1;
+            max-width: 320px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hud-timer-fill {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, var(--cyan), var(--neon-green));
+            border-radius: 10px;
+            transition: width 0.08s linear, background 0.3s;
+        }
+
+        .hud-combo-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 1.15rem;
+            font-weight: 900;
+            color: var(--neon-amber);
+            font-family: var(--font-code);
+            text-shadow: 0 0 12px rgba(255, 179, 0, 0.6);
+            transform-origin: center;
+        }
+
+        .hud-combo-badge.pop {
+            animation: comboPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* --- MODE 1: PARADOX BLITZ --- */
+        .blitz-view {
+            width: 100%;
+            max-width: 680px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 20px;
+        }
+
+        .directive-card {
+            padding: 10px 22px;
+            border-radius: 50px;
+            font-size: 0.88rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .rule-standard {
+            background: rgba(0, 242, 254, 0.15);
+            border: 1px solid var(--cyan);
+            color: var(--cyan);
+        }
+
+        .rule-paradox {
+            background: rgba(255, 0, 127, 0.2);
+            border: 1px solid var(--magenta);
+            color: var(--magenta);
+            animation: pulseNotice 1s infinite alternate;
+        }
+
+        .rule-opposite {
+            background: rgba(255, 179, 0, 0.2);
+            border: 1px solid var(--neon-amber);
+            color: var(--neon-amber);
+        }
+
+        .stimulus-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px dashed rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            width: 100%;
+            padding: 35px 20px;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.25s ease;
+        }
+
+        .stimulus-main-text {
+            font-size: 3.4rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            transition: all 0.15s ease;
+            line-height: 1.2;
+        }
+
+        .stimulus-sub-prompt {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .stimulus-arrow-icon {
+            font-size: 4.8rem;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: inline-block;
+            filter: drop-shadow(0 0 16px rgba(0, 242, 254, 0.4));
+        }
+
+        .blitz-options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            width: 100%;
+        }
+
+        .option-card-btn {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #fff;
+            padding: 18px 24px;
+            border-radius: 18px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            font-family: var(--font-ui);
+            cursor: pointer;
+            transition: all 0.15s cubic-bezier(0.2, 0.8, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+        }
+
+        .option-card-btn:hover {
+            background: rgba(0, 242, 254, 0.18);
+            border-color: var(--cyan);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 242, 254, 0.2);
+        }
+
+        .option-card-btn:active {
+            transform: scale(0.97);
+        }
+
+        .key-badge {
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            font-size: 0.68rem;
+            font-family: var(--font-code);
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 7px;
+            border-radius: 6px;
+            color: var(--text-muted);
+        }
+
+        /* --- MODE 2: SPLIT-HEMISPHERE MULTITASKING (Dua Tangan / Otak Kiri-Kanan) --- */
+        .split-view {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .hemisphere-panel {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            min-height: 380px;
+        }
+
+        .hemi-title {
+            font-size: 0.9rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+        }
+
+        .hemi-left-title {
+            background: rgba(0, 242, 254, 0.15);
+            color: var(--cyan);
+            border: 1px solid var(--cyan);
+        }
+
+        .hemi-right-title {
+            background: rgba(255, 0, 127, 0.15);
+            color: var(--magenta);
+            border: 1px solid var(--magenta);
+        }
+
+        /* Left Hemisphere: Balance Beam Gyro Simulator */
+        .balance-track {
+            width: 100%;
+            max-width: 280px;
+            height: 24px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            margin: 30px 0;
+        }
+
+        .balance-center-zone {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 35%;
+            width: 30%;
+            background: rgba(0, 255, 135, 0.25);
+            border-left: 1px dashed var(--neon-green);
+            border-right: 1px dashed var(--neon-green);
+        }
+
+        .balance-ball {
+            position: absolute;
+            top: 2px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #fff, var(--cyan));
+            box-shadow: 0 0 12px var(--cyan);
+            transform: translateX(-50%);
+            transition: left 0.05s linear;
+        }
+
+        .balance-controls {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .balance-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            font-weight: 800;
+            cursor: pointer;
+            font-size: 1.1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .balance-btn span {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            font-family: var(--font-code);
+        }
+
+        .balance-btn:hover {
+            background: rgba(0, 242, 254, 0.2);
+            border-color: var(--cyan);
+        }
+
+        /* Right Hemisphere: Rapid Parity Calculation */
+        .parity-number {
+            font-size: 3.5rem;
+            font-weight: 900;
+            font-family: var(--font-code);
+            color: #fff;
+            margin: 20px 0;
+            text-shadow: 0 0 20px rgba(255, 0, 127, 0.5);
+        }
+
+        .parity-options {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .parity-btn {
+            flex: 1;
+            padding: 16px 12px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            font-weight: 800;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .parity-btn:hover {
+            background: rgba(255, 0, 127, 0.2);
+            border-color: var(--magenta);
+        }
+
+        /* --- MODE 3: QUANTUM CIPHER MATRIX --- */
+        .cipher-view {
+            width: 100%;
+            max-width: 620px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            text-align: center;
+        }
+
+        .cipher-task-card {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.04);
+            padding: 12px 24px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            width: 100%;
+            max-width: 440px;
+            margin: 10px 0;
+        }
+
+        .matrix-tile {
+            aspect-ratio: 1/1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 16px;
+            font-size: 1.6rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .matrix-tile:hover {
+            background: rgba(0, 242, 254, 0.2);
+            border-color: var(--cyan);
+            transform: translateY(-3px) scale(1.04);
+        }
+
+        .matrix-tile.flash {
+            background: var(--cyan) !important;
+            color: #070913 !important;
+            box-shadow: 0 0 25px var(--cyan);
+        }
+
+        .matrix-tile.correct {
+            background: var(--neon-green) !important;
+            color: #070913 !important;
+            border-color: var(--neon-green);
+        }
+
+        .matrix-tile.wrong {
+            background: var(--neon-red) !important;
+            color: #fff !important;
+            animation: shake 0.3s;
+        }
+
+        /* Start / Game Over Overlay */
+        .arena-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(7, 9, 19, 0.94);
+            backdrop-filter: blur(14px);
+            border-radius: 26px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            text-align: center;
+            z-index: 10;
+            gap: 20px;
+        }
+
+        .overlay-title {
+            font-size: 2.8rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #fff, var(--cyan), var(--magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.1;
+        }
+
+        .overlay-subtitle {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            max-width: 540px;
+            line-height: 1.6;
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, var(--cyan), var(--neon-purple));
+            color: #fff;
+            font-family: var(--font-ui);
+            font-weight: 800;
+            font-size: 1.25rem;
+            padding: 16px 42px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 242, 254, 0.4);
+            transition: all 0.25s ease;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 15px 40px rgba(0, 242, 254, 0.6);
+        }
+
+        /* Evaluation Result Card */
+        .result-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 500px;
+            margin: 10px 0;
+        }
+
+        .result-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 16px;
+            border-radius: 16px;
+        }
+
+        .result-box .num {
+            font-size: 1.8rem;
+            font-weight: 900;
+            font-family: var(--font-code);
+            color: var(--cyan);
+        }
+
+        .result-box .lbl {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+        }
+
+        /* Brain Agility Badge */
+        .brain-rank-badge {
+            display: inline-block;
+            padding: 8px 24px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            background: rgba(0, 255, 135, 0.15);
+            color: var(--neon-green);
+            border: 1px solid var(--neon-green);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Bottom Info & Keyboard Hints */
+        .hints-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(16, 21, 39, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 12px 20px;
+            border-radius: 16px;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .key-tags {
+            display: flex;
+            gap: 8px;
+        }
+
+        .kbd-btn {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 7px;
+            border-radius: 6px;
+            font-family: var(--font-code);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Keyframe Animations */
+        @keyframes pulseGlow {
+            0% {
+                filter: drop-shadow(0 0 4px rgba(0, 242, 254, 0.4));
+            }
+
+            100% {
+                filter: drop-shadow(0 0 16px rgba(255, 0, 127, 0.7));
+            }
+        }
+
+        @keyframes pulseNotice {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 10px rgba(255, 0, 127, 0.3);
+            }
+
+            100% {
+                transform: scale(1.04);
+                box-shadow: 0 0 25px rgba(255, 0, 127, 0.7);
+            }
+        }
+
+        @keyframes comboPop {
+            0% {
+                transform: scale(0.8);
+            }
+
+            50% {
+                transform: scale(1.3);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            20%,
+            60% {
+                transform: translateX(-8px);
+            }
+
+            40%,
+            80% {
+                transform: translateX(8px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .split-view {
+                grid-template-columns: 1fr;
+            }
+
+            .stimulus-main-text {
+                font-size: 2.3rem;
+            }
+
+            .blitz-options-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-stats {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Neural Particle Canvas -->
+    <canvas id="neural-canvas"></canvas>
+
+    <div class="app-wrapper">
+        <!-- Header -->
+        <header>
+            <div class="brand">
+                <div class="brand-icon">🧠⚡</div>
+                <div class="brand-titles">
+                    <h1>Neuro-Paradox Lab</h1>
+                    <p>Dual-Hemisphere Cognitive Reflex & Paradox Simulator</p>
+                </div>
+            </div>
+            <div class="header-stats">
+                <div class="stat-pill">
+                    <span>Skor:</span>
+                    <span class="val" id="global-score">0</span>
+                </div>
+                <div class="stat-pill">
+                    <span>Refleks:</span>
+                    <span class="val" id="global-speed">0 ms</span>
+                </div>
+                <button class="audio-btn" id="audio-toggle-btn" onclick="toggleAudio()">🔊 Suara: ON</button>
+            </div>
+        </header>
+
+        <!-- Mode Selector Tabs -->
+        <div class="mode-bar">
+            <button class="mode-btn active" id="tab-blitz" onclick="switchMode('blitz')">
+                <span>⚡</span> Mode 1: Paradox Blitz (Stroop & Reverse)
+            </button>
+            <button class="mode-btn" id="tab-split" onclick="switchMode('split')">
+                <span>🧬</span> Mode 2: Dual-Hemisphere Multitask
+            </button>
+            <button class="mode-btn" id="tab-cipher" onclick="switchMode('cipher')">
+                <span>🧩</span> Mode 3: Quantum Cipher Matrix
+            </button>
+        </div>
+
+        <!-- Arena Card -->
+        <div class="arena-container" id="arena-box">
+            <!-- HUD Top -->
+            <div class="game-hud">
+                <div class="stat-pill">
+                    <span>Waktu:</span>
+                    <span class="val" id="hud-timer-num">45s</span>
+                </div>
+                <div class="hud-timer-track">
+                    <div class="hud-timer-fill" id="hud-timer-bar"></div>
+                </div>
+                <div class="hud-combo-badge" id="hud-combo-badge">
+                    <span>🔥</span>
+                    <span id="hud-combo-val">0x STREAK</span>
+                </div>
+            </div>
+
+            <!-- VIEW 1: PARADOX BLITZ -->
+            <div class="blitz-view" id="view-blitz">
+                <div class="directive-card rule-standard" id="blitz-directive">
+                    <span id="directive-icon">🎯</span>
+                    <span id="directive-text">IKUTI PERINTAH DI LAYAR</span>
+                </div>
+
+                <div class="stimulus-box" id="blitz-stimulus-box">
+                    <div id="stimulus-arrow-container" style="display: none;">
+                        <span class="stimulus-arrow-icon" id="stimulus-arrow">⬅️</span>
+                    </div>
+                    <div class="stimulus-main-text" id="stimulus-text">MERAH</div>
+                    <div class="stimulus-sub-prompt" id="stimulus-sub">Pilih WARNA teksnya (bukan katanya)!</div>
+                </div>
+
+                <div class="blitz-options-grid" id="blitz-options">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- VIEW 2: SPLIT-HEMISPHERE MULTITASK -->
+            <div class="split-view" id="view-split" style="display: none;">
+                <!-- Left: Balance Gyro -->
+                <div class="hemisphere-panel">
+                    <div class="hemi-title hemi-left-title">🧠 Otak Kiri: Gyro Stabilizer</div>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); text-align: center;">
+                        Jaga bola tetap di <b>zona hijau</b>! Angin gravitasi acak akan mendorong bola!
+                    </p>
+                    <div class="balance-track">
+                        <div class="balance-center-zone"></div>
+                        <div class="balance-ball" id="gyro-ball" style="left: 50%;"></div>
+                    </div>
+                    <div class="balance-controls">
+                        <button class="balance-btn" onclick="nudgeBall(-14)">
+                            ⬅️ Geser Kiri
+                            <span>[A / ◀]</span>
+                        </button>
+                        <button class="balance-btn" onclick="nudgeBall(14)">
+                            Geser Kanan ➡️
+                            <span>[D / ▶]</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right: Rapid Logic / Parity -->
+                <div class="hemisphere-panel">
+                    <div class="hemi-title hemi-right-title">⚡ Otak Kanan: Parity Flash</div>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); text-align: center;"
+                        id="split-right-instruction">
+                        Apakah angka ini <b>GENAP</b> atau <b>GANJIL</b>?
+                    </p>
+                    <div class="parity-number" id="split-number">48</div>
+                    <div class="parity-options">
+                        <button class="parity-btn" id="parity-btn-1" onclick="handleSplitAnswer(0)">GENAP</button>
+                        <button class="parity-btn" id="parity-btn-2" onclick="handleSplitAnswer(1)">GANJIL</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW 3: QUANTUM CIPHER MATRIX -->
+            <div class="cipher-view" id="view-cipher" style="display: none;">
+                <div class="cipher-task-card" id="cipher-prompt">
+                    Ingat urutan kilatan matriks di bawah, lalu ketuk ulang urutannya!
+                </div>
+                <div class="matrix-grid" id="cipher-grid">
+                    <!-- 16 tiles (4x4) -->
+                </div>
+                <div style="font-size: 0.9rem; color: var(--cyan); font-weight: 700;" id="cipher-sub">
+                    Level Matriks: 1 (Panjang Sekuens: 3)
+                </div>
+            </div>
+
+            <!-- Start / End Overlay Modal -->
+            <div class="arena-overlay" id="game-overlay">
+                <h2 class="overlay-title" id="overlay-title">NEURO-PARADOX LAB</h2>
+                <p class="overlay-subtitle" id="overlay-desc">
+                    Latih otakmu dengan simulasi kognitif tak biasa: kombinasi <b>Stroop Effect terbalik</b>, <b>arahan
+                        paradoks spontan</b>, dan <b>multitasking belahan otak</b> yang menantang refleks instingtif!
+                </p>
+                <div class="result-stats-grid" id="overlay-stats" style="display: none;">
+                    <div class="result-box">
+                        <div class="num" id="res-score">0</div>
+                        <div class="lbl">Total Skor</div>
+                    </div>
+                    <div class="result-box">
+                        <div class="num" id="res-speed">0 ms</div>
+                        <div class="lbl">Rata-Rata Kecepatan</div>
+                    </div>
+                    <div class="result-box">
+                        <div class="num" id="res-combo">0x</div>
+                        <div class="lbl">Max Streak</div>
+                    </div>
+                </div>
+                <div id="overlay-rank" style="display: none; margin-bottom: 6px;">
+                    <span class="brain-rank-badge" id="res-rank">NEURO MASTER</span>
+                </div>
+                <button class="start-btn" id="overlay-btn" onclick="startGame()">
+                    ⚡ MULAI UJI REFLEKS
+                </button>
+            </div>
+        </div>
+
+        <!-- Bottom Hints -->
+        <div class="hints-bar">
+            <div>
+                💡 <b>Tips Neuro:</b> Jangan andalkan insting autopilot! Perhatikan warna badge arahan ketika berubah
+                warna Magenta (Mode Kebalikan).
+            </div>
+            <div class="key-tags">
+                <span class="kbd-btn">1-4</span>
+                <span class="kbd-btn">Panah ◀ ▶</span>
+                <span class="kbd-btn">A / D</span>
+                <span class="kbd-btn">Spasi</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* =========================================================
+           AUDIO SYNTHESIZER (WEB AUDIO API - ZERO ASSETS DEPENDENCY)
+           ========================================================= */
+        class SoundEngine {
+            constructor() {
+                this.ctx = null;
+                this.enabled = true;
+            }
+
+            init() {
+                if (!this.ctx) {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    this.ctx = new AudioContext();
+                }
+                if (this.ctx && this.ctx.state === 'suspended') {
+                    this.ctx.resume();
+                }
+            }
+
+            playTone(freq, type = 'sine', duration = 0.15, gainVal = 0.15) {
+                if (!this.enabled) return;
+                this.init();
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                    gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + duration);
+                } catch (e) {
+                    console.warn("Audio play issue", e);
+                }
+            }
+
+            correct() {
+                this.playTone(523.25, 'triangle', 0.12, 0.18); // C5
+                setTimeout(() => this.playTone(659.25, 'triangle', 0.14, 0.18), 70); // E5
+                setTimeout(() => this.playTone(783.99, 'triangle', 0.18, 0.22), 140); // G5
+            }
+
+            wrong() {
+                this.playTone(180, 'sawtooth', 0.25, 0.2);
+                setTimeout(() => this.playTone(130, 'sawtooth', 0.35, 0.22), 100);
+            }
+
+            paradoxGlitch() {
+                this.playTone(400, 'square', 0.08, 0.15);
+                setTimeout(() => this.playTone(850, 'sine', 0.12, 0.2), 60);
+            }
+
+            comboSparkle() {
+                this.playTone(880, 'sine', 0.1, 0.15);
+                setTimeout(() => this.playTone(1174, 'sine', 0.12, 0.18), 60);
+                setTimeout(() => this.playTone(1567, 'sine', 0.15, 0.2), 120);
+            }
+
+            gameover() {
+                this.playTone(440, 'sine', 0.3, 0.2);
+                setTimeout(() => this.playTone(370, 'sine', 0.4, 0.2), 200);
+                setTimeout(() => this.playTone(311, 'sine', 0.6, 0.25), 400);
+            }
+        }
+
+        const sound = new SoundEngine();
+
+        function toggleAudio() {
+            sound.enabled = !sound.enabled;
+            document.getElementById('audio-toggle-btn').innerText = sound.enabled ? "🔊 Suara: ON" : "🔇 Suara: OFF";
+        }
+
+        /* =========================================================
+           NEURAL CANVAS ANIMATION BACKGROUND
+           ========================================================= */
+        const canvas = document.getElementById('neural-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height, particles = [];
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.9;
+                this.vy = (Math.random() - 0.5) * 0.9;
+                this.radius = Math.random() * 2 + 1;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(0, 242, 254, 0.6)';
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 45; i++) {
+            particles.push(new Particle());
+        }
+
+        function renderCanvas() {
+            ctx.clearRect(0, 0, width, height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 130) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(121, 40, 202, ${0.35 * (1 - dist / 130)})`;
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(renderCanvas);
+        }
+        renderCanvas();
+
+        /* =========================================================
+           CORE GAME LOGIC & STATE MANAGEMENT
+           ========================================================= */
+        const GAME_DURATION = 45; // seconds
+        let currentMode = 'blitz'; // 'blitz' | 'split' | 'cipher'
+        let isPlaying = false;
+        let score = 0;
+        let streak = 0;
+        let maxStreak = 0;
+        let timeRemaining = GAME_DURATION;
+        let timerInterval = null;
+        let questionStartTime = 0;
+        let reactionTimes = [];
+
+        // Mode 1: Blitz Variables
+        const COLOR_PALETTE = [
+            { name: "MERAH", hex: "#ff3366" },
+            { name: "BIRU", hex: "#00f2fe" },
+            { name: "HIJAU", hex: "#00ff87" },
+            { name: "KUNING", hex: "#ffb300" },
+            { name: "UNGU", hex: "#b537f2" }
+        ];
+        let blitzCorrectIndex = 0;
+
+        // Mode 2: Split Variables
+        let ballPos = 50; // percentage
+        let ballVelocity = 0;
+        let splitLoopId = null;
+        let currentParityAnswer = 0; // 0: Genap, 1: Ganjil
+
+        // Mode 3: Cipher Variables
+        let cipherSequence = [];
+        let playerCipherInput = [];
+        let cipherLevel = 1;
+        let isShowingCipher = false;
+
+        /* Mode Switching */
+        function switchMode(mode) {
+            if (isPlaying) {
+                if (!confirm("Permainan sedang berlangsung. Ingin berganti mode?")) return;
+                endGame();
+            }
+            currentMode = mode;
+            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`tab-${mode}`).classList.add('active');
+
+            document.getElementById('view-blitz').style.display = mode === 'blitz' ? 'flex' : 'none';
+            document.getElementById('view-split').style.display = mode === 'split' ? 'grid' : 'none';
+            document.getElementById('view-cipher').style.display = mode === 'cipher' ? 'flex' : 'none';
+
+            const overlayTitle = document.getElementById('overlay-title');
+            const overlayDesc = document.getElementById('overlay-desc');
+            if (mode === 'blitz') {
+                overlayTitle.innerText = "PARADOX BLITZ";
+                overlayDesc.innerHTML = "Uji kecepatan refleks kognitif! Aturan akan berputar antara <b>Warna Asli</b>, <b>Makna Kata</b>, atau <b>KEBALIKAN PARADOKS</b> secara tiba-tiba!";
+            } else if (mode === 'split') {
+                overlayTitle.innerText = "DUAL-HEMISPHERE MULTITASK";
+                overlayDesc.innerHTML = "Belah konsentrasimu: Tangan kiri menjaga keseimbangan <b>Gyro</b> (A/D atau tombol), sementara tangan kanan menyelesaikan <b>Parity Flash</b> secepat kilat!";
+            } else {
+                overlayTitle.innerText = "QUANTUM CIPHER MATRIX";
+                overlayDesc.innerHTML = "Latih memori kerja spasial dan visual! Hafalkan pola partikel sinapsis 4x4 dan ulangi urutannya dengan presisi sempurna!";
+            }
+            showOverlay(true);
+        }
+
+        /* Start Game */
+        function startGame() {
+            sound.init();
+            isPlaying = true;
+            score = 0;
+            streak = 0;
+            maxStreak = 0;
+            reactionTimes = [];
+            timeRemaining = GAME_DURATION;
+
+            updateGlobalHUD();
+            showOverlay(false);
+
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateTimerBar();
+                if (timeRemaining <= 0) {
+                    endGame();
+                }
+            }, 1000);
+            updateTimerBar();
+
+            if (currentMode === 'blitz') {
+                nextBlitzRound();
+            } else if (currentMode === 'split') {
+                startSplitEngine();
+            } else if (currentMode === 'cipher') {
+                initCipherBoard();
+                startCipherRound();
+            }
+        }
+
+        function updateTimerBar() {
+            const pct = Math.max(0, (timeRemaining / GAME_DURATION) * 100);
+            document.getElementById('hud-timer-bar').style.width = `${pct}%`;
+            document.getElementById('hud-timer-num').innerText = `${timeRemaining}s`;
+            if (timeRemaining <= 10) {
+                document.getElementById('hud-timer-bar').style.background = 'linear-gradient(90deg, #ff3366, #ffb300)';
+            } else {
+                document.getElementById('hud-timer-bar').style.background = 'linear-gradient(90deg, var(--cyan), var(--neon-green))';
+            }
+        }
+
+        function updateGlobalHUD() {
+            document.getElementById('global-score').innerText = score;
+            const comboBadge = document.getElementById('hud-combo-badge');
+            document.getElementById('hud-combo-val').innerText = `${streak}x STREAK`;
+            if (streak > 0) {
+                comboBadge.classList.remove('pop');
+                void comboBadge.offsetWidth;
+                comboBadge.classList.add('pop');
+            }
+
+            if (reactionTimes.length > 0) {
+                const avg = Math.round(reactionTimes.reduce((a, b) => a + b, 0) / reactionTimes.length);
+                document.getElementById('global-speed').innerText = `${avg} ms`;
+            } else {
+                document.getElementById('global-speed').innerText = '0 ms';
+            }
+        }
+
+        function showOverlay(show) {
+            document.getElementById('game-overlay').style.display = show ? 'flex' : 'none';
+        }
+
+        function endGame() {
+            isPlaying = false;
+            if (timerInterval) clearInterval(timerInterval);
+            if (splitLoopId) cancelAnimationFrame(splitLoopId);
+
+            sound.gameover();
+            const avgSpeed = reactionTimes.length > 0 ? Math.round(reactionTimes.reduce((a, b) => a + b, 0) / reactionTimes.length) : 0;
+
+            document.getElementById('overlay-title').innerText = "SIMULASI SELESAI!";
+            document.getElementById('overlay-desc').innerText = "Berikut adalah analisis kinerja ketangkapan kognitif otakmu:";
+            document.getElementById('overlay-stats').style.display = 'grid';
+            document.getElementById('overlay-rank').style.display = 'block';
+
+            document.getElementById('res-score').innerText = score;
+            document.getElementById('res-speed').innerText = `${avgSpeed} ms`;
+            document.getElementById('res-combo').innerText = `${maxStreak}x`;
+
+            let rank = "APPRENTICE NEURON";
+            let rankColor = "#94a3b8";
+            if (score >= 1200 && avgSpeed < 650) {
+                rank = "🧠 QUANTUM GENIUS (REFLEKS DEWA)";
+                rankColor = "var(--neon-green)";
+            } else if (score >= 700) {
+                rank = "⚡ NEURO-TACTICIAN (SUPER CEPAT)";
+                rankColor = "var(--cyan)";
+            } else if (score >= 350) {
+                rank = "🎯 SHARP SYNERGIST (FOKUS TINGGI)";
+                rankColor = "var(--neon-amber)";
+            }
+            const badgeEl = document.getElementById('res-rank');
+            badgeEl.innerText = rank;
+            badgeEl.style.borderColor = rankColor;
+            badgeEl.style.color = rankColor;
+
+            document.getElementById('overlay-btn').innerText = "🔄 COBA LAGI (LEVEL UP)";
+            showOverlay(true);
+        }
+
+        /* =========================================================
+           MODE 1: PARADOX BLITZ (Stroop & Reverse Logic)
+           ========================================================= */
+        function nextBlitzRound() {
+            questionStartTime = performance.now();
+            const arena = document.getElementById('arena-box');
+            arena.classList.remove('paradox-reverse');
+
+            const directiveCard = document.getElementById('blitz-directive');
+            const directiveIcon = document.getElementById('directive-icon');
+            const directiveText = document.getElementById('directive-text');
+            const stimulusText = document.getElementById('stimulus-text');
+            const stimulusSub = document.getElementById('stimulus-sub');
+            const arrowContainer = document.getElementById('stimulus-arrow-container');
+            const arrowIcon = document.getElementById('stimulus-arrow');
+
+            // Random puzzle category:
+            // 0: Classic Stroop (Font Color)
+            // 1: Word Meaning (Ignore Color)
+            // 2: PARADOX REVERSE (Pick what is NOT there, or the Opposite)
+            // 3: Arrow Spatial Paradox (Arrow direction vs text direction)
+            const puzzleType = Math.floor(Math.random() * 4);
+
+            if (puzzleType === 0) {
+                // Classic Stroop: What color is the text rendered in?
+                arrowContainer.style.display = 'none';
+                stimulusText.style.display = 'block';
+
+                directiveCard.className = 'directive-card rule-standard';
+                directiveIcon.innerText = "🎨";
+                directiveText.innerText = "ATURAN: PILIH WARNA FONT!";
+                stimulusSub.innerText = "Abaikan apa kata yang tertulis, pilih WARNA catnya!";
+
+                const wordItem = COLOR_PALETTE[Math.floor(Math.random() * COLOR_PALETTE.length)];
+                let colorItem = COLOR_PALETTE[Math.floor(Math.random() * COLOR_PALETTE.length)];
+                while (colorItem.name === wordItem.name) {
+                    colorItem = COLOR_PALETTE[Math.floor(Math.random() * COLOR_PALETTE.length)];
+                }
+
+                stimulusText.innerText = wordItem.name;
+                stimulusText.style.color = colorItem.hex;
+
+                // Correct answer is colorItem.name
+                setupBlitzOptions(colorItem.name);
+
+            } else if (puzzleType === 1) {
+                // Semantic: What is the word meaning?
+                arrowContainer.style.display = 'none';
+                stimulusText.style.display = 'block';
+
+                directiveCard.className = 'directive-card rule-opposite';
+                directiveIcon.innerText = "📖";
+                directiveText.innerText = "ATURAN: MAKNA TULISAN!";
+                stimulusSub.innerText = "Abaikan warnanya! Pilih kata yang TERTULIS!";
+
+                const wordItem = COLOR_PALETTE[Math.floor(Math.random() * COLOR_PALETTE.length)];
+                let colorItem = COLOR_PALETTE[Math.floor(Math.random() * COLOR_PALETTE.length)];
+                while (colorItem.name === wordItem.name) {
+                    colorItem = COLOR_PALETTE[Math.floor(Math.random() * COLOR_PALETTE.length)];
+                }
+
+                stimulusText.innerText = wordItem.name;
+                stimulusText.style.color = colorItem.hex;
+
+                // Correct answer is wordItem.name
+                setupBlitzOptions(wordItem.name);
+
+            } else if (puzzleType === 2) {
+                // PARADOX REVERSE (The Brain Bender!)
+                sound.paradoxGlitch();
+                arena.classList.add('paradox-reverse');
+                arrowContainer.style.display = 'none';
+                stimulusText.style.display = 'block';
+
+                directiveCard.className = 'directive-card rule-paradox';
+                directiveIcon.innerText = "🌀";
+                directiveText.innerText = "⚠️ PARADOX: PILIH YANG SALAH!";
+                stimulusSub.innerText = "PILIH warna yang TIDAK ADA pada tulisan maupun warna teks!";
+
+                const item1 = COLOR_PALETTE[Math.floor(Math.random() * COLOR_PALETTE.length)];
+                let item2 = COLOR_PALETTE[Math.floor(Math.random() * COLOR_PALETTE.length)];
+                while (item2.name === item1.name) {
+                    item2 = COLOR_PALETTE[Math.floor(Math.random() * COLOR_PALETTE.length)];
+                }
+
+                stimulusText.innerText = item1.name;
+                stimulusText.style.color = item2.hex;
+
+                // Valid answers are items that are neither item1 nor item2
+                const validWrong = COLOR_PALETTE.filter(c => c.name !== item1.name && c.name !== item2.name);
+                const correctChoice = validWrong[Math.floor(Math.random() * validWrong.length)].name;
+
+                setupBlitzOptions(correctChoice, [item1.name, item2.name]);
+
+            } else {
+                // Spatial Arrow Paradox
+                stimulusText.style.display = 'none';
+                arrowContainer.style.display = 'block';
+
+                const directions = [
+                    { text: "KIRI", arrow: "⬅️", opposite: "KANAN" },
+                    { text: "KANAN", arrow: "➡️", opposite: "KIRI" },
+                    { text: "ATAS", arrow: "⬆️", opposite: "BAWAH" },
+                    { text: "BAWAH", arrow: "⬇️", opposite: "ATAS" }
+                ];
+
+                const isReverseRule = Math.random() > 0.5;
+                const chosenDir = directions[Math.floor(Math.random() * directions.length)];
+                let arrowDisplay = directions[Math.floor(Math.random() * directions.length)];
+
+                arrowIcon.innerText = arrowDisplay.arrow;
+
+                if (isReverseRule) {
+                    sound.paradoxGlitch();
+                    arena.classList.add('paradox-reverse');
+                    directiveCard.className = 'directive-card rule-paradox';
+                    directiveIcon.innerText = "🔄";
+                    directiveText.innerText = "PARADOX: ARAH KEBALIKAN PANAH!";
+                    stimulusSub.innerText = "Kemana panah menunjuk? Pilih arah KEBALIKANNYA!";
+                    setupSpatialOptions(arrowDisplay.opposite);
+                } else {
+                    directiveCard.className = 'directive-card rule-standard';
+                    directiveIcon.innerText = "🎯";
+                    directiveText.innerText = "ATURAN: ARAH PANAH SEBENARNYA";
+                    stimulusSub.innerText = "Pilih arah kemana panah menunjuk!";
+                    setupSpatialOptions(arrowDisplay.text);
+                }
+            }
+        }
+
+        function setupBlitzOptions(correctAnswer, excluded = []) {
+            const container = document.getElementById('blitz-options');
+            container.innerHTML = '';
+
+            let pool = COLOR_PALETTE.map(c => c.name).filter(name => name !== correctAnswer);
+            // shuffle pool
+            pool.sort(() => Math.random() - 0.5);
+
+            const options = [correctAnswer, pool[0], pool[1], pool[2]].sort(() => Math.random() - 0.5);
+            blitzCorrectIndex = options.indexOf(correctAnswer);
+
+            options.forEach((optName, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-card-btn';
+                btn.innerHTML = `<span>${optName}</span><span class="key-badge">[${idx + 1}]</span>`;
+                btn.onclick = () => submitBlitzAnswer(optName === correctAnswer);
+                container.appendChild(btn);
+            });
+        }
+
+        function setupSpatialOptions(correctAnswer) {
+            const container = document.getElementById('blitz-options');
+            container.innerHTML = '';
+            const allDirs = ["KIRI", "KANAN", "ATAS", "BAWAH"];
+
+            allDirs.forEach((dir, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-card-btn';
+                btn.innerHTML = `<span>${dir}</span><span class="key-badge">[${idx + 1}]</span>`;
+                btn.onclick = () => submitBlitzAnswer(dir === correctAnswer);
+                container.appendChild(btn);
+            });
+        }
+
+        function submitBlitzAnswer(isCorrect) {
+            if (!isPlaying) return;
+            const reaction = Math.round(performance.now() - questionStartTime);
+            reactionTimes.push(reaction);
+
+            if (isCorrect) {
+                streak++;
+                if (streak > maxStreak) maxStreak = streak;
+                const bonus = Math.max(10, Math.floor((1200 - reaction) / 10));
+                score += (50 + bonus) * Math.min(4, Math.floor(streak / 3) + 1);
+
+                if (streak % 3 === 0) sound.comboSparkle();
+                else sound.correct();
+            } else {
+                streak = 0;
+                score = Math.max(0, score - 30);
+                sound.wrong();
+            }
+
+            updateGlobalHUD();
+            nextBlitzRound();
+        }
+
+        /* =========================================================
+           MODE 2: DUAL-HEMISPHERE MULTITASKING (Gyro + Parity)
+           ========================================================= */
+        function startSplitEngine() {
+            ballPos = 50;
+            ballVelocity = 0;
+            nextSplitQuestion();
+
+            function loop() {
+                if (!isPlaying || currentMode !== 'split') return;
+
+                // Apply erratic gravity perturbation
+                const wind = (Math.random() - 0.498) * 0.42;
+                ballVelocity += wind;
+                ballVelocity = Math.max(-2.5, Math.min(2.5, ballVelocity));
+                ballPos += ballVelocity;
+
+                // Boundary constraints
+                if (ballPos < 4) {
+                    ballPos = 4;
+                    ballVelocity = Math.abs(ballVelocity) * 0.5;
+                } else if (ballPos > 96) {
+                    ballPos = 96;
+                    ballVelocity = -Math.abs(ballVelocity) * 0.5;
+                }
+
+                // Render ball
+                document.getElementById('gyro-ball').style.left = `${ballPos}%`;
+
+                // Check if ball is in safe zone (35% to 65%)
+                const inZone = ballPos >= 35 && ballPos <= 65;
+                if (!inZone) {
+                    // Score leakage if neglected!
+                    if (Math.random() < 0.08) {
+                        score = Math.max(0, score - 2);
+                        updateGlobalHUD();
+                    }
+                }
+
+                splitLoopId = requestAnimationFrame(loop);
+            }
+            splitLoopId = requestAnimationFrame(loop);
+        }
+
+        function nudgeBall(delta) {
+            if (!isPlaying) return;
+            sound.playTone(330, 'sine', 0.05, 0.08);
+            ballVelocity += delta * 0.09;
+            ballPos += delta * 0.4;
+            ballPos = Math.max(4, Math.min(96, ballPos));
+            document.getElementById('gyro-ball').style.left = `${ballPos}%`;
+        }
+
+        function nextSplitQuestion() {
+            questionStartTime = performance.now();
+            const num = Math.floor(Math.random() * 89) + 11;
+            document.getElementById('split-number').innerText = num;
+
+            // 0: Genap, 1: Ganjil
+            currentParityAnswer = num % 2 === 0 ? 0 : 1;
+        }
+
+        function handleSplitAnswer(selected) {
+            if (!isPlaying || currentMode !== 'split') return;
+            const reaction = Math.round(performance.now() - questionStartTime);
+            reactionTimes.push(reaction);
+
+            // Check if left hemisphere ball was in safe zone
+            const inZone = ballPos >= 35 && ballPos <= 65;
+
+            if (selected === currentParityAnswer) {
+                if (inZone) {
+                    // Perfect Dual-Brain Harmony!
+                    streak++;
+                    if (streak > maxStreak) maxStreak = streak;
+                    score += 80;
+                    sound.correct();
+                } else {
+                    // Right brain good, left brain neglected
+                    score += 30;
+                    sound.playTone(400, 'triangle', 0.1, 0.1);
+                }
+            } else {
+                streak = 0;
+                score = Math.max(0, score - 40);
+                sound.wrong();
+            }
+
+            updateGlobalHUD();
+            nextSplitQuestion();
+        }
+
+        /* =========================================================
+           MODE 3: QUANTUM CIPHER MATRIX (Spatial Working Memory)
+           ========================================================= */
+        function initCipherBoard() {
+            const grid = document.getElementById('cipher-grid');
+            grid.innerHTML = '';
+            for (let i = 0; i < 16; i++) {
+                const tile = document.createElement('div');
+                tile.className = 'matrix-tile';
+                tile.id = `tile-${i}`;
+                tile.dataset.index = i;
+                tile.innerText = i + 1;
+                tile.onclick = () => onTileClick(i);
+                grid.appendChild(tile);
+            }
+        }
+
+        function startCipherRound() {
+            cipherLevel = 1;
+            runCipherLevel();
+        }
+
+        function runCipherLevel() {
+            const seqLength = 2 + cipherLevel;
+            document.getElementById('cipher-sub').innerText = `Level Matriks: ${cipherLevel} (Panjang Sekuens: ${seqLength})`;
+            document.getElementById('cipher-prompt').innerText = "Perhatikan pola sinapsis yang menyala...";
+
+            cipherSequence = [];
+            playerCipherInput = [];
+            isShowingCipher = true;
+
+            for (let i = 0; i < seqLength; i++) {
+                cipherSequence.push(Math.floor(Math.random() * 16));
+            }
+
+            let step = 0;
+            const flashInterval = setInterval(() => {
+                if (!isPlaying) {
+                    clearInterval(flashInterval);
+                    return;
+                }
+
+                const tileIndex = cipherSequence[step];
+                const tile = document.getElementById(`tile-${tileIndex}`);
+                if (tile) {
+                    tile.classList.add('flash');
+                    sound.playTone(300 + tileIndex * 35, 'sine', 0.18, 0.2);
+                    setTimeout(() => tile.classList.remove('flash'), 350);
+                }
+
+                step++;
+                if (step >= cipherSequence.length) {
+                    clearInterval(flashInterval);
+                    setTimeout(() => {
+                        isShowingCipher = false;
+                        document.getElementById('cipher-prompt').innerText = "SEKARANG: Ketuk ubin sesuai urutan!";
+                        questionStartTime = performance.now();
+                    }, 450);
+                }
+            }, 650);
+        }
+
+        function onTileClick(tileIndex) {
+            if (!isPlaying || isShowingCipher) return;
+
+            const expected = cipherSequence[playerCipherInput.length];
+            const tile = document.getElementById(`tile-${tileIndex}`);
+
+            if (tileIndex === expected) {
+                sound.playTone(350 + tileIndex * 40, 'triangle', 0.15, 0.2);
+                tile.classList.add('correct');
+                setTimeout(() => tile.classList.remove('correct'), 250);
+                playerCipherInput.push(tileIndex);
+
+                if (playerCipherInput.length === cipherSequence.length) {
+                    // Completed current sequence!
+                    sound.comboSparkle();
+                    const reaction = Math.round(performance.now() - questionStartTime);
+                    reactionTimes.push(reaction);
+                    streak += 2;
+                    if (streak > maxStreak) maxStreak = streak;
+                    score += 120 * cipherLevel;
+                    updateGlobalHUD();
+
+                    document.getElementById('cipher-prompt').innerText = "✨ LUAR BIASA! Memori Sinkron!";
+                    cipherLevel++;
+                    setTimeout(runCipherLevel, 900);
+                }
+            } else {
+                // Wrong tile clicked
+                sound.wrong();
+                tile.classList.add('wrong');
+                setTimeout(() => tile.classList.remove('wrong'), 300);
+                streak = 0;
+                score = Math.max(0, score - 50);
+                updateGlobalHUD();
+                document.getElementById('cipher-prompt').innerText = "❌ Urutan Salah! Mengulang level...";
+                setTimeout(runCipherLevel, 1000);
+            }
+        }
+
+        /* =========================================================
+           KEYBOARD SHORTCUTS CONTROLLER
+           ========================================================= */
+        window.addEventListener('keydown', (e) => {
+            // Space to start / restart
+            if (e.code === 'Space' && !isPlaying) {
+                e.preventDefault();
+                startGame();
+                return;
+            }
+
+            if (!isPlaying) return;
+
+            if (currentMode === 'blitz') {
+                const num = parseInt(e.key);
+                if (num >= 1 && num <= 4) {
+                    const btns = document.querySelectorAll('.option-card-btn');
+                    if (btns[num - 1]) btns[num - 1].click();
+                }
+            } else if (currentMode === 'split') {
+                if (e.key === 'ArrowLeft' || e.key.toLowerCase() === 'a') {
+                    nudgeBall(-14);
+                } else if (e.key === 'ArrowRight' || e.key.toLowerCase() === 'd') {
+                    nudgeBall(14);
+                } else if (e.key === '1') {
+                    handleSplitAnswer(0); // Genap
+                } else if (e.key === '2') {
+                    handleSplitAnswer(1); // Ganjil
+                }
+            }
+        });
+
+        // Initialize board on ready
+        initCipherBoard();
+    </script>
+</body>
+
+</html>

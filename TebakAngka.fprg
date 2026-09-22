@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<flowgorithm fileversion="3.0">
+    <attributes>
+        <attribute name="name" value="Game Tebak Angka"/>
+        <attribute name="authors" value="Antigravity"/>
+        <attribute name="about" value="Game Tebak Angka Sederhana untuk Pemula Flowgorithm"/>
+        <attribute name="saved" value="2026-09-22 09:25:00 PM"/>
+        <attribute name="created" value="2026-09-22 09:25:00 PM"/>
+        <attribute name="edited" value="2026-09-22 09:25:00 PM"/>
+    </attributes>
+    <function name="Main" type="None" variable="">
+        <parameters/>
+        <body>
+            <declare name="angkaRahasia" type="Integer" array="False" size=""/>
+            <declare name="tebakan" type="Integer" array="False" size=""/>
+            <declare name="kesempatan" type="Integer" array="False" size=""/>
+            <declare name="menang" type="Boolean" array="False" size=""/>
+            <declare name="percobaan" type="Integer" array="False" size=""/>
+            <assign variable="angkaRahasia" expression="7"/>
+            <assign variable="kesempatan" expression="3"/>
+            <assign variable="menang" expression="false"/>
+            <assign variable="percobaan" expression="0"/>
+            <output expression="&quot;🎮 GAME TEBAK ANGKA&quot;" newline="True"/>
+            <output expression="&quot;Saya menyimpan angka dari 1-10.&quot;" newline="True"/>
+            <output expression="&quot;Kamu punya 3 kesempatan.&quot;" newline="True"/>
+            <output expression="&quot;----------------------------------------&quot;" newline="True"/>
+            <while expression="kesempatan &gt; 0 &amp;&amp; menang == false">
+                <assign variable="percobaan" expression="percobaan + 1"/>
+                <output expression="&quot;Kesempatan tersisa: &quot; &amp; kesempatan" newline="True"/>
+                <output expression="&quot;Masukkan tebakanmu: &quot;" newline="False"/>
+                <input variable="tebakan"/>
+                <if expression="tebakan == angkaRahasia">
+                    <then>
+                        <assign variable="menang" expression="true"/>
+                        <output expression="&quot;🎉 BENAR! Kamu menang!&quot;" newline="True"/>
+                    </then>
+                    <else>
+                        <assign variable="kesempatan" expression="kesempatan - 1"/>
+                        <if expression="tebakan &lt; angkaRahasia">
+                            <then>
+                                <output expression="&quot;⬆️ Terlalu kecil! Coba lagi.&quot;" newline="True"/>
+                            </then>
+                            <else>
+                                <output expression="&quot;⬇️ Terlalu besar! Coba lagi.&quot;" newline="True"/>
+                            </else>
+                        </if>
+                        <output expression="&quot;----------------------------------------&quot;" newline="True"/>
+                    </else>
+                </if>
+            </while>
+            <if expression="menang == true">
+                <then>
+                    <output expression="&quot;Hebat! Kamu berhasil menebak angka &quot; &amp; angkaRahasia &amp; &quot; dalam &quot; &amp; percobaan &amp; &quot; percobaan!&quot;" newline="True"/>
+                </then>
+                <else>
+                    <output expression="&quot;😢 Game Over! Angka yang benar adalah &quot; &amp; angkaRahasia &amp; &quot;.&quot;" newline="True"/>
+                    <output expression="&quot;Total percobaan yang digunakan: &quot; &amp; percobaan" newline="True"/>
+                </else>
+            </if>
+            <output expression="&quot;Terima kasih sudah bermain! 👋&quot;" newline="True"/>
+        </body>
+    </function>
+</flowgorithm>

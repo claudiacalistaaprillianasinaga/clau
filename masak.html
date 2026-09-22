@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Chef Culinary Lab 🍳✨ - Real Cooking & Math Simulator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=JetBrains+Mono:wght@500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f141c;
+            --card-bg: rgba(26, 34, 48, 0.85);
+            --card-border: rgba(255, 255, 255, 0.12);
+            --primary: #f59e0b;
+            --primary-glow: rgba(245, 158, 11, 0.4);
+            --accent: #ef4444;
+            --success: #10b981;
+            --gold: #fbbf24;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background: radial-gradient(circle at 50% 10%, #1e293b 0%, #0a0e17 100%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px 12px;
+            overflow-x: hidden;
+        }
+
+        .glow-light {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.35;
+        }
+
+        .light-warm {
+            width: 500px;
+            height: 500px;
+            background: #ea580c;
+            top: -120px;
+            left: -120px;
+        }
+
+        .light-gold {
+            width: 450px;
+            height: 450px;
+            background: #ca8a04;
+            bottom: -100px;
+            right: -100px;
+        }
+
+        .kitchen-app {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 1080px;
+            background: var(--card-bg);
+            backdrop-filter: blur(24px);
+            border: 1px solid var(--card-border);
+            border-radius: 28px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.65), 0 0 30px var(--primary-glow);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .top-header {
+            background: rgba(15, 23, 42, 0.95);
+            border-bottom: 1px solid var(--card-border);
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #f59e0b, #ea580c);
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            box-shadow: 0 4px 14px var(--primary-glow);
+        }
+
+        .brand-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: 0.02em;
+            background: linear-gradient(135deg, #fff 40%, #fcd34d 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-stats {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .stat-pill {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid var(--card-border);
+            padding: 7px 16px;
+            border-radius: 999px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .category-strip {
+            background: rgba(15, 20, 30, 0.85);
+            border-bottom: 1px solid var(--card-border);
+            padding: 12px 20px;
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            align-items: center;
+        }
+
+        .cat-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-sub);
+            padding: 9px 18px;
+            border-radius: 12px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+
+        .cat-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: white;
+        }
+
+        .cat-btn.active {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            border-color: #fbbf24;
+            color: white;
+            box-shadow: 0 4px 16px var(--primary-glow);
+        }
+
+        .kitchen-body {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            min-height: 580px;
+        }
+
+        @media (max-width: 900px) {
+            .kitchen-body {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .recipe-sidebar {
+            background: rgba(15, 23, 42, 0.6);
+            border-right: 1px solid var(--card-border);
+            padding: 20px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 75vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-sub);
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .dish-card-select {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .dish-card-select:hover {
+            background: rgba(51, 65, 85, 0.8);
+            border-color: #f59e0b;
+            transform: translateX(4px);
+        }
+
+        .dish-card-select.active {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.18), rgba(234, 88, 12, 0.1));
+            border: 1.5px solid #f59e0b;
+            box-shadow: 0 4px 16px rgba(245, 158, 11, 0.25);
+        }
+
+        .dish-icon-badge {
+            font-size: 2.2rem;
+            background: rgba(15, 23, 42, 0.6);
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+        }
+
+        .cooking-workspace {
+            padding: 28px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background: radial-gradient(circle at 50% 30%, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.8) 100%);
+        }
+
+        .current-dish-banner {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.95));
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 18px 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 14px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .dish-details h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: #f8fafc;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dish-details p {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            margin-top: 4px;
+        }
+
+        .step-track {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .step-item {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 10px;
+            text-align: center;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--text-sub);
+            transition: all 0.2s;
+        }
+
+        .step-item.active {
+            background: rgba(245, 158, 11, 0.15);
+            border-color: #f59e0b;
+            color: #fbbf24;
+            box-shadow: 0 0 12px rgba(245, 158, 11, 0.3);
+        }
+
+        .step-item.done {
+            background: rgba(16, 185, 129, 0.15);
+            border-color: #10b981;
+            color: #34d399;
+        }
+
+        .kitchen-station-box {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1.5px solid var(--card-border);
+            border-radius: 24px;
+            padding: 24px;
+            min-height: 330px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: inset 0 2px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .math-scale-container {
+            width: 100%;
+            max-width: 540px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .math-badge {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid #f59e0b;
+            color: #fcd34d;
+            padding: 5px 14px;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .math-question {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.7rem;
+            color: #fff;
+        }
+
+        .math-formula-box {
+            background: #090d16;
+            border: 1.5px dashed var(--gold);
+            border-radius: 16px;
+            padding: 12px 24px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            font-weight: 800;
+            color: #fbbf24;
+            letter-spacing: 0.05em;
+        }
+
+        .ingredient-btn-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            width: 100%;
+        }
+
+        .ing-btn {
+            background: rgba(30, 41, 59, 0.85);
+            border: 1.5px solid var(--card-border);
+            border-radius: 14px;
+            padding: 14px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .ing-btn:hover:not(:disabled) {
+            background: #f59e0b;
+            border-color: #fbbf24;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px var(--primary-glow);
+        }
+
+        .ing-btn:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+
+        .appliance-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            text-align: center;
+        }
+
+        .cooking-pot {
+            width: 140px;
+            height: 140px;
+            border-radius: 36px;
+            background: radial-gradient(circle, #334155 0%, #1e293b 100%);
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 56px;
+            cursor: pointer;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 25px rgba(245, 158, 11, 0.3);
+            transition: transform 0.1s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .cooking-pot:active {
+            transform: scale(0.92);
+        }
+
+        .sizzle-bar {
+            width: 260px;
+            height: 16px;
+            background: #090d16;
+            border-radius: 999px;
+            overflow: hidden;
+            border: 1.5px solid var(--card-border);
+        }
+
+        .sizzle-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #f59e0b, #ef4444);
+            transition: width 0.1s ease;
+        }
+
+        .flame-gauge-container {
+            width: 100%;
+            max-width: 480px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .gauge-track {
+            width: 100%;
+            height: 28px;
+            background: #090d16;
+            border-radius: 999px;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid var(--card-border);
+        }
+
+        .sweet-golden-spot {
+            position: absolute;
+            left: 54%;
+            width: 32%;
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #059669);
+            box-shadow: 0 0 14px rgba(16, 185, 129, 0.6);
+        }
+
+        .gauge-needle {
+            position: absolute;
+            top: 0;
+            left: 0%;
+            width: 8px;
+            height: 100%;
+            background: #ef4444;
+            box-shadow: 0 0 12px #ef4444;
+            border-radius: 4px;
+        }
+
+        .plate-station {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .luxury-plate {
+            width: 160px;
+            height: 160px;
+            background: radial-gradient(circle, #f8fafc 0%, #cbd5e1 100%);
+            border: 6px solid #e2e8f0;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .plate-base-dish {
+            font-size: 54px;
+        }
+
+        .plate-toppings-layer {
+            position: absolute;
+            top: 18px;
+            display: flex;
+            gap: 4px;
+            font-size: 22px;
+            pointer-events: none;
+        }
+
+        .toppings-rack {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .rack-chip {
+            background: rgba(30, 41, 59, 0.85);
+            border: 1.5px solid var(--card-border);
+            border-radius: 14px;
+            padding: 8px 14px;
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .rack-chip:hover {
+            border-color: #f59e0b;
+            transform: scale(1.1);
+        }
+
+        .chef-btn {
+            background: linear-gradient(135deg, #f59e0b, #ea580c);
+            color: white;
+            border: none;
+            padding: 13px 28px;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 20px var(--primary-glow);
+            transition: all 0.2s ease;
+        }
+
+        .chef-btn:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+        }
+
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 14, 23, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-backdrop.active {
+            display: flex;
+        }
+
+        .finished-card {
+            background: #1e293b;
+            border: 2px solid #f59e0b;
+            border-radius: 28px;
+            padding: 32px 28px;
+            max-width: 480px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(245, 158, 11, 0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        #confettiCanvas {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 90;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="glow-light light-warm"></div>
+    <div class="glow-light light-gold"></div>
+    <canvas id="confettiCanvas"></canvas>
+
+    <div class="kitchen-app">
+        <header class="top-header">
+            <div class="brand">
+                <div class="brand-icon">👨‍🍳</div>
+                <div>
+                    <div class="brand-title">Master Chef Culinary Lab</div>
+                    <div style="font-size: 0.8rem; color: var(--text-sub);">Real Cooking Simulation + Culinary
+                        Mathematics</div>
+                </div>
+            </div>
+            <div class="nav-stats">
+                <div class="stat-pill" style="color: #fbbf24;">
+                    ⭐ Skor: <span id="scoreVal">0</span>
+                </div>
+                <div class="stat-pill" style="color: #34d399;">
+                    🍽️ Masakan Selesai: <span id="dishesDone">0</span>
+                </div>
+                <div class="stat-pill" style="color: #60a5fa;">
+                    🎖️ Rank: <span id="chefRank">Junior Cook</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="category-strip" id="categoryNav">
+            <button class="cat-btn active" onclick="filterCategory(0)">🥩 Western Steak & Grill</button>
+            <button class="cat-btn" onclick="filterCategory(1)">🍣 Japanese Sushi & Ramen</button>
+            <button class="cat-btn" onclick="filterCategory(2)">🍕 Italian Pizza & Pasta</button>
+            <button class="cat-btn" onclick="filterCategory(3)">🍰 French Pastry & Dessert</button>
+            <button class="cat-btn" onclick="filterCategory(4)">🥘 Nusantara Signature</button>
+        </div>
+
+        <div class="kitchen-body">
+            <aside class="recipe-sidebar" id="recipeSidebar">
+                <div class="sidebar-title">Pilih Menu Kuliner</div>
+            </aside>
+
+            <main class="cooking-workspace">
+                <div class="current-dish-banner">
+                    <div class="dish-details">
+                        <h2 id="activeDishName"><span>🥩</span> Wagyu Ribeye Steak</h2>
+                        <p id="activeDishDesc">Daging premium wagyu A5 dengan bumbu rempah mentega rosemary.</p>
+                    </div>
+                    <div style="background: rgba(245, 158, 11, 0.15); border: 1px solid #f59e0b; color: #fbbf24; padding: 6px 14px; border-radius: 10px; font-weight: 800; font-size: 0.85rem;"
+                        id="dishCategoryBadge">
+                        Western Gourmet
+                    </div>
+                </div>
+
+                <div class="step-track">
+                    <div class="step-item active" id="step1-tab">1. Takar Bahan (Math)</div>
+                    <div class="step-item" id="step2-tab">2. Olah & Tumis</div>
+                    <div class="step-item" id="step3-tab">3. Suhu Matang</div>
+                    <div class="step-item" id="step4-tab">4. Plating Mewah</div>
+                </div>
+
+                <div class="kitchen-station-box">
+                    <div class="math-scale-container" id="station-math">
+                        <div class="math-badge">⚖️ Timbangan Presisi & Proporsi Resep</div>
+                        <div class="math-question" id="mathQuestionTitle">Takar Gramasi Garam & Rempah</div>
+                        <div class="math-formula-box" id="mathFormulaText">15 + 25 = ? gram</div>
+                        <p style="color: var(--text-sub); font-size: 0.9rem;">Pilih takaran bahan yang tepat sesuai
+                            rumus dapur:</p>
+                        <div class="ingredient-btn-grid" id="mathChoicesGrid"></div>
+                    </div>
+
+                    <div class="appliance-center hidden" id="station-cook">
+                        <div style="font-size: 1rem; font-weight: 800; color: #fcd34d;" id="cookActionTitle">🔥 Panaskan
+                            Wajan &
+                            Tumis Bumbu!</div>
+                        <div class="cooking-pot" id="cookPot" onclick="clickPotAction()">
+                            <span id="cookPotIcon">🍳</span>
+                        </div>
+                        <p style="font-size: 0.9rem; color: var(--text-sub);">Ketuk wajan 5 kali untuk memasak rata!</p>
+                        <div class="sizzle-bar">
+                            <div class="sizzle-fill" id="sizzleProgress"></div>
+                        </div>
+                    </div>
+
+                    <div class="flame-gauge-container hidden" id="station-heat">
+                        <div style="font-size: 1rem; font-weight: 800; color: #fcd34d;" id="heatGaugeTitle">🌡️ Kontrol
+                            Suhu
+                            Pemanggangan (Tepat di Area Hijau)</div>
+                        <div style="font-size: 3.5rem;" id="heatVesselIcon">🥩</div>
+                        <div class="gauge-track">
+                            <div class="sweet-golden-spot"></div>
+                            <div class="gauge-needle" id="gaugeNeedle"></div>
+                        </div>
+                        <button class="chef-btn" id="stopHeatBtn" onclick="stopHeatGauge()">
+                            <span>⏱️</span> ANGKAT SAAT MATANG SEMPURNA!
+                        </button>
+                    </div>
+
+                    <div class="plate-station hidden" id="station-plating">
+                        <div style="font-size: 1rem; font-weight: 800; color: #fcd34d;">🎨 Tata Hiasan & Garnish Cantik
+                        </div>
+                        <div class="luxury-plate">
+                            <div class="plate-base-dish" id="plateDishIcon">🥩</div>
+                            <div class="plate-toppings-layer" id="plateToppings"></div>
+                        </div>
+                        <div class="toppings-rack" id="toppingsRack"></div>
+                        <button class="chef-btn" onclick="finishPlatingServe()"
+                            style="background: linear-gradient(135deg, #10b981, #059669);">
+                            <span>🍽️</span> Sajikan Masakan Master Chef!
+                        </button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div class="modal-backdrop" id="finishModal">
+        <div class="finished-card">
+            <div style="font-size: 4rem;">🏆</div>
+            <h2 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #fbbf24;">Masakan Selesai
+                Disajikan!
+            </h2>
+            <p style="color: var(--text-sub); font-size: 0.95rem;" id="finishDishFeedback">"Kualitas rasa bintang 5 dan
+                tingkat kematangan sempurna!"</p>
+
+            <div
+                style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--card-border); border-radius: 16px; padding: 14px; text-align: left; font-size: 0.95rem;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                    <span>🍽️ Menu:</span>
+                    <strong id="finishDishName" style="color: #f59e0b;">Wagyu Ribeye</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                    <span>⭐ Skor Diperoleh:</span>
+                    <strong style="color: #10b981;">+250 Poin</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <span>🎖️ Gelar Chef:</span>
+                    <strong id="finishChefRank" style="color: #60a5fa;">Junior Cook</strong>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <button class="chef-btn" onclick="closeFinishModal(true)" style="flex: 1;">
+                    <span>🍳</span> Masak Menu Ini Lagi
+                </button>
+                <button class="chef-btn" onclick="closeFinishModal(false)"
+                    style="flex: 1; background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
+                    <span>🍽️</span> Pilih Masakan Lain
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let audioCtx = null;
+        function getAudioContext() {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            return audioCtx;
+        }
+
+        function playTone(freq, type = 'sine', duration = 0.15) {
+            try {
+                const ctx = getAudioContext();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, ctx.currentTime);
+                gain.gain.setValueAtTime(0.2, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.start(); osc.stop(ctx.currentTime + duration);
+            } catch (e) { }
+        }
+
+        function soundSuccess() {
+            try {
+                const ctx = getAudioContext();
+                const now = ctx.currentTime;
+                [523.25, 659.25, 783.99, 1046.50].forEach((f, i) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(f, now + i * 0.06);
+                    gain.gain.setValueAtTime(0.2, now + i * 0.06);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.06 + 0.3);
+                    osc.connect(gain); gain.connect(ctx.destination);
+                    osc.start(now + i * 0.06); osc.stop(now + i * 0.06 + 0.3);
+                });
+            } catch (e) { }
+        }
+
+        function soundWrong() {
+            try {
+                const ctx = getAudioContext();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = "sawtooth";
+                osc.frequency.setValueAtTime(220, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(110, ctx.currentTime + 0.25);
+                gain.gain.setValueAtTime(0.25, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.start(); osc.stop(ctx.currentTime + 0.25);
+            } catch (e) { }
+        }
+
+        function soundFanfare() {
+            try {
+                const ctx = getAudioContext();
+                const now = ctx.currentTime;
+                [523.25, 659.25, 783.99, 1046.50, 1318.51].forEach((f, i) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(f, now + i * 0.08);
+                    gain.gain.setValueAtTime(0.25, now + i * 0.08);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.4);
+                    osc.connect(gain); gain.connect(ctx.destination);
+                    osc.start(now + i * 0.08); osc.stop(now + i * 0.08 + 0.4);
+                });
+            } catch (e) { }
+        }
+
+        const canvas = document.getElementById('confettiCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function triggerConfetti(x, y, count = 25) {
+            const colors = ['#f59e0b', '#fbbf24', '#ef4444', '#10b981', '#3b82f6', '#ec4899'];
+            for (let i = 0; i < count; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 6 + 3;
+                particles.push({
+                    x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed - 2,
+                    color: colors[Math.floor(Math.random() * colors.length)], alpha: 1,
+                    size: Math.random() * 8 + 6, rot: Math.random() * Math.PI * 2,
+                    vrot: (Math.random() - 0.5) * 0.2
+                });
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.x += p.vx; p.y += p.vy; p.vy += 0.18; p.rot += p.vrot; p.alpha -= 0.02;
+                ctx.save(); ctx.globalAlpha = Math.max(0, p.alpha); ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+                ctx.fillStyle = p.color; ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+                ctx.restore();
+                if (p.alpha <= 0) particles.splice(i, 1);
+            }
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        const CULINARY_ZONES = [
+            {
+                id: "western",
+                name: "Western Steak & Grill",
+                dishes: [
+                    { name: "Wagyu Ribeye Steak", icon: "🥩", desc: "Daging wagyu A5 dengan mentega herba rosemary dan saus lada hitam.", ing: "Garam & Bumbu Marinasi", tool: "🍳", timeIcon: "🥩", decor: ["🌿", "🧈", "🧄", "🧂", "🍷"] },
+                    { name: "Crispy Roasted Chicken", icon: "🍗", desc: "Ayam panggang kulit renyah aroma lemon thyme dan kentang iris.", ing: "Bawang Putih & Minyak Zaitun", tool: "🍳", timeIcon: "🍗", decor: ["🍋", "🌿", "🥔", "🧂"] },
+                    { name: "Double Cheese Beef Burger", icon: "🍔", desc: "Patty sapi panggang lelehan keju cheddar dalam roti brioche empuk.", ing: "Daging Cincang & Bumbu BBQ", tool: "🍳", timeIcon: "🍔", decor: ["🧀", "🥬", "🍅", "🥓"] }
+                ]
+            },
+            {
+                id: "japanese",
+                name: "Japanese Sushi & Ramen",
+                dishes: [
+                    { name: "Toripaitan Ramen Chashu", icon: "🍜", desc: "Mie kenyal dalam kuah kaldu ayam kental, telur tamago, dan nori.", ing: "Kaldu Dashi & Kecap Shoyu", tool: "🥢", timeIcon: "🍥", decor: ["🥚", "🍥", "🥢", "🌱", "🥩"] },
+                    { name: "Salmon Nigiri & Tuna Roll", icon: "🍣", desc: "Potongan salmon segar Norwegia di atas kepalan nasi cuka sushi.", ing: "Beras Koshihikari & Cuka Beras", tool: "🍱", timeIcon: "🍣", decor: ["🥑", "🌱", "🥢", "🍋"] },
+                    { name: "Crispy Chicken Katsu Bento", icon: "🍱", desc: "Fillet ayam goreng tepung panko renyah dengan saus tonkatsu gurih.", ing: "Tepung Roti & Saus Buah", tool: "🥢", timeIcon: "🍱", decor: ["🥦", "🥕", "🍙", "🍋"] }
+                ]
+            },
+            {
+                id: "italian",
+                name: "Italian Pizza & Pasta",
+                dishes: [
+                    { name: "Neapolitan Truffle Pizza", icon: "🍕", desc: "Pizza bakar kayu adonan sourdough dengan minyak jamur truffle.", ing: "Tepung Gandum & Minyak Truffle", tool: "🍕", timeIcon: "🍕", decor: ["🧀", "🌿", "🍅", "🍄"] },
+                    { name: "Spaghetti Carbonara Guanciale", icon: "🍝", desc: "Pasta al dente dalam balutan kuning telur dan keju parmigiano.", ing: "Keju Pecorino & Lada Hitam", tool: "🍝", timeIcon: "🍝", decor: ["🧀", "🥓", "🌿", "🥚"] },
+                    { name: "Creamy Tomato Lasagna", icon: "🍲", desc: "Lembaran pasta lapis daging cincang bechamel dan saus tomat segar.", ing: "Pasta Sheet & Daging Cincang", tool: "🍲", timeIcon: "🍲", decor: ["🧀", "🍅", "🌿"] }
+                ]
+            },
+            {
+                id: "dessert",
+                name: "French Pastry & Dessert",
+                dishes: [
+                    { name: "Strawberry Tartlette Souffle", icon: "🍰", desc: "Pai krim vanila lembut dengan topping stroberi dan kilau glaze gula.", ing: "Gula Halus & Ekstrak Vanila", tool: "🥣", timeIcon: "🧁", decor: ["🍓", "🍒", "🌸", "✨", "🍫"] },
+                    { name: "Dark Chocolate Lava Cake", icon: "🍫", desc: "Kue cokelat Belgia lembut dengan lelehan lava cokelat pekat di tengah.", ing: "Bubuk Cokelat & Mentega Cair", tool: "🥣", timeIcon: "🍫", decor: ["🍓", "🍨", "✨", "🍫"] },
+                    { name: "Caramelized Creme Brulee", icon: "🍮", desc: "Kastard vanila kaya rasa dengan lapisan gula karamel renyah di atasnya.", ing: "Kuning Telur & Krim Kental", tool: "🥣", timeIcon: "🍮", decor: ["🍓", "🌿", "✨"] }
+                ]
+            },
+            {
+                id: "nusantara",
+                name: "Nusantara Signature",
+                dishes: [
+                    { name: "Rendang Sapi Daging Empuk", icon: "🍛", desc: "Daging sapi santan karamelisasi rempah kelapa sangrai wangi semerbak.", ing: "Santan Kelapa & Bumbu Rempah", tool: "🍳", timeIcon: "🍛", decor: ["🌶️", "🌿", "🧅", "🌱"] },
+                    { name: "Sate Ayam Madura Saus Kacang", icon: "🍢", desc: "Tusukan daging ayam panggang arang dengan saus kacang gurih manis.", ing: "Kacang Tanah & Kecap Manis", tool: "🍢", timeIcon: "🍢", decor: ["🧅", "🌶️", "🥒"] },
+                    { name: "Nasi Tumpeng Kuning Komplit", icon: "🍚", desc: "Nasi kuning wangi kunyit serai dengan lauk kering tempe dan telur iris.", ing: "Beras Pulen & Kunyit Segar", tool: "🍱", timeIcon: "🍚", decor: ["🥚", "🥒", "🌶️", "🌱"] }
+                ]
+            }
+        ];
+
+        let currentCategoryIdx = 0;
+        let activeDish = null;
+        let currentStep = 1;
+        let score = 0;
+        let dishesCompleted = 0;
+
+        let mathAnswer = 0;
+        let cookClicks = 0;
+        const maxCookClicks = 5;
+
+        let needlePos = 0;
+        let needleDir = 1;
+        let animId = null;
+
+        let toppingsSelected = [];
+
+        function filterCategory(catIdx) {
+            currentCategoryIdx = catIdx;
+            const buttons = document.querySelectorAll('#categoryNav .cat-btn');
+            buttons.forEach((b, i) => b.classList.toggle('active', i === catIdx));
+            renderSidebarDishes();
+            selectDish(CULINARY_ZONES[catIdx].dishes[0]);
+        }
+
+        function renderSidebarDishes() {
+            const sidebar = document.getElementById('recipeSidebar');
+            sidebar.innerHTML = '<div class="sidebar-title">Pilih Menu Kuliner</div>';
+            const zone = CULINARY_ZONES[currentCategoryIdx];
+
+            zone.dishes.forEach((d, i) => {
+                const card = document.createElement('div');
+                card.className = 'dish-card-select' + (activeDish && activeDish.name === d.name ? ' active' : '');
+                card.innerHTML = `
+          <div class="dish-icon-badge">${d.icon}</div>
+          <div>
+            <div style="font-weight: 700; font-size: 0.95rem; color: #fff;">${d.name}</div>
+            <div style="font-size: 0.78rem; color: var(--text-sub);">${zone.name}</div>
+          </div>
+        `;
+                card.onclick = () => {
+                    playTone(480, 'sine', 0.1);
+                    selectDish(d);
+                };
+                sidebar.appendChild(card);
+            });
+        }
+
+        function selectDish(dish) {
+            activeDish = dish;
+            document.getElementById('activeDishName').innerHTML = `<span>${dish.icon}</span> ${dish.name}`;
+            document.getElementById('activeDishDesc').textContent = dish.desc;
+            document.getElementById('dishCategoryBadge').textContent = CULINARY_ZONES[currentCategoryIdx].name;
+
+            const cards = document.querySelectorAll('.dish-card-select');
+            cards.forEach(c => c.classList.toggle('active', c.textContent.includes(dish.name)));
+
+            setupStep(1);
+        }
+
+        function updateStepTrack(num) {
+            for (let i = 1; i <= 4; i++) {
+                const tab = document.getElementById(`step${i}-tab`);
+                tab.className = 'step-item';
+                if (i < num) tab.classList.add('done');
+                if (i === num) tab.classList.add('active');
+            }
+        }
+
+        function setupStep(stepNum) {
+            currentStep = stepNum;
+            updateStepTrack(stepNum);
+
+            document.getElementById('station-math').classList.add('hidden');
+            document.getElementById('station-cook').classList.add('hidden');
+            document.getElementById('station-heat').classList.add('hidden');
+            document.getElementById('station-plating').classList.add('hidden');
+
+            if (stepNum === 1) {
+                document.getElementById('station-math').classList.remove('hidden');
+                setupMathStep();
+            } else if (stepNum === 2) {
+                document.getElementById('station-cook').classList.remove('hidden');
+                setupCookStep();
+            } else if (stepNum === 3) {
+                document.getElementById('station-heat').classList.remove('hidden');
+                setupHeatStep();
+            } else if (stepNum === 4) {
+                document.getElementById('station-plating').classList.remove('hidden');
+                setupPlatingStep();
+            }
+        }
+
+        function setupMathStep() {
+            const type = Math.random();
+            let n1, n2, unit = "gram";
+
+            if (type < 0.4) {
+                n1 = Math.floor(Math.random() * 25) + 10;
+                n2 = Math.floor(Math.random() * 20) + 5;
+                mathAnswer = n1 + n2;
+                document.getElementById('mathFormulaText').textContent = `${n1} + ${n2} = ? ${unit}`;
+            } else if (type < 0.7) {
+                n1 = Math.floor(Math.random() * 40) + 30;
+                n2 = Math.floor(Math.random() * 20) + 10;
+                mathAnswer = n1 - n2;
+                document.getElementById('mathFormulaText').textContent = `${n1} - ${n2} = ? ${unit}`;
+            } else {
+                n1 = Math.floor(Math.random() * 4) + 2;
+                n2 = Math.floor(Math.random() * 6) + 3;
+                mathAnswer = n1 * n2;
+                document.getElementById('mathFormulaText').textContent = `${n1} porsi × ${n2} = ? ${unit}`;
+            }
+
+            document.getElementById('mathQuestionTitle').textContent = `Takar ${activeDish.ing}`;
+
+            let choices = [mathAnswer];
+            const offsets = [-2, 2, -5, 5, -3, 3, -10, 10].sort(() => Math.random() - 0.5);
+            for (let o of offsets) {
+                const val = mathAnswer + o;
+                if (val > 0 && !choices.includes(val)) choices.push(val);
+                if (choices.length >= 4) break;
+            }
+            choices.sort(() => Math.random() - 0.5);
+
+            const grid = document.getElementById('mathChoicesGrid');
+            grid.innerHTML = '';
+            const icons = ['🧂', '🧄', '🧈', '🌿', '🍯'];
+
+            choices.forEach((c, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'ing-btn';
+                btn.innerHTML = `<span>${icons[idx % icons.length]}</span> ${c} ${unit}`;
+                btn.onclick = () => {
+                    if (c === mathAnswer) {
+                        soundSuccess();
+                        triggerConfetti(window.innerWidth / 2, window.innerHeight / 2, 20);
+                        score += 100;
+                        document.getElementById('scoreVal').textContent = score;
+                        setupStep(2);
+                    } else {
+                        soundWrong();
+                        btn.disabled = true;
+                    }
+                };
+                grid.appendChild(btn);
+            });
+        }
+
+        function setupCookStep() {
+            cookClicks = 0;
+            document.getElementById('sizzleProgress').style.width = '0%';
+            document.getElementById('cookPotIcon').textContent = activeDish.tool;
+            document.getElementById('cookActionTitle').textContent = `🔥 Olah & Masak ${activeDish.name} di Wajan!`;
+        }
+
+        function clickPotAction() {
+            if (currentStep !== 2) return;
+            cookClicks++;
+            playTone(320 + cookClicks * 50, 'sine', 0.08);
+
+            const pct = (cookClicks / maxCookClicks) * 100;
+            document.getElementById('sizzleProgress').style.width = `${pct}%`;
+
+            if (cookClicks >= maxCookClicks) {
+                soundSuccess();
+                triggerConfetti(window.innerWidth / 2, window.innerHeight / 2, 16);
+                score += 80;
+                document.getElementById('scoreVal').textContent = score;
+                setTimeout(() => setupStep(3), 260);
+            }
+        }
+
+        function setupHeatStep() {
+            needlePos = 0;
+            needleDir = 1;
+            document.getElementById('heatVesselIcon').textContent = activeDish.timeIcon;
+            document.getElementById('heatGaugeTitle').textContent = `🌡️ Kontrol Suhu Pemanggangan (Tepat di Area Hijau)`;
+
+            if (animId) cancelAnimationFrame(animId);
+            animateGauge();
+        }
+
+        function animateGauge() {
+            if (currentStep !== 3) return;
+            needlePos += needleDir * 2.2;
+            if (needlePos >= 96) needleDir = -1;
+            if (needlePos <= 2) needleDir = 1;
+
+            document.getElementById('gaugeNeedle').style.left = `${needlePos}%`;
+            animId = requestAnimationFrame(animateGauge);
+        }
+
+        function stopHeatGauge() {
+            if (currentStep !== 3) return;
+            if (animId) cancelAnimationFrame(animId);
+
+            const isSweet = (needlePos >= 52 && needlePos <= 88);
+            if (isSweet) {
+                soundSuccess();
+                triggerConfetti(window.innerWidth / 2, window.innerHeight / 2, 22);
+                score += 150;
+            } else {
+                playTone(550, 'triangle', 0.2);
+                score += 70;
+            }
+            document.getElementById('scoreVal').textContent = score;
+            setTimeout(() => setupStep(4), 300);
+        }
+
+        function setupPlatingStep() {
+            toppingsSelected = [];
+            document.getElementById('plateDishIcon').textContent = activeDish.icon;
+            document.getElementById('plateToppings').innerHTML = '';
+
+            const rack = document.getElementById('toppingsRack');
+            rack.innerHTML = '';
+
+            activeDish.decor.forEach(top => {
+                const chip = document.createElement('div');
+                chip.className = 'rack-chip';
+                chip.textContent = top;
+                chip.onclick = () => {
+                    playTone(600, 'sine', 0.08);
+                    if (toppingsSelected.length < 5) {
+                        toppingsSelected.push(top);
+                        const span = document.createElement('span');
+                        span.textContent = top;
+                        document.getElementById('plateToppings').appendChild(span);
+                    }
+                };
+                rack.appendChild(chip);
+            });
+        }
+
+        function finishPlatingServe() {
+            if (currentStep !== 4) return;
+            soundFanfare();
+            triggerConfetti(window.innerWidth / 2, window.innerHeight / 2, 35);
+
+            dishesCompleted++;
+            score += 250;
+            document.getElementById('dishesDone').textContent = dishesCompleted;
+            document.getElementById('scoreVal').textContent = score;
+
+            let rank = "Junior Cook";
+            if (dishesCompleted >= 10) rank = "👑 Master Executive Chef";
+            else if (dishesCompleted >= 6) rank = "🌟 Senior Sous Chef";
+            else if (dishesCompleted >= 3) rank = "🍳 Station Chef de Partie";
+
+            document.getElementById('chefRank').textContent = rank;
+            document.getElementById('finishChefRank').textContent = rank;
+            document.getElementById('finishDishName').textContent = activeDish.name;
+
+            document.getElementById('finishModal').classList.add('active');
+        }
+
+        function closeFinishModal(cookAgainSame) {
+            playTone(400, 'sine', 0.1);
+            document.getElementById('finishModal').classList.remove('active');
+            if (cookAgainSame) {
+                setupStep(1);
+            } else {
+                const zone = CULINARY_ZONES[currentCategoryIdx];
+                const nextDish = zone.dishes[Math.floor(Math.random() * zone.dishes.length)];
+                selectDish(nextDish);
+            }
+        }
+
+        window.onload = () => {
+            filterCategory(0);
+        };
+    </script>
+</body>
+
+</html>

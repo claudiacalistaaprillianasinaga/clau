@@ -1,0 +1,1707 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎮 Flowgorithm Studio - Tebak Angka & Kuis Diagram Interaktif Deluxe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #090d16;
+      --ide-blue: #1e3a8a;
+      --ide-blue-light: #2563eb;
+      --ide-header: #172554;
+      --ide-canvas: #ffffff;
+      --border-color: #cbd5e1;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      
+      --fg-term-bg: #ffedd5;
+      --fg-term-border: #ea580c;
+      --fg-term-text: #9a3412;
+
+      --fg-decl-bg: #e0f2fe;
+      --fg-decl-border: #0284c7;
+      --fg-decl-text: #0369a1;
+
+      --fg-assign-bg: #fef9c3;
+      --fg-assign-border: #ca8a04;
+      --fg-assign-text: #854d0e;
+
+      --fg-out-bg: #dcfce7;
+      --fg-out-border: #16a34a;
+      --fg-out-text: #15803d;
+
+      --fg-in-bg: #cffafe;
+      --fg-in-border: #0891b2;
+      --fg-in-text: #0e7490;
+
+      --fg-if-bg: #ffedd5;
+      --fg-if-border: #f97316;
+      --fg-if-text: #c2410c;
+
+      --fg-loop-bg: #fef3c7;
+      --fg-loop-border: #d97706;
+      --fg-loop-text: #92400e;
+
+      --fg-arrow: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 10%, #1e293b 0%, #070a12 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px 12px;
+      overflow-x: hidden;
+    }
+
+    .glow-blob {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.25;
+    }
+    .blob-blue { width: 450px; height: 450px; background: #3b82f6; top: -100px; left: -100px; }
+    .blob-purple { width: 500px; height: 500px; background: #8b5cf6; bottom: -120px; right: -100px; }
+
+    .ide-window {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 1140px;
+      background: #ffffff;
+      border-radius: 18px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.15);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px) scale(0.99); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .title-bar {
+      background: linear-gradient(90deg, #172554, #1e3a8a);
+      color: white;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.95rem;
+      font-weight: 700;
+      box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.15);
+    }
+
+    .title-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .window-dots {
+      display: flex;
+      gap: 6px;
+    }
+    .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .dot.red { background: #ef4444; }
+    .dot.yellow { background: #f59e0b; }
+    .dot.green { background: #10b981; }
+
+    .main-tab-bar {
+      background: #0f172a;
+      border-bottom: 2px solid #1e293b;
+      padding: 10px 18px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #cbd5e1;
+      padding: 9px 18px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+      background: rgba(255, 255, 255, 0.14);
+      color: white;
+    }
+
+    .tab-btn.active {
+      background: #2563eb;
+      border-color: #60a5fa;
+      color: white;
+      box-shadow: 0 0 16px rgba(37, 99, 235, 0.6);
+    }
+
+    .sub-case-bar {
+      background: #f8fafc;
+      border-bottom: 1px solid var(--border-color);
+      padding: 8px 18px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      overflow-x: auto;
+    }
+
+    .case-label {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    .case-pill {
+      background: white;
+      border: 1.5px solid var(--border-color);
+      color: #334155;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s;
+    }
+    .case-pill:hover { border-color: #2563eb; color: #2563eb; }
+    .case-pill.active { background: #dbeafe; border-color: #2563eb; color: #1e40af; }
+
+    .status-hud {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-color);
+      padding: 10px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .hud-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .hud-pill {
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .view-quiz-workspace {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      min-height: 600px;
+    }
+
+    @media (max-width: 880px) {
+      .view-quiz-workspace {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .canvas-panel {
+      background: #ffffff;
+      padding: 32px 20px;
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-y: auto;
+      max-height: 72vh;
+    }
+
+    .flow-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .flow-arrow {
+      width: 2px;
+      height: 24px;
+      background: var(--fg-arrow);
+      position: relative;
+      margin: 2px 0;
+    }
+
+    .flow-arrow::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 6px solid var(--fg-arrow);
+    }
+
+    .shape-terminal {
+      background: var(--fg-term-bg);
+      border: 2px solid var(--fg-term-border);
+      color: var(--fg-term-text);
+      border-radius: 20px;
+      padding: 7px 22px;
+      font-weight: 800;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+    }
+
+    .shape-declare {
+      background: var(--fg-decl-bg);
+      border: 2px solid var(--fg-decl-border);
+      color: var(--fg-decl-text);
+      padding: 7px 16px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      font-weight: 700;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+      text-align: center;
+    }
+
+    .shape-assign {
+      background: var(--fg-assign-bg);
+      border: 2px solid var(--fg-assign-border);
+      color: var(--fg-assign-text);
+      padding: 7px 18px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.84rem;
+      font-weight: 700;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+      text-align: center;
+    }
+
+    .shape-io {
+      background: var(--fg-out-bg);
+      border: 2px solid var(--fg-out-border);
+      color: var(--fg-out-text);
+      padding: 7px 20px;
+      transform: skew(-15deg);
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+      text-align: center;
+    }
+
+    .shape-io.shape-io-input {
+      background: var(--fg-in-bg);
+      border-color: var(--fg-in-border);
+      color: var(--fg-in-text);
+    }
+
+    .shape-io span {
+      display: inline-block;
+      transform: skew(15deg);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .shape-decision {
+      width: 140px;
+      height: 70px;
+      background: var(--fg-if-bg);
+      border: 2px solid var(--fg-if-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: rotate(45deg);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      margin: 8px 0;
+    }
+
+    .shape-decision span {
+      transform: rotate(-45deg);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--fg-if-text);
+      text-align: center;
+    }
+
+    .shape-loop {
+      background: var(--fg-loop-bg);
+      border: 2px solid var(--fg-loop-border);
+      color: var(--fg-loop-text);
+      padding: 8px 18px;
+      border-radius: 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.84rem;
+      font-weight: 800;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+      text-align: center;
+    }
+
+    .mystery-slot {
+      cursor: pointer;
+      position: relative;
+      outline: 3px dashed #6366f1 !important;
+      outline-offset: 4px;
+      background: #e0e7ff !important;
+      color: #4338ca !important;
+      border-color: #6366f1 !important;
+      animation: pulseGlow 1.6s infinite ease-in-out;
+      min-width: 210px;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      border-radius: 6px;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 0 rgba(99, 102, 241, 0.35); transform: scale(1); }
+      50% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.7); transform: scale(1.02); }
+    }
+
+    .mystery-slot.correct-state {
+      outline: 3px solid #10b981 !important;
+      background: #d1fae5 !important;
+      color: #065f46 !important;
+      animation: none;
+    }
+
+    .mystery-slot.shake-wrong {
+      animation: shakeAnim 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+      outline-color: #ef4444 !important;
+      background: #fee2e2 !important;
+      color: #b91c1c !important;
+    }
+
+    @keyframes shakeAnim {
+      10%, 90% { transform: translate3d(-3px, 0, 0); }
+      20%, 80% { transform: translate3d(5px, 0, 0); }
+      30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
+      40%, 60% { transform: translate3d(6px, 0, 0); }
+    }
+
+    .quiz-panel {
+      background: #f8fafc;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .quiz-card {
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+    }
+
+    .q-step {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #4f46e5;
+      margin-bottom: 6px;
+    }
+
+    .q-title {
+      font-size: 0.95rem;
+      color: #1e293b;
+      line-height: 1.5;
+      font-weight: 700;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .opt-choice {
+      background: white;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 12px 14px;
+      text-align: left;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #1e293b;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.2s ease;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .opt-choice:hover:not(:disabled) {
+      border-color: #4f46e5;
+      background: #f5f3ff;
+      transform: translateX(4px);
+    }
+
+    .opt-choice:disabled {
+      cursor: not-allowed;
+      opacity: 0.65;
+    }
+
+    .opt-choice.correct-pick {
+      background: #ecfdf5;
+      border-color: #10b981;
+      color: #065f46;
+    }
+
+    .opt-choice.wrong-pick {
+      background: #fef2f2;
+      border-color: #ef4444;
+      color: #991b1b;
+    }
+
+    .feedback-banner {
+      min-height: 52px;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 0.88rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .feedback-banner.show { opacity: 1; }
+    .feedback-banner.fb-wrong { background: #fee2e2; border: 1px solid #f87171; color: #991b1b; }
+    .feedback-banner.fb-correct { background: #d1fae5; border: 1px solid #34d399; color: #065f46; }
+
+    .action-panel {
+      margin-top: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .btn-act {
+      background: linear-gradient(135deg, #1e3a8a, #2563eb);
+      color: white;
+      border: none;
+      padding: 13px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+    .btn-act:hover { filter: brightness(1.1); transform: translateY(-2px); }
+
+    .view-gameplay {
+      display: none;
+      padding: 32px 24px;
+      flex-direction: column;
+      align-items: center;
+      background: radial-gradient(circle at 50% 20%, #1e293b 0%, #0b101b 100%);
+      color: #f1f5f9;
+      min-height: 600px;
+    }
+
+    .play-header {
+      text-align: center;
+      margin-bottom: 24px;
+      max-width: 600px;
+    }
+    .play-header h2 { font-size: 2rem; font-weight: 800; color: #93c5fd; margin-bottom: 6px; }
+    .play-header p { color: #94a3b8; font-size: 0.95rem; }
+
+    .play-stats {
+      display: flex;
+      justify-content: space-around;
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 14px 20px;
+      width: 100%;
+      max-width: 600px;
+      margin-bottom: 24px;
+    }
+
+    .num-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      width: 100%;
+      max-width: 600px;
+      margin-bottom: 24px;
+    }
+
+    .num-btn {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      color: white;
+      font-size: 1.4rem;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 16px 0;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .num-btn:hover:not(:disabled) {
+      background: #2563eb;
+      border-color: #60a5fa;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.5);
+    }
+    .num-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+    .play-terminal {
+      background: #050811;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 18px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.92rem;
+      width: 100%;
+      max-width: 600px;
+      min-height: 140px;
+      max-height: 180px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .log-line { display: flex; gap: 8px; line-height: 1.4; }
+    .log-sys { color: #94a3b8; }
+    .log-win { color: #4ade80; font-weight: 800; }
+    .log-hint { color: #f59e0b; font-weight: 700; }
+    .log-lose { color: #ef4444; font-weight: 800; }
+
+    .view-simulator {
+      display: none;
+      padding: 28px;
+      flex-direction: column;
+      align-items: center;
+      background: #f8fafc;
+      min-height: 600px;
+    }
+
+    .sim-card {
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      padding: 24px;
+      width: 100%;
+      max-width: 720px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .variable-watch-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem;
+    }
+    .variable-watch-table th, .variable-watch-table td {
+      border: 1px solid var(--border-color);
+      padding: 10px 14px;
+      text-align: left;
+    }
+    .variable-watch-table th { background: #f1f5f9; color: #334155; }
+    .variable-watch-table td { background: #ffffff; font-weight: 600; color: #1e3a8a; }
+
+    .modal-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.94);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .punish-box {
+      background: #1e293b;
+      border: 2px solid #ef4444;
+      border-radius: 20px;
+      padding: 26px;
+      max-width: 460px;
+      width: 100%;
+      text-align: center;
+      color: white;
+      box-shadow: 0 25px 60px rgba(239, 68, 68, 0.4);
+    }
+
+    .puzzle-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      background: #0f172a;
+      padding: 12px;
+      border-radius: 14px;
+      border: 2px solid #334155;
+      margin: 16px auto;
+      width: 270px;
+      height: 270px;
+    }
+
+    .puzzle-tile {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+      font-size: 1.7rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      cursor: pointer;
+      user-select: none;
+      font-family: 'JetBrains Mono', monospace;
+      transition: all 0.15s ease;
+    }
+    .puzzle-tile:hover:not(.empty) { transform: scale(0.96); filter: brightness(1.15); }
+    .puzzle-tile.empty { background: transparent; cursor: default; }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+  <div class="glow-blob blob-blue"></div>
+  <div class="glow-blob blob-purple"></div>
+
+  <div class="ide-window">
+    <div class="title-bar">
+      <div class="title-left">
+        <div class="window-dots">
+          <div class="dot red"></div>
+          <div class="dot yellow"></div>
+          <div class="dot green"></div>
+        </div>
+        <span id="window-title-text">Flowgorithm Studio v3.3 - [TebakAngka.fprg] Deluxe Edition</span>
+      </div>
+      <div>⚡ Multi-Tampilan Interaktif</div>
+    </div>
+
+    <div class="main-tab-bar">
+      <button class="tab-btn active" id="tabQuiz" onclick="switchMainTab('quiz')">
+        <span>🧩 1. Kuis Lengkapi Diagram (Hukuman Puzzle)</span>
+      </button>
+      <button class="tab-btn" id="tabPlay" onclick="switchMainTab('play')">
+        <span>🎮 2. Main Game Tebak Angka (Live Play)</span>
+      </button>
+      <button class="tab-btn" id="tabSim" onclick="switchMainTab('sim')">
+        <span>📊 3. Simulasi Step & Watch Variabel</span>
+      </button>
+    </div>
+
+    <div class="sub-case-bar" id="caseBar">
+      <span class="case-label">📂 Pilih Algoritma:</span>
+      <button class="case-pill active" onclick="switchModule(0)">1. Game Tebak Angka</button>
+      <button class="case-pill" onclick="switchModule(1)">2. Penentu Nilai & Grade</button>
+      <button class="case-pill" onclick="switchModule(2)">3. Kasir & Diskon 10%</button>
+      <button class="case-pill" onclick="switchModule(3)">4. Validasi PIN ATM</button>
+      <button class="case-pill" onclick="switchModule(4)">5. Modulus Ganjil/Genap</button>
+    </div>
+
+    <div class="status-hud">
+      <div class="hud-left">
+        <div class="hud-pill" style="color: #ef4444;">
+          Nyawa: <span id="hp-icons">❤️❤️❤️</span>
+        </div>
+        <div class="hud-pill">
+          Progres: <span id="q-counter" style="color: #1e3a8a;">1 / 5</span>
+        </div>
+        <div class="hud-pill">
+          Skor: <span id="score-display" style="color: #16a34a;">0</span>
+        </div>
+      </div>
+      <div style="font-size: 0.85rem; color: #ef4444; font-weight: 700;">
+        ⚠️ Salah 3 kali = Wajib Selesaikan Game Puzzle 1–8!
+      </div>
+    </div>
+
+    <!-- VIEW 1: KUIS -->
+    <div class="view-quiz-workspace" id="viewQuiz">
+      <div class="canvas-panel" id="flowchart-canvas"></div>
+      <div class="quiz-panel">
+        <h3 style="font-size: 1.1rem; font-weight: 800;">🧩 Analisis Blok Kosong</h3>
+        <div class="quiz-card">
+          <div class="q-step" id="q-stage-label">Tahap 1</div>
+          <div class="q-title" id="q-question-text">
+            Perhatikan bagian yang berkedip ungu pada diagram. Simbol atau instruksi apakah yang tepat?
+          </div>
+        </div>
+        <div class="options-grid" id="options-box"></div>
+        <div class="feedback-banner" id="fb-banner">
+          <span id="fb-icon" style="font-size: 1.2rem;">🔊</span>
+          <span id="fb-msg">Pilih jawaban pada kartu di atas...</span>
+        </div>
+        <div class="action-panel">
+          <button class="btn-act" id="btn-next" onclick="nextQuestion()" style="display: none;">
+            Lanjut ke Blok Berikutnya ➔
+          </button>
+          <button class="btn-act" id="btn-restart" onclick="restartCurrentModule()" style="background: #475569; display: none;">
+            🔄 Ulangi Kasus Ini
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 2: LIVE PLAY -->
+    <div class="view-gameplay" id="viewPlay">
+      <div class="play-header">
+        <h2>🎮 Tebak Angka 1–10</h2>
+        <p>Program telah memilih satu angka rahasia. Tebak sebelum 3 kesempatan habis!</p>
+      </div>
+      <div class="play-stats">
+        <div>
+          <span style="font-size: 0.75rem; text-transform: uppercase; color: #94a3b8; font-weight: 700;">Sisa Kesempatan</span>
+          <div id="play-hearts" style="font-size: 1.3rem; margin-top: 4px;">❤️❤️❤️</div>
+        </div>
+        <div>
+          <span style="font-size: 0.75rem; text-transform: uppercase; color: #94a3b8; font-weight: 700;">Percobaan</span>
+          <div id="play-attempt-count" style="font-size: 1.3rem; font-weight: 800; font-family: 'JetBrains Mono'; margin-top: 4px;">0</div>
+        </div>
+        <div>
+          <span style="font-size: 0.75rem; text-transform: uppercase; color: #94a3b8; font-weight: 700;">Status</span>
+          <div id="play-status-label" style="font-size: 1.1rem; font-weight: 800; color: #60a5fa; margin-top: 4px;">MAIN</div>
+        </div>
+      </div>
+      <div class="num-grid" id="playNumGrid"></div>
+      <div class="play-terminal" id="playTerminal"></div>
+      <button class="btn-act" style="width: 100%; max-width: 600px;" onclick="initLiveGame()">
+        🔄 Main Ulang Game Tebak Angka
+      </button>
+    </div>
+
+    <!-- VIEW 3: SIMULATOR -->
+    <div class="view-simulator" id="viewSim">
+      <div class="sim-card">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <h2 style="font-size: 1.4rem; font-weight: 800; color: #1e3a8a;">📊 Watch Window & Tracer Eksekusi</h2>
+          <span style="font-size: 0.85rem; color: #64748b; font-weight: 700;">Simulasi Debug Flowgorithm</span>
+        </div>
+        <p style="color: #475569; font-size: 0.95rem; line-height: 1.5;">
+          Halaman ini memperlihatkan nilai real-time dari memori RAM saat program dieksekusi langkah demi langkah:
+        </p>
+        <table class="variable-watch-table">
+          <thead>
+            <tr>
+              <th>Nama Variabel</th>
+              <th>Tipe Data</th>
+              <th>Nilai Saat Ini</th>
+              <th>Keterangan Alur</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>angkaRahasia</code></td><td>Integer</td><td id="sim-val-secret">7</td><td>Target yang wajib ditebak</td></tr>
+            <tr><td><code>tebakan</code></td><td>Integer</td><td id="sim-val-guess">-</td><td>Input terakhir pemain</td></tr>
+            <tr><td><code>kesempatan</code></td><td>Integer</td><td id="sim-val-chance">3</td><td>Batas kuota menebak</td></tr>
+            <tr><td><code>percobaan</code></td><td>Integer</td><td id="sim-val-attempt">0</td><td>Akumulasi kali menebak</td></tr>
+            <tr><td><code>menang</code></td><td>Boolean</td><td id="sim-val-win">false</td><td>Flag status kemenangan</td></tr>
+          </tbody>
+        </table>
+        <div style="background: #eff6ff; border: 1.5px dashed #3b82f6; border-radius: 12px; padding: 14px; color: #1e40af; font-size: 0.9rem;">
+          💡 <b>Info Pembelajaran:</b> Variabel <code>angkaRahasia</code> diatur di awal sebesar <b>7</b>. Setiap kali pemain menebak salah, <code>kesempatan</code> berkurang 1 dan <code>percobaan</code> bertambah 1.
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL PUZZLE -->
+    <div class="modal-overlay" id="puzzle-modal">
+      <div class="punish-box">
+        <div style="display: inline-block; background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: #fca5a5; padding: 4px 12px; border-radius: 999px; font-size: 0.8rem; font-weight: 800; margin-bottom: 8px;">
+          🚨 HUKUMAN: SALAH 3 KALI!
+        </div>
+        <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 6px;">Puzzle Angka Terkunci</h2>
+        <p style="font-size: 0.9rem; color: #94a3b8;">
+          Kamu kehabisan nyawa! Geser kotak hingga berurutan <b>1 sampai 8</b> untuk menebus hukuman dan melanjutkan kuis!
+        </p>
+        <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 0.85rem; font-weight: 700;">
+          <span>Langkah: <b id="puzzle-steps" style="color: #60a5fa;">0</b></span>
+          <span>Target: Urutkan 1 - 8</span>
+        </div>
+        <div class="puzzle-grid" id="puzzle-board"></div>
+        <div id="puzzle-win-alert" style="background: #10b981; color: white; padding: 10px; border-radius: 10px; font-weight: 800; display: none; margin-bottom: 12px;">
+          🎉 Hukuman Selesai! Kamu mendapatkan 3 nyawa kembali!
+        </div>
+        <button class="btn-act" id="puzzle-claim-btn" onclick="claimRedemption()" style="width: 100%; display: none; background: #10b981;">
+          Lanjutkan Kuis Flowgorithm ➔
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let audioCtx = null;
+    function getAudioContext() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      return audioCtx;
+    }
+
+    function playErrorSound() {
+      try {
+        const ctx = getAudioContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "sawtooth";
+        osc.frequency.setValueAtTime(155, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(55, ctx.currentTime + 0.35);
+        gain.gain.setValueAtTime(0.35, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.35);
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.start(); osc.stop(ctx.currentTime + 0.35);
+      } catch(e) {}
+    }
+
+    function playCorrectSound() {
+      try {
+        const ctx = getAudioContext();
+        const now = ctx.currentTime;
+        const playTone = (freq, delay) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = "sine";
+          osc.frequency.setValueAtTime(freq, now + delay);
+          gain.gain.setValueAtTime(0.2, now + delay);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + delay + 0.3);
+          osc.connect(gain); gain.connect(ctx.destination);
+          osc.start(now + delay); osc.stop(now + delay + 0.3);
+        };
+        playTone(523.25, 0); playTone(659.25, 0.11); playTone(783.99, 0.22); playTone(1046.50, 0.33);
+      } catch(e) {}
+    }
+
+    function playTileSound() {
+      try {
+        const ctx = getAudioContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(350, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(180, ctx.currentTime + 0.08);
+        gain.gain.setValueAtTime(0.15, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.08);
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.start(); osc.stop(ctx.currentTime + 0.08);
+      } catch(e) {}
+    }
+
+    function switchMainTab(tab) {
+      document.getElementById('viewQuiz').style.display = 'none';
+      document.getElementById('viewPlay').style.display = 'none';
+      document.getElementById('viewSim').style.display = 'none';
+      document.getElementById('caseBar').style.display = 'none';
+
+      document.getElementById('tabQuiz').classList.remove('active');
+      document.getElementById('tabPlay').classList.remove('active');
+      document.getElementById('tabSim').classList.remove('active');
+
+      if (tab === 'quiz') {
+        document.getElementById('viewQuiz').style.display = 'grid';
+        document.getElementById('caseBar').style.display = 'flex';
+        document.getElementById('tabQuiz').classList.add('active');
+        document.getElementById('window-title-text').textContent = 'Flowgorithm Studio v3.3 - [Kuis Lengkapi Diagram & Hukuman]';
+      } else if (tab === 'play') {
+        document.getElementById('viewPlay').style.display = 'flex';
+        document.getElementById('tabPlay').classList.add('active');
+        document.getElementById('window-title-text').textContent = 'Flowgorithm Studio v3.3 - [Tebak Angka 1-10 Live Play]';
+      } else if (tab === 'sim') {
+        document.getElementById('viewSim').style.display = 'flex';
+        document.getElementById('tabSim').classList.add('active');
+        document.getElementById('window-title-text').textContent = 'Flowgorithm Studio v3.3 - [Watch Window & Debug Tracer]';
+      }
+    }
+
+    const algorithmModules = [
+      {
+        id: "tebak_angka",
+        name: "1. Game Tebak Angka",
+        filename: "TebakAngka.fprg",
+        nodes: [
+          { id: "node_start", type: "terminal", label: "Main (START)" },
+          { id: "slot_1", type: "declare", label: "Declare Integer angkaRahasia, tebakan, kesempatan", mystery: true },
+          { id: "slot_2", type: "assign", label: "angkaRahasia = 7", mystery: true },
+          { id: "slot_3", type: "assign", label: "kesempatan = 3", mystery: true },
+          { id: "node_out1", type: "io", label: 'Output "🎮 GAME TEBAK ANGKA"' },
+          { id: "slot_4", type: "input", label: "Input tebakan", mystery: true },
+          { id: "slot_5", type: "decision", label: "tebakan == angkaRahasia", mystery: true },
+          { id: "node_win", type: "io", label: 'Output "🎉 BENAR! Kamu Menang!"' },
+          { id: "node_end", type: "terminal", label: "END" }
+        ],
+        questions: [
+          {
+            slotId: "slot_1",
+            stage: "Tahap 1: Deklarasi Variabel",
+            question: "Program game tebak angka membutuhkan wadah untuk menyimpan target rahasia, masukan pemain, dan kuota menebak. Blok manakah yang harus dideklarasikan?",
+            correctText: "Declare Integer angkaRahasia, tebakan, kesempatan",
+            options: [
+              { text: "Declare Integer angkaRahasia, tebakan, kesempatan", correct: true },
+              { text: "Declare Real angkaRahasia, String namaPemain", correct: false },
+              { text: "Assign Integer tebakan = 0", correct: false },
+              { text: "Input tebakan, kesempatan", correct: false }
+            ]
+          },
+          {
+            slotId: "slot_2",
+            stage: "Tahap 2: Menentukan Target Rahasia",
+            question: "Sesuai aturan, angka rahasia harus ditentukan di awal bernilai '7'. Simbol Assign manakah yang tepat?",
+            correctText: "angkaRahasia = 7",
+            options: [
+              { text: "angkaRahasia = 7", correct: true },
+              { text: "angkaRahasia == 7", correct: false },
+              { text: "tebakan = 7", correct: false },
+              { text: "Output 7", correct: false }
+            ]
+          },
+          {
+            slotId: "slot_3",
+            stage: "Tahap 3: Batas Percobaan",
+            question: "Pemain diberikan maksimal 3 kali kesempatan mencoba. Bagaimana menginisialisasi nilai variabel tersebut?",
+            correctText: "kesempatan = 3",
+            options: [
+              { text: "kesempatan = 3", correct: true },
+              { text: "kesempatan == 3", correct: false },
+              { text: "Declare kesempatan as 3", correct: false },
+              { text: "kesempatan = kesempatan - 1", correct: false }
+            ]
+          },
+          {
+            slotId: "slot_4",
+            stage: "Tahap 4: Membaca Input Pemain",
+            question: "Program meminta pemain mengetikkan angka dugaannya. Simbol jajar genjang Input manakah yang digunakan?",
+            correctText: "Input tebakan",
+            options: [
+              { text: "Input tebakan", correct: true },
+              { text: "Output tebakan", correct: false },
+              { text: "Input angkaRahasia", correct: false },
+              { text: "Assign tebakan = Input()", correct: false }
+            ]
+          },
+          {
+            slotId: "slot_5",
+            stage: "Tahap 5: Evaluasi Ketepatan",
+            question: "Pada belah ketupat If (Decision), ekspresi perbandingan apa yang digunakan untuk memeriksa apakah tebakan pemain tepat sama dengan angka rahasia?",
+            correctText: "tebakan == angkaRahasia",
+            options: [
+              { text: "tebakan == angkaRahasia", correct: true },
+              { text: "tebakan = angkaRahasia", correct: false },
+              { text: "tebakan != angkaRahasia", correct: false },
+              { text: "tebakan >= 7", correct: false }
+            ]
+          }
+        ]
+      },
+      {
+        id: "grade_nilai",
+        name: "2. Penentu Nilai & Kelulusan",
+        filename: "EvaluasiNilai.fprg",
+        nodes: [
+          { id: "node_start", type: "terminal", label: "Main (START)" },
+          { id: "g_slot_1", type: "declare", label: "Declare Real nilaiUjian", mystery: true },
+          { id: "node_out", type: "io", label: 'Output "Masukkan Nilai Mahasiswa (0-100):"' },
+          { id: "g_slot_2", type: "input", label: "Input nilaiUjian", mystery: true },
+          { id: "g_slot_3", type: "decision", label: "nilaiUjian >= 70", mystery: true },
+          { id: "g_slot_4", type: "io", label: 'Output "LULUS (Memuaskan)"', mystery: true },
+          { id: "node_fail", type: "io", label: 'Output "TIDAK LULUS (Remedial)"' },
+          { id: "node_end", type: "terminal", label: "END" }
+        ],
+        questions: [
+          {
+            slotId: "g_slot_1",
+            stage: "Tahap 1: Tipe Data Pecahan",
+            question: "Nilai ujian mahasiswa bisa berupa angka desimal (contoh: 75.5). Tipe data apa yang paling tepat dideklarasikan di Flowgorithm?",
+            correctText: "Declare Real nilaiUjian",
+            options: [
+              { text: "Declare Real nilaiUjian", correct: true },
+              { text: "Declare Integer nilaiUjian", correct: false },
+              { text: "Declare String nilaiUjian", correct: false },
+              { text: "Declare Boolean nilaiUjian", correct: false }
+            ]
+          },
+          {
+            slotId: "g_slot_2",
+            stage: "Tahap 2: Input Data",
+            question: "Setelah teks petunjuk muncul di layar, simbol apa yang digunakan untuk menampung masukan nilai dari keyboard pengguna?",
+            correctText: "Input nilaiUjian",
+            options: [
+              { text: "Input nilaiUjian", correct: true },
+              { text: "Output nilaiUjian", correct: false },
+              { text: "Assign nilaiUjian = 0", correct: false },
+              { text: "Declare nilaiUjian", correct: false }
+            ]
+          },
+          {
+            slotId: "g_slot_3",
+            stage: "Tahap 3: Syarat Kelulusan",
+            question: "Mahasiswa dinyatakan lulus jika nilainya minimal 70 ke atas. Simbol Decision If yang benar adalah:",
+            correctText: "nilaiUjian >= 70",
+            options: [
+              { text: "nilaiUjian >= 70", correct: true },
+              { text: "nilaiUjian > 70", correct: false },
+              { text: "nilaiUjian = 70", correct: false },
+              { text: "nilaiUjian <= 70", correct: false }
+            ]
+          },
+          {
+            slotId: "g_slot_4",
+            stage: "Tahap 4: Output Kondisi True",
+            question: "Jika kondisi nilaiUjian >= 70 bernilai True, pesan apa yang dicetak melalui simbol Output hijau?",
+            correctText: 'Output "LULUS (Memuaskan)"',
+            options: [
+              { text: 'Output "LULUS (Memuaskan)"', correct: true },
+              { text: 'Input "LULUS"', correct: false },
+              { text: 'Assign status = LULUS', correct: false },
+              { text: 'Output nilaiUjian', correct: false }
+            ]
+          }
+        ]
+      },
+      {
+        id: "kasir_diskon",
+        name: "3. Perhitungan Kasir & Diskon",
+        filename: "KasirDiskon.fprg",
+        nodes: [
+          { id: "node_start", type: "terminal", label: "Main (START)" },
+          { id: "k_slot_1", type: "declare", label: "Declare Real totalBelanja, bayarAkhir", mystery: true },
+          { id: "node_in", type: "input", label: "Input totalBelanja" },
+          { id: "k_slot_2", type: "decision", label: "totalBelanja >= 100000", mystery: true },
+          { id: "k_slot_3", type: "assign", label: "bayarAkhir = totalBelanja * 0.9", mystery: true },
+          { id: "node_normal", type: "assign", label: "bayarAkhir = totalBelanja" },
+          { id: "k_slot_4", type: "io", label: 'Output "Total Bayar: " & bayarAkhir', mystery: true },
+          { id: "node_end", type: "terminal", label: "END" }
+        ],
+        questions: [
+          {
+            slotId: "k_slot_1",
+            stage: "Tahap 1: Deklarasi Keuangan",
+            question: "Sistem kasir menghitung nominal belanja dan potongan harga. Deklarasi variabel numerik mana yang paling cocok?",
+            correctText: "Declare Real totalBelanja, bayarAkhir",
+            options: [
+              { text: "Declare Real totalBelanja, bayarAkhir", correct: true },
+              { text: "Declare Boolean totalBelanja, bayarAkhir", correct: false },
+              { text: "Declare String totalBelanja", correct: false },
+              { text: "Assign Real totalBelanja = 0", correct: false }
+            ]
+          },
+          {
+            slotId: "k_slot_2",
+            stage: "Tahap 2: Syarat Diskon 10%",
+            question: "Toko memberikan diskon hanya bagi pembeli yang belanja minimal Rp 100.000. Rumus percabangan If manakah yang tepat?",
+            correctText: "totalBelanja >= 100000",
+            options: [
+              { text: "totalBelanja >= 100000", correct: true },
+              { text: "totalBelanja == 100000", correct: false },
+              { text: "totalBelanja < 100000", correct: false },
+              { text: "totalBelanja != 100000", correct: false }
+            ]
+          },
+          {
+            slotId: "k_slot_3",
+            stage: "Tahap 3: Rumus Diskon 10%",
+            question: "Jika mendapat diskon 10%, maka pembeli hanya membayar 90% (0.9) dari total belanja. Blok penugasan (Assign) manakah yang benar?",
+            correctText: "bayarAkhir = totalBelanja * 0.9",
+            options: [
+              { text: "bayarAkhir = totalBelanja * 0.9", correct: true },
+              { text: "bayarAkhir = totalBelanja - 10", correct: false },
+              { text: "bayarAkhir = totalBelanja / 0.1", correct: false },
+              { text: "bayarAkhir == totalBelanja * 0.9", correct: false }
+            ]
+          },
+          {
+            slotId: "k_slot_4",
+            stage: "Tahap 4: Penggabungan String & Variabel",
+            question: "Dalam Flowgorithm, simbol operator apa yang dipakai untuk menggabungkan kalimat teks dengan variabel pada blok Output?",
+            correctText: 'Output "Total Bayar: " & bayarAkhir',
+            options: [
+              { text: 'Output "Total Bayar: " & bayarAkhir', correct: true },
+              { text: 'Output "Total Bayar: " + bayarAkhir', correct: false },
+              { text: 'Output "Total Bayar: " , bayarAkhir', correct: false },
+              { text: 'Input "Total Bayar: " & bayarAkhir', correct: false }
+            ]
+          }
+        ]
+      },
+      {
+        id: "atm_pin",
+        name: "4. Validasi PIN ATM & Limit",
+        filename: "ValidasiATM.fprg",
+        nodes: [
+          { id: "node_start", type: "terminal", label: "Main (START)" },
+          { id: "a_slot_1", type: "declare", label: "Declare Integer pinBenar, pinInput, sisaPercobaan", mystery: true },
+          { id: "node_init", type: "assign", label: "pinBenar = 1234, sisaPercobaan = 3" },
+          { id: "a_slot_2", type: "loop", label: "While sisaPercobaan > 0 and pinInput != pinBenar", mystery: true },
+          { id: "node_ask", type: "input", label: "Input pinInput" },
+          { id: "a_slot_3", type: "assign", label: "sisaPercobaan = sisaPercobaan - 1", mystery: true },
+          { id: "a_slot_4", type: "decision", label: "pinInput == pinBenar", mystery: true },
+          { id: "node_ok", type: "io", label: 'Output "Akses Diberikan"' },
+          { id: "node_end", type: "terminal", label: "END" }
+        ],
+        questions: [
+          {
+            slotId: "a_slot_1",
+            stage: "Tahap 1: Deklarasi Keamanan",
+            question: "PIN ATM dan jumlah kesempatan mencoba terdiri atas angka bulat tanpa desimal. Tipe data apa yang wajib dipakai?",
+            correctText: "Declare Integer pinBenar, pinInput, sisaPercobaan",
+            options: [
+              { text: "Declare Integer pinBenar, pinInput, sisaPercobaan", correct: true },
+              { text: "Declare String pinBenar, Boolean sisaPercobaan", correct: false },
+              { text: "Declare Real pinBenar, pinInput", correct: false },
+              { text: "Assign Integer pinBenar = 1234", correct: false }
+            ]
+          },
+          {
+            slotId: "a_slot_2",
+            stage: "Tahap 2: Logika Perulangan (While Loop)",
+            question: "Sistem ATM terus meminta PIN selama kesempatan masih ada (> 0) DAN PIN yang dimasukkan masih salah. Syarat perulangan While yang tepat adalah:",
+            correctText: "While sisaPercobaan > 0 and pinInput != pinBenar",
+            options: [
+              { text: "While sisaPercobaan > 0 and pinInput != pinBenar", correct: true },
+              { text: "While sisaPercobaan == 0 or pinInput == pinBenar", correct: false },
+              { text: "While sisaPercobaan < 3", correct: false },
+              { text: "If sisaPercobaan > 0", correct: false }
+            ]
+          },
+          {
+            slotId: "a_slot_3",
+            stage: "Tahap 3: Decrement Kuota",
+            question: "Setiap kali pengguna salah memasukkan PIN, sisa percobaan harus berkurang 1. Rumus penugasan (Assign) yang benar adalah:",
+            correctText: "sisaPercobaan = sisaPercobaan - 1",
+            options: [
+              { text: "sisaPercobaan = sisaPercobaan - 1", correct: true },
+              { text: "sisaPercobaan == sisaPercobaan - 1", correct: false },
+              { text: "sisaPercobaan = sisaPercobaan + 1", correct: false },
+              { text: "sisaPercobaan - 1", correct: false }
+            ]
+          },
+          {
+            slotId: "a_slot_4",
+            stage: "Tahap 4: Verifikasi Akhir",
+            question: "Setelah loop selesai, bagaimana memeriksa apakah kartu berhasil terbuka karena PIN-nya tepat?",
+            correctText: "pinInput == pinBenar",
+            options: [
+              { text: "pinInput == pinBenar", correct: true },
+              { text: "pinInput = pinBenar", correct: false },
+              { text: "pinInput != pinBenar", correct: false },
+              { text: "sisaPercobaan == 3", correct: false }
+            ]
+          }
+        ]
+      },
+      {
+        id: "modulus_ganjil",
+        name: "5. Bilangan Ganjil/Genap (Modulus)",
+        filename: "GanjilGenap.fprg",
+        nodes: [
+          { id: "node_start", type: "terminal", label: "Main (START)" },
+          { id: "m_slot_1", type: "declare", label: "Declare Integer bilangan", mystery: true },
+          { id: "node_in", type: "input", label: "Input bilangan" },
+          { id: "m_slot_2", type: "decision", label: "bilangan % 2 == 0", mystery: true },
+          { id: "m_slot_3", type: "io", label: 'Output "Bilangan GENAP"', mystery: true },
+          { id: "node_odd", type: "io", label: 'Output "Bilangan GANJIL"' },
+          { id: "node_end", type: "terminal", label: "END" }
+        ],
+        questions: [
+          {
+            slotId: "m_slot_1",
+            stage: "Tahap 1: Deklarasi Angka",
+            question: "Algoritma cek ganjil/genap hanya berlaku untuk bilangan bulat. Variabel dideklarasikan sebagai:",
+            correctText: "Declare Integer bilangan",
+            options: [
+              { text: "Declare Integer bilangan", correct: true },
+              { text: "Declare Real bilangan", correct: false },
+              { text: "Declare Boolean bilangan", correct: false },
+              { text: "Input Integer bilangan", correct: false }
+            ]
+          },
+          {
+            slotId: "m_slot_2",
+            stage: "Tahap 2: Operator Sisa Bagi (Modulus)",
+            question: "Suatu bilangan disebut genap jika dibagi 2 menyisakan sisa bagi 0. Operator modulus dalam Flowgorithm ditulis dengan:",
+            correctText: "bilangan % 2 == 0",
+            options: [
+              { text: "bilangan % 2 == 0", correct: true },
+              { text: "bilangan / 2 == 0", correct: false },
+              { text: "bilangan mod 2 = 0", correct: false },
+              { text: "bilangan * 2 == 0", correct: false }
+            ]
+          },
+          {
+            slotId: "m_slot_3",
+            stage: "Tahap 3: Output Kondisi True",
+            question: "Jika hasil evaluasi kondisi sisa bagi bernilai True (benar), maka blok Output hijau menampilkan teks:",
+            correctText: 'Output "Bilangan GENAP"',
+            options: [
+              { text: 'Output "Bilangan GENAP"', correct: true },
+              { text: 'Output "Bilangan GANJIL"', correct: false },
+              { text: 'Input "Bilangan GENAP"', correct: false },
+              { text: 'Assign status = GENAP', correct: false }
+            ]
+          }
+        ]
+      }
+    ];
+
+    let activeModIdx = 0;
+    let currentQIdx = 0;
+    let nyawa = 3;
+    let score = 0;
+
+    function renderFlowchart(mod) {
+      const canvas = document.getElementById("flowchart-canvas");
+      canvas.innerHTML = "";
+
+      mod.nodes.forEach((node, index) => {
+        const stepDiv = document.createElement("div");
+        stepDiv.className = "flow-step";
+
+        let shapeClass = "";
+        let isIo = false;
+
+        switch (node.type) {
+          case "terminal": shapeClass = "shape-terminal"; break;
+          case "declare": shapeClass = "shape-declare"; break;
+          case "assign": shapeClass = "shape-assign"; break;
+          case "io": shapeClass = "shape-io"; isIo = true; break;
+          case "input": shapeClass = "shape-io shape-io-input"; isIo = true; break;
+          case "decision": shapeClass = "shape-decision"; break;
+          case "loop": shapeClass = "shape-loop"; break;
+        }
+
+        const shapeEl = document.createElement("div");
+        shapeEl.id = node.id;
+        shapeEl.className = shapeClass;
+
+        if (isIo || node.type === "decision") {
+          shapeEl.innerHTML = `<span>${node.label}</span>`;
+        } else {
+          shapeEl.textContent = node.label;
+        }
+
+        stepDiv.appendChild(shapeEl);
+
+        if (index < mod.nodes.length - 1) {
+          const arrow = document.createElement("div");
+          arrow.className = "flow-arrow";
+          stepDiv.appendChild(arrow);
+        }
+
+        canvas.appendChild(stepDiv);
+      });
+    }
+
+    function switchModule(modIdx) {
+      activeModIdx = modIdx;
+      currentQIdx = 0;
+      nyawa = 3;
+      score = 0;
+
+      const pills = document.querySelectorAll(".case-pill");
+      pills.forEach((p, i) => p.classList.toggle("active", i === modIdx));
+
+      const currentMod = algorithmModules[activeModIdx];
+      renderFlowchart(currentMod);
+      loadQuestion();
+    }
+
+    function updateStats() {
+      const currentMod = algorithmModules[activeModIdx];
+      document.getElementById("q-counter").textContent = `${currentQIdx + 1} / ${currentMod.questions.length}`;
+      document.getElementById("score-display").textContent = score;
+
+      let hearts = "";
+      for (let i = 0; i < nyawa; i++) hearts += "❤️";
+      for (let i = nyawa; i < 3; i++) hearts += "🖤";
+      document.getElementById("hp-icons").textContent = hearts;
+    }
+
+    function loadQuestion() {
+      const currentMod = algorithmModules[activeModIdx];
+      if (currentQIdx >= currentMod.questions.length) {
+        finishModule(true);
+        return;
+      }
+
+      updateStats();
+      const q = currentMod.questions[currentQIdx];
+
+      document.getElementById("q-stage-label").textContent = q.stage;
+      document.getElementById("q-question-text").textContent = q.question;
+
+      const fb = document.getElementById("fb-banner");
+      fb.className = "feedback-banner";
+      document.getElementById("fb-msg").textContent = "Dengarkan efek suara saat memilih jawaban...";
+
+      currentMod.nodes.forEach(node => {
+        const el = document.getElementById(node.id);
+        if (el) el.classList.remove("mystery-slot", "shake-wrong");
+      });
+
+      const targetSlot = document.getElementById(q.slotId);
+      if (targetSlot) {
+        targetSlot.classList.add("mystery-slot");
+        targetSlot.innerHTML = `<span>❓ [ ISI BLOK INI ]</span>`;
+        targetSlot.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+
+      const optionsBox = document.getElementById("options-box");
+      optionsBox.innerHTML = "";
+      const shuffled = [...q.options].sort(() => Math.random() - 0.5);
+
+      shuffled.forEach(opt => {
+        const btn = document.createElement("button");
+        btn.className = "opt-choice";
+        btn.textContent = opt.text;
+        btn.onclick = () => handleChoice(opt, btn, q);
+        optionsBox.appendChild(btn);
+      });
+
+      document.getElementById("btn-next").style.display = "none";
+      document.getElementById("btn-restart").style.display = "none";
+    }
+
+    function handleChoice(opt, btnEl, q) {
+      const targetSlot = document.getElementById(q.slotId);
+      const fb = document.getElementById("fb-banner");
+      const allBtns = document.querySelectorAll(".opt-choice");
+
+      if (opt.correct) {
+        playCorrectSound();
+        score += 25;
+        updateStats();
+
+        btnEl.classList.add("correct-pick");
+        allBtns.forEach(b => b.disabled = true);
+
+        if (targetSlot) {
+          targetSlot.classList.remove("mystery-slot");
+          targetSlot.classList.add("correct-state");
+          targetSlot.innerHTML = `<span>✔ ${q.correctText}</span>`;
+        }
+
+        fb.className = "feedback-banner show fb-correct";
+        document.getElementById("fb-icon").textContent = "🎉";
+        document.getElementById("fb-msg").textContent = "BENAR! Blok algoritma terpasang secara tepat.";
+
+        document.getElementById("btn-next").style.display = "flex";
+      } else {
+        playErrorSound();
+        nyawa -= 1;
+        updateStats();
+
+        btnEl.classList.add("wrong-pick");
+        btnEl.disabled = true;
+
+        if (targetSlot) {
+          targetSlot.classList.remove("shake-wrong");
+          void targetSlot.offsetWidth;
+          targetSlot.classList.add("shake-wrong");
+        }
+
+        fb.className = "feedback-banner show fb-wrong";
+        document.getElementById("fb-icon").textContent = "🚨";
+        document.getElementById("fb-msg").textContent = `SALAH! 🔊 (Buzzer Berbunyi). Sisa nyawa: ${nyawa}`;
+
+        if (nyawa <= 0) {
+          setTimeout(triggerPuzzlePunishment, 600);
+        }
+      }
+    }
+
+    function nextQuestion() {
+      currentQIdx += 1;
+      loadQuestion();
+    }
+
+    function restartCurrentModule() {
+      currentQIdx = 0;
+      nyawa = 3;
+      score = 0;
+      renderFlowchart(algorithmModules[activeModIdx]);
+      loadQuestion();
+    }
+
+    function finishModule(isWin) {
+      const optionsBox = document.getElementById("options-box");
+      const fb = document.getElementById("fb-banner");
+      const nextBtn = document.getElementById("btn-next");
+      const restartBtn = document.getElementById("btn-restart");
+
+      optionsBox.innerHTML = "";
+      nextBtn.style.display = "none";
+      restartBtn.style.display = "flex";
+
+      if (isWin) {
+        playCorrectSound();
+        document.getElementById("q-stage-label").textContent = "🏆 KASUS SELESAI";
+        document.getElementById("q-question-text").textContent = `Luar biasa! Kamu berhasil menyusun seluruh alur "${algorithmModules[activeModIdx].name}" dengan skor: ${score}! Silakan pilih modul kasus lainnya di atas.`;
+        fb.className = "feedback-banner show fb-correct";
+        document.getElementById("fb-icon").textContent = "🌟";
+        document.getElementById("fb-msg").textContent = "Hebat! Pemahaman flowchart & algoritmamu sangat mantap.";
+      }
+    }
+
+    let puzzleBoard = [1, 2, 3, 4, 5, 6, 7, 8, null];
+    let puzzleMoves = 0;
+
+    function triggerPuzzlePunishment() {
+      const modal = document.getElementById("puzzle-modal");
+      modal.style.display = "flex";
+      document.getElementById("puzzle-win-alert").style.display = "none";
+      document.getElementById("puzzle-claim-btn").style.display = "none";
+      puzzleMoves = 0;
+      document.getElementById("puzzle-steps").textContent = "0";
+
+      initSolvablePuzzle();
+      renderPuzzleBoard();
+    }
+
+    function initSolvablePuzzle() {
+      puzzleBoard = [1, 2, 3, 4, 5, 6, 7, 8, null];
+      for (let i = 0; i < 22; i++) {
+        const emptyIdx = puzzleBoard.indexOf(null);
+        const validNeighbors = getNeighbors(emptyIdx);
+        const randomNeighbor = validNeighbors[Math.floor(Math.random() * validNeighbors.length)];
+        puzzleBoard[emptyIdx] = puzzleBoard[randomNeighbor];
+        puzzleBoard[randomNeighbor] = null;
+      }
+    }
+
+    function getNeighbors(index) {
+      const neighbors = [];
+      const row = Math.floor(index / 3);
+      const col = index % 3;
+      if (row > 0) neighbors.push(index - 3);
+      if (row < 2) neighbors.push(index + 3);
+      if (col > 0) neighbors.push(index - 1);
+      if (col < 2) neighbors.push(index + 1);
+      return neighbors;
+    }
+
+    function renderPuzzleBoard() {
+      const container = document.getElementById("puzzle-board");
+      container.innerHTML = "";
+      puzzleBoard.forEach((val, idx) => {
+        const tile = document.createElement("div");
+        tile.className = "puzzle-tile" + (val === null ? " empty" : "");
+        tile.textContent = val !== null ? val : "";
+        tile.onclick = () => moveTile(idx);
+        container.appendChild(tile);
+      });
+    }
+
+    function moveTile(index) {
+      const emptyIdx = puzzleBoard.indexOf(null);
+      const validMoves = getNeighbors(emptyIdx);
+      if (validMoves.includes(index)) {
+        playTileSound();
+        puzzleBoard[emptyIdx] = puzzleBoard[index];
+        puzzleBoard[index] = null;
+        puzzleMoves++;
+        document.getElementById("puzzle-steps").textContent = puzzleMoves;
+        renderPuzzleBoard();
+        checkPuzzleWin();
+      }
+    }
+
+    function checkPuzzleWin() {
+      const target = [1, 2, 3, 4, 5, 6, 7, 8, null];
+      let isWin = true;
+      for (let i = 0; i < 9; i++) {
+        if (puzzleBoard[i] !== target[i]) { isWin = false; break; }
+      }
+      if (isWin) {
+        playCorrectSound();
+        document.getElementById("puzzle-win-alert").style.display = "block";
+        document.getElementById("puzzle-claim-btn").style.display = "block";
+      }
+    }
+
+    function claimRedemption() {
+      playCorrectSound();
+      document.getElementById("puzzle-modal").style.display = "none";
+      nyawa = 3;
+      updateStats();
+
+      const fb = document.getElementById("fb-banner");
+      fb.className = "feedback-banner show fb-correct";
+      document.getElementById("fb-icon").textContent = "✨";
+      document.getElementById("fb-msg").textContent = "Hukuman ditebus! 3 nyawa dipulihkan kembali.";
+
+      const allBtns = document.querySelectorAll(".opt-choice");
+      allBtns.forEach(b => {
+        b.disabled = false;
+        b.classList.remove("wrong-pick");
+      });
+    }
+
+    let playSecret = 7;
+    let playChance = 3;
+    let playAttempt = 0;
+    let playWon = false;
+
+    function initLiveGame() {
+      playSecret = 7;
+      playChance = 3;
+      playAttempt = 0;
+      playWon = false;
+
+      document.getElementById('play-attempt-count').textContent = '0';
+      document.getElementById('play-status-label').textContent = 'MAIN';
+      document.getElementById('play-status-label').style.color = '#60a5fa';
+
+      updatePlayHearts();
+
+      const grid = document.getElementById('playNumGrid');
+      grid.innerHTML = '';
+      for (let i = 1; i <= 10; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'num-btn';
+        btn.textContent = i;
+        btn.onclick = () => submitLiveGuess(i);
+        grid.appendChild(btn);
+      }
+
+      const terminal = document.getElementById('playTerminal');
+      terminal.innerHTML = '';
+      logPlay('🎮 GAME TEBAK ANGKA DIMULAI', 'sys');
+      logPlay('Program menyimpan angka rahasia dari 1 sampai 10.', 'sys');
+      logPlay('Kamu punya 3 kesempatan.', 'sys');
+      logPlay('Klik salah satu tombol angka di atas untuk menebak!', 'sys');
+
+      updateWatchWindow('-', 7, 3, 0, false);
+    }
+
+    function updatePlayHearts() {
+      let str = '';
+      for (let i = 0; i < playChance; i++) str += '❤️';
+      for (let i = playChance; i < 3; i++) str += '🖤';
+      document.getElementById('play-hearts').textContent = str;
+    }
+
+    function logPlay(msg, type = 'sys') {
+      const terminal = document.getElementById('playTerminal');
+      const row = document.createElement('div');
+      row.className = `log-line log-${type}`;
+      row.innerHTML = `<span>></span><span>${msg}</span>`;
+      terminal.appendChild(row);
+      terminal.scrollTop = terminal.scrollHeight;
+    }
+
+    function submitLiveGuess(guess) {
+      if (playWon || playChance <= 0) return;
+
+      playAttempt++;
+      document.getElementById('play-attempt-count').textContent = playAttempt;
+
+      const buttons = document.querySelectorAll('#playNumGrid .num-btn');
+      if (buttons[guess - 1]) buttons[guess - 1].disabled = true;
+
+      logPlay(`Pemain menebak: ${guess}`, 'sys');
+
+      if (guess === playSecret) {
+        playCorrectSound();
+        playWon = true;
+        playChance--;
+        updatePlayHearts();
+        logPlay('🎉 BENAR! Kamu menang!', 'win');
+        logPlay(`Hebat! Berhasil menebak angka ${playSecret} dalam ${playAttempt} percobaan!`, 'win');
+        endLiveGame();
+        updateWatchWindow(guess, playSecret, playChance, playAttempt, true);
+      } else {
+        playErrorSound();
+        playChance--;
+        updatePlayHearts();
+
+        if (guess < playSecret) {
+          logPlay('⬆️ Terlalu kecil! Coba lagi.', 'hint');
+        } else {
+          logPlay('⬇️ Terlalu besar! Coba lagi.', 'hint');
+        }
+
+        if (playChance > 0) {
+          logPlay(`Sisa kesempatan: ${playChance}`, 'sys');
+        } else {
+          logPlay(`😢 Game Over! Angka yang benar adalah ${playSecret}.`, 'lose');
+          endLiveGame();
+        }
+        updateWatchWindow(guess, playSecret, playChance, playAttempt, false);
+      }
+    }
+
+    function endLiveGame() {
+      const buttons = document.querySelectorAll('#playNumGrid .num-btn');
+      buttons.forEach(b => b.disabled = true);
+
+      const status = document.getElementById('play-status-label');
+      if (playWon) {
+        status.textContent = 'MENANG 🎉';
+        status.style.color = '#4ade80';
+      } else {
+        status.textContent = 'KALAH 😢';
+        status.style.color = '#ef4444';
+      }
+    }
+
+    function updateWatchWindow(guess, secret, chance, attempt, won) {
+      document.getElementById('sim-val-guess').textContent = guess;
+      document.getElementById('sim-val-secret').textContent = secret;
+      document.getElementById('sim-val-chance').textContent = chance;
+      document.getElementById('sim-val-attempt').textContent = attempt;
+      document.getElementById('sim-val-win').textContent = won ? 'true' : 'false';
+    }
+
+    window.onload = () => {
+      switchModule(0);
+      initLiveGame();
+    };
+  </script>
+</body>
+</html>

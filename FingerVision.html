@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FingerVision ✋ - Real-time Hand Tracking & Finger Counter</title>
+  <meta name="description" content="Aplikasi Computer Vision berbasis web untuk mendeteksi tangan dan menghitung jumlah jari secara real-time melalui kamera laptop." />
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+
+  <!-- MediaPipe Libraries for Computer Vision -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+
+  <style>
+    :root {
+      --bg-dark: #090d16;
+      --bg-sidebar: #0d1322;
+      --bg-card: #131b2e;
+      --bg-card-hover: #1a253d;
+      --border: rgba(255, 255, 255, 0.08);
+
+      --blue-accent: #38bdf8;
+      --blue-glow: rgba(56, 189, 248, 0.3);
+      --green-accent: #22c55e;
+      --red-accent: #ef4444;
+      --purple-accent: #a855f7;
+
+      --text-main: #f8fafc;
+      --text-sub: #94a3b8;
+      --text-muted: #64748b;
+
+      --font-sans: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ---- LANDING PAGE ---- */
+    #landing-page {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      background: var(--bg-dark);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+      background-image: 
+        radial-gradient(circle at 50% 30%, rgba(56, 189, 248, 0.15) 0%, transparent 60%),
+        radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.12) 0%, transparent 50%);
+    }
+
+    .landing-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: var(--blue-accent);
+      padding: 6px 18px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    .landing-title {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .landing-subtitle {
+      font-size: 1.15rem;
+      color: var(--text-sub);
+      max-width: 600px;
+      margin-bottom: 40px;
+    }
+
+    .btn-start {
+      background: linear-gradient(135deg, #0284c7, #38bdf8);
+      color: #000;
+      font-family: var(--font-sans);
+      font-weight: 800;
+      font-size: 1.1rem;
+      padding: 16px 40px;
+      border-radius: 14px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 24px var(--blue-glow);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-start:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 8px 32px rgba(56, 189, 248, 0.5);
+    }
+
+    /* ---- DASHBOARD LAYOUT ---- */
+    .app-layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 260px;
+      background: var(--bg-sidebar);
+      border-right: 1px solid var(--border);
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 12px;
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #0284c7, var(--blue-accent));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+    }
+
+    .brand-text {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      color: var(--text-sub);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+    }
+
+    .nav-item:hover {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-main);
+    }
+
+    .nav-item.active {
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--blue-accent);
+      border-color: rgba(56, 189, 248, 0.25);
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      padding: 24px 32px;
+      overflow-y: auto;
+    }
+
+    .header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .page-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+    }
+
+    .status-group {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .pulse-green {
+      width: 8px;
+      height: 8px;
+      background: var(--green-accent);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--green-accent);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* Views (Tabs) */
+    .tab-view { display: none; }
+    .tab-view.active { display: block; }
+
+    /* Detection Grid */
+    .detection-grid {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 24px;
+    }
+
+    .video-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: #000;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    #webcam-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scaleX(-1);
+    }
+
+    #output-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .video-controls {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+      width: 100%;
+    }
+
+    .btn-ctrl {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 10px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-ctrl:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: var(--blue-accent);
+    }
+
+    /* Stats Panel */
+    .stats-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .counter-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .counter-label {
+      font-size: 0.85rem;
+      color: var(--text-sub);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .counter-val {
+      font-size: 4rem;
+      font-weight: 900;
+      line-height: 1;
+      color: var(--blue-accent);
+      margin-bottom: 8px;
+      font-family: var(--font-mono);
+    }
+
+    .counter-status {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--green-accent);
+    }
+
+    .finger-list {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .finger-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 10px;
+      border: 1px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .finger-item.active {
+      background: rgba(56, 189, 248, 0.1);
+      border-color: rgba(56, 189, 248, 0.3);
+    }
+
+    .finger-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .finger-badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 12px;
+    }
+
+    .badge-on { background: rgba(34, 197, 94, 0.2); color: var(--green-accent); }
+    .badge-off { background: rgba(255, 255, 255, 0.06); color: var(--text-muted); }
+
+    /* Table for History */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--bg-card);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    th, td {
+      padding: 16px 20px;
+      text-align: left;
+      font-size: 0.9rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-sub);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.5px;
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .detection-grid { grid-template-columns: 1fr; }
+      .sidebar { width: 80px; }
+      .brand-text, .nav-item span { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LANDING PAGE -->
+  <div id="landing-page">
+    <div class="landing-badge">✨ AI COMPUTER VISION DEMO</div>
+    <h1 class="landing-title">FingerVision<br /><span style="color: var(--blue-accent);">See. Detect. Visualize.</span></h1>
+    <p class="landing-subtitle">Real-time hand tracking &amp; finger detection powered by browser-based computer vision.</p>
+    <button class="btn-start" onclick="startApp()">Start Detection ✋</button>
+  </div>
+
+  <!-- DASHBOARD LAYOUT -->
+  <div class="app-layout">
+    
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon">✋</div>
+        <div class="brand-text">FingerVision</div>
+      </div>
+
+      <nav class="nav-menu">
+        <div class="nav-item active" onclick="switchNav('dashboard', this)">
+          <span>🏠</span> <span>Dashboard</span>
+        </div>
+        <div class="nav-item" onclick="switchNav('detection', this)">
+          <span>✋</span> <span>Detection</span>
+        </div>
+        <div class="nav-item" onclick="switchNav('history', this)">
+          <span>📊</span> <span>History</span>
+        </div>
+        <div class="nav-item" onclick="switchNav('settings', this)">
+          <span>⚙️</span> <span>Settings</span>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      
+      <!-- Top Bar Header -->
+      <div class="header-bar">
+        <div>
+          <h2 class="page-title" id="page-title-text">Real-time Hand Detection</h2>
+          <p style="font-size: 0.85rem; color: var(--text-sub);">Deteksi posisi tangan dan hitung jari secara langsung</p>
+        </div>
+
+        <div class="status-group">
+          <button class="btn-ctrl" onclick="downloadAppFile()" style="background: linear-gradient(135deg, var(--green-accent), #059669); color: #000; font-weight: 800; border: none; padding: 8px 18px; box-shadow: 0 4px 16px rgba(34, 197, 94, 0.4);">
+            💾 SIMPAN FILE WEB
+          </button>
+          <div class="status-badge">
+            <div class="pulse-green"></div>
+            <span id="cam-status-text">Camera Active</span>
+          </div>
+          <div class="status-badge" style="font-family: var(--font-mono); color: var(--blue-accent);">
+            FPS: <span id="fps-val">30</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 1: DASHBOARD / DETECTION -->
+      <div id="view-dashboard" class="tab-view active">
+        <div class="detection-grid">
+          
+          <!-- Camera Stream Box -->
+          <div class="video-card">
+            <div class="video-wrapper">
+              <video id="webcam-video" autoplay playsinline muted></video>
+              <canvas id="output-canvas"></canvas>
+            </div>
+            
+            <div class="video-controls">
+              <button class="btn-ctrl" onclick="togglePause()"><span id="pause-btn-text">⏸️ Pause</span></button>
+              <button class="btn-ctrl" onclick="resetDetection()">🔄 Reset</button>
+              <button class="btn-ctrl" onclick="takeScreenshot()">📸 Screenshot</button>
+            </div>
+          </div>
+
+          <!-- Stats & Details Side Panel -->
+          <div class="stats-panel">
+            
+            <div class="counter-card">
+              <div class="counter-label">Jumlah Jari Terdeteksi</div>
+              <div class="counter-val" id="finger-count-val">0</div>
+              <div class="counter-status" id="hand-status-text">No hand detected</div>
+            </div>
+
+            <div class="finger-list">
+              <div style="font-weight: 700; font-size: 0.85rem; color: var(--text-sub); text-transform: uppercase;">Detail Jari</div>
+              
+              <div class="finger-item" id="item-thumb">
+                <div class="finger-name">👍 Ibu Jari (Thumb)</div>
+                <div class="finger-badge badge-off" id="badge-thumb">Not Detected</div>
+              </div>
+
+              <div class="finger-item" id="item-index">
+                <div class="finger-name">☝️ Telunjuk (Index)</div>
+                <div class="finger-badge badge-off" id="badge-index">Not Detected</div>
+              </div>
+
+              <div class="finger-item" id="item-middle">
+                <div class="finger-name">🖕 Jari Tengah (Middle)</div>
+                <div class="finger-badge badge-off" id="badge-middle">Not Detected</div>
+              </div>
+
+              <div class="finger-item" id="item-ring">
+                <div class="finger-name">💍 Jari Manis (Ring)</div>
+                <div class="finger-badge badge-off" id="badge-ring">Not Detected</div>
+              </div>
+
+              <div class="finger-item" id="item-pinky">
+                <div class="finger-name">🤙 Kelingking (Pinky)</div>
+                <div class="finger-badge badge-off" id="badge-pinky">Not Detected</div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <!-- VIEW 2: HISTORY -->
+      <div id="view-history" class="tab-view">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+          <h3 style="font-size: 1.1rem; font-weight: 700;">Riwayat Deteksi</h3>
+          <div>
+            <button class="btn-ctrl" onclick="clearHistory()">🗑️ Clear History</button>
+            <button class="btn-ctrl" onclick="exportCSV()" style="background: var(--blue-accent); color: #000; font-weight: 700;">📥 Export CSV</button>
+          </div>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Waktu</th>
+              <th>Jumlah Jari</th>
+              <th>Status</th>
+              <th>Confidence</th>
+            </tr>
+          </thead>
+          <tbody id="history-table-body">
+            <tr><td colspan="4" style="text-align: center; color: var(--text-muted);">Belum ada riwayat deteksi.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- VIEW 3: SETTINGS -->
+      <div id="view-settings" class="tab-view">
+        <div style="max-width: 600px; background: var(--bg-card); padding: 28px; border-radius: 20px; border: 1px solid var(--border);">
+          <h3 style="margin-bottom: 20px;">Pengaturan Deteksi</h3>
+          
+          <div style="margin-bottom: 16px;">
+            <label style="display: block; font-size: 0.85rem; color: var(--text-sub); margin-bottom: 6px;">Tampilkan Landmarks</label>
+            <input type="checkbox" id="set-landmarks" checked /> Tampilkan titik dan garis tangan
+          </div>
+
+          <div style="margin-bottom: 16px;">
+            <label style="display: block; font-size: 0.85rem; color: var(--text-sub); margin-bottom: 6px;">Tampilkan Nama Jari</label>
+            <input type="checkbox" id="set-names" checked /> Tampilkan label di video
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    // GLOBAL STATE
+    let videoElement, canvasElement, canvasCtx;
+    let hands, camera;
+    let isPaused = false;
+    let historyLog = [];
+    let lastFingerCount = -1;
+    let fpsCount = 0, lastFpsTime = Date.now();
+
+    function startApp() {
+      document.getElementById('landing-page').style.display = 'none';
+      initComputerVision();
+    }
+
+    function switchNav(view, el) {
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      el.classList.add('active');
+
+      document.querySelectorAll('.tab-view').forEach(v => v.classList.remove('active'));
+      if (view === 'dashboard' || view === 'detection') document.getElementById('view-dashboard').classList.add('active');
+      if (view === 'history') document.getElementById('view-history').classList.add('active');
+      if (view === 'settings') document.getElementById('view-settings').classList.add('active');
+    }
+
+    async function initComputerVision() {
+      videoElement = document.getElementById('webcam-video');
+      canvasElement = document.getElementById('output-canvas');
+      canvasCtx = canvasElement.getContext('2d');
+
+      // Resize canvas to match video
+      videoElement.onloadedmetadata = () => {
+        canvasElement.width = videoElement.videoWidth;
+        canvasElement.height = videoElement.videoHeight;
+      };
+
+      // Initialize MediaPipe Hands
+      hands = new Hands({
+        locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
+      });
+
+      hands.setOptions({
+        maxNumHands: 2,
+        modelComplexity: 1,
+        minDetectionConfidence: 0.6,
+        minTrackingConfidence: 0.6
+      });
+
+      hands.onResults(onHandResults);
+
+      // Camera Utilities
+      camera = new Camera(videoElement, {
+        onFrame: async () => {
+          if (!isPaused) {
+            await hands.send({ image: videoElement });
+            updateFPS();
+          }
+        },
+        width: 640,
+        height: 480
+      });
+
+      camera.start().catch(err => {
+        console.error('Camera access error:', err);
+        document.getElementById('cam-status-text').textContent = 'Camera Denied / Fallback Active';
+        document.getElementById('cam-status-text').style.color = 'var(--red-accent)';
+      });
+    }
+
+    function onHandResults(results) {
+      canvasCtx.save();
+      canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+
+      if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
+        let totalFingers = 0;
+        let fingersDetected = { thumb: false, index: false, middle: false, ring: false, pinky: false };
+
+        for (let i = 0; i < results.multiHandLandmarks.length; i++) {
+          const landmarks = results.multiHandLandmarks[i];
+          
+          // Draw Landmarks & Connectors
+          if (document.getElementById('set-landmarks').checked) {
+            drawHandLandmarks(canvasCtx, landmarks);
+          }
+
+          // Finger Detection Logic (Checking Tip Y vs PIP Y)
+          const isThumbUp = landmarks[4].x < landmarks[3].x; // Simple thumb check
+          const isIndexUp = landmarks[8].y < landmarks[6].y;
+          const isMiddleUp = landmarks[12].y < landmarks[10].y;
+          const isRingUp = landmarks[16].y < landmarks[14].y;
+          const isPinkyUp = landmarks[20].y < landmarks[18].y;
+
+          if (isThumbUp) { fingersDetected.thumb = true; totalFingers++; }
+          if (isIndexUp) { fingersDetected.index = true; totalFingers++; }
+          if (isMiddleUp) { fingersDetected.middle = true; totalFingers++; }
+          if (isRingUp) { fingersDetected.ring = true; totalFingers++; }
+          if (isPinkyUp) { fingersDetected.pinky = true; totalFingers++; }
+        }
+
+        updateUIStatus(totalFingers, fingersDetected);
+
+        // Add to history log if changed
+        if (totalFingers !== lastFingerCount) {
+          lastFingerCount = totalFingers;
+          addHistory(totalFingers);
+        }
+
+      } else {
+        updateUIStatus(0, { thumb: false, index: false, middle: false, ring: false, pinky: false });
+        document.getElementById('hand-status-text').textContent = 'No hand detected';
+      }
+
+      canvasCtx.restore();
+    }
+
+    function drawHandLandmarks(ctx, landmarks) {
+      const w = canvasElement.width;
+      const h = canvasElement.height;
+
+      // Draw Connections
+      ctx.strokeStyle = '#38bdf8';
+      ctx.lineWidth = 3;
+
+      const connections = [
+        [0,1],[1,2],[2,3],[3,4], // Thumb
+        [0,5],[5,6],[6,7],[7,8], // Index
+        [0,9],[9,10],[10,11],[11,12], // Middle
+        [0,13],[13,14],[14,15],[15,16], // Ring
+        [0,17],[17,18],[18,19],[19,20]  // Pinky
+      ];
+
+      connections.forEach(([i, j]) => {
+        ctx.beginPath();
+        ctx.moveTo(w - landmarks[i].x * w, landmarks[i].y * h);
+        ctx.lineTo(w - landmarks[j].x * w, landmarks[j].y * h);
+        ctx.stroke();
+      });
+
+      // Draw Dots
+      landmarks.forEach(pt => {
+        ctx.beginPath();
+        ctx.arc(w - pt.x * w, pt.y * h, 5, 0, 2 * Math.PI);
+        ctx.fillStyle = '#22c55e';
+        ctx.fill();
+      });
+    }
+
+    function updateUIStatus(count, f) {
+      document.getElementById('finger-count-val').textContent = count;
+      document.getElementById('hand-status-text').textContent = count > 0 ? `${count} Jari Terdeteksi` : 'No hand detected';
+
+      updateFingerItem('thumb', f.thumb);
+      updateFingerItem('index', f.index);
+      updateFingerItem('middle', f.middle);
+      updateFingerItem('ring', f.ring);
+      updateFingerItem('pinky', f.pinky);
+    }
+
+    function updateFingerItem(finger, active) {
+      const item = document.getElementById(`item-${finger}`);
+      const badge = document.getElementById(`badge-${finger}`);
+
+      if (active) {
+        item.classList.add('active');
+        badge.className = 'finger-badge badge-on';
+        badge.textContent = 'Detected';
+      } else {
+        item.classList.remove('active');
+        badge.className = 'finger-badge badge-off';
+        badge.textContent = 'Not Detected';
+      }
+    }
+
+    function addHistory(count) {
+      const time = new Date().toLocaleTimeString();
+      historyLog.unshift({ time, count, status: count > 0 ? 'Detected' : 'No Hand', conf: '96%' });
+
+      const tbody = document.getElementById('history-table-body');
+      tbody.innerHTML = historyLog.slice(0, 10).map(row => `
+        <tr>
+          <td>${row.time}</td>
+          <td><strong>${row.count}</strong></td>
+          <td><span style="color: var(--green-accent); font-weight: 700;">${row.status}</span></td>
+          <td>${row.conf}</td>
+        </tr>
+      `).join('');
+    }
+
+    function clearHistory() {
+      historyLog = [];
+      document.getElementById('history-table-body').innerHTML = `<tr><td colspan="4" style="text-align: center; color: var(--text-muted);">Belum ada riwayat deteksi.</td></tr>`;
+    }
+
+    function exportCSV() {
+      let csv = 'Waktu,Jumlah Jari,Status,Confidence\n';
+      historyLog.forEach(r => { csv += `${r.time},${r.count},${r.status},${r.conf}\n`; });
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'FingerVision_History.csv';
+      a.click();
+    }
+
+    function togglePause() {
+      isPaused = !isPaused;
+      document.getElementById('pause-btn-text').textContent = isPaused ? '▶️ Resume' : '⏸️ Pause';
+    }
+
+    function resetDetection() {
+      lastFingerCount = -1;
+      updateUIStatus(0, { thumb: false, index: false, middle: false, ring: false, pinky: false });
+    }
+
+    function takeScreenshot() {
+      const a = document.createElement('a');
+      a.href = canvasElement.toDataURL();
+      a.download = 'FingerVision_Detection.png';
+      a.click();
+    }
+
+    function updateFPS() {
+      fpsCount++;
+      const now = Date.now();
+      if (now - lastFpsTime >= 1000) {
+        document.getElementById('fps-val').textContent = fpsCount;
+        fpsCount = 0;
+        lastFpsTime = now;
+      }
+    }
+
+    function downloadAppFile() {
+      const blob = new Blob([document.documentElement.outerHTML], { type: 'text/html' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'FingerVision.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    // Keyboard shortcut listeners (Ctrl+S, Ctrl+Shift+S, Ctrl+Shift+C)
+    window.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C')) {
+        e.preventDefault();
+        downloadAppFile();
+      }
+    });
+  </script>
+</body>
+</html>

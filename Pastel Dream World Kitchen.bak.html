@@ -3,29 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Pastel Dream World Kitchen 🍰🧋🍜👩‍🍳✨ Deluxe Free Cook</title>
+  <title>Pastel Dream World Kitchen 🍰🧋🍜👩‍🍳✨</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700;800&family=Quicksand:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-gradient: linear-gradient(135deg, #FFF0F5 0%, #EBF4FF 50%, #F5EAFF 100%);
-      --pink-primary: #FF7597;
-      --pink-hover: #ff547d;
-      --pink-dark: #E2587E;
-      --pink-soft: #FFE5EC;
+      --pink-primary: #FF85A2;
+      --pink-dark: #E26D85;
       --lavender: #D8B4F8;
-      --lavender-dark: #9E6BD4;
+      --lavender-dark: #B388EB;
       --mint: #BFFCC6;
-      --mint-dark: #3fb486;
+      --mint-dark: #57C79C;
       --peach: #FFDAC1;
+      --peach-dark: #FFB085;
       --butter: #FFF5BA;
-      --butter-dark: #d4a51e;
+      --butter-dark: #E0B83A;
       --sky: #C7CEEA;
-      --text-main: #4a353c;
-      --text-muted: #8a737a;
-      --card-bg: rgba(255, 255, 255, 0.96);
-      --card-shadow: 0 20px 50px rgba(255, 133, 162, 0.28), 0 8px 24px rgba(180, 140, 220, 0.18);
+      --sky-dark: #7A9EE6;
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --card-shadow: 0 16px 40px rgba(255, 140, 170, 0.22), 0 6px 18px rgba(180, 140, 220, 0.14);
     }
 
     * {
@@ -44,24 +42,23 @@
       justify-content: center;
       align-items: center;
       overflow-x: hidden;
-      color: var(--text-main);
+      color: #5C4B51;
       position: relative;
     }
 
-    /* Ambient Blobs */
     .ambient-blob {
       position: fixed;
       border-radius: 50%;
-      filter: blur(65px);
+      filter: blur(60px);
       z-index: 0;
       pointer-events: none;
-      opacity: 0.65;
+      opacity: 0.6;
       animation: floatSlow 14s infinite alternate ease-in-out;
     }
-    .blob-1 { width: 380px; height: 380px; background: #FFD1DC; top: -90px; left: -90px; }
-    .blob-2 { width: 420px; height: 420px; background: #E8D7FF; bottom: -120px; right: -90px; animation-delay: -5s; }
-    .blob-3 { width: 320px; height: 320px; background: #C1F0DC; top: 30%; right: -60px; animation-delay: -3s; }
-    .blob-4 { width: 300px; height: 300px; background: #FFF1BD; bottom: 20%; left: -60px; animation-delay: -8s; }
+    .blob-1 { width: 350px; height: 350px; background: #FFD1DC; top: -80px; left: -80px; }
+    .blob-2 { width: 380px; height: 380px; background: #E8D7FF; bottom: -100px; right: -80px; animation-delay: -5s; }
+    .blob-3 { width: 300px; height: 300px; background: #C1F0DC; top: 30%; right: -50px; animation-delay: -3s; }
+    .blob-4 { width: 280px; height: 280px; background: #FFF1BD; bottom: 20%; left: -50px; animation-delay: -8s; }
 
     @keyframes floatSlow {
       0% { transform: translateY(0) scale(1); }
@@ -70,8 +67,10 @@
 
     #fxCanvas {
       position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       pointer-events: none;
       z-index: 100;
     }
@@ -80,20 +79,20 @@
       position: relative;
       z-index: 10;
       width: 100%;
-      max-width: 600px;
+      max-width: 540px;
       min-height: 94vh;
-      margin: 10px auto;
-      padding: 10px;
+      margin: 12px auto;
+      padding: 12px;
       display: flex;
       flex-direction: column;
     }
 
     .game-card {
       background: var(--card-bg);
-      backdrop-filter: blur(20px);
-      border: 4px solid rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(18px);
+      border: 4px solid rgba(255, 255, 255, 0.95);
       border-radius: 38px;
-      padding: 18px 16px;
+      padding: 20px 16px;
       box-shadow: var(--card-shadow);
       flex: 1;
       display: flex;
@@ -103,58 +102,65 @@
       transition: all 0.3s ease;
     }
 
+    .fever-mode {
+      animation: rainbowGlow 1.5s infinite alternate ease-in-out;
+    }
+    @keyframes rainbowGlow {
+      0% { border-color: #FFB7B2; box-shadow: 0 0 35px rgba(255, 183, 178, 0.7); }
+      33% { border-color: #D8B4F8; box-shadow: 0 0 35px rgba(216, 180, 248, 0.7); }
+      66% { border-color: #BFFCC6; box-shadow: 0 0 35px rgba(191, 252, 198, 0.7); }
+      100% { border-color: #FFF5BA; box-shadow: 0 0 35px rgba(255, 245, 186, 0.7); }
+    }
+
     /* Top Nav */
     .top-nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 10px;
-      gap: 6px;
     }
 
     .pill-badge {
       background: white;
-      padding: 6px 13px;
+      padding: 6px 12px;
       border-radius: 999px;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       font-weight: 800;
-      font-size: 13.5px;
-      box-shadow: 0 4px 12px rgba(255, 117, 151, 0.12);
+      font-size: 13px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
       border: 2px solid #FFE4E8;
     }
 
     .icon-btn {
       background: white;
       border: 2px solid #FFE4E8;
-      width: 38px;
-      height: 38px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       display: flex;
       justify-content: center;
       align-items: center;
       font-size: 17px;
       cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
-      transition: transform 0.15s ease, background 0.15s;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      transition: transform 0.15s ease;
     }
-    .icon-btn:hover { background: #FFF0F5; }
     .icon-btn:active { transform: scale(0.9); }
 
     /* Category Banner */
     .category-banner {
       background: linear-gradient(135deg, #FFE5EC, #FFF0F5);
       border: 2px solid #FF85A2;
-      border-radius: 20px;
-      padding: 8px 14px;
+      border-radius: 18px;
+      padding: 6px 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
-      font-weight: 800;
-      font-size: 13.5px;
-      box-shadow: 0 4px 12px rgba(255, 133, 162, 0.15);
+      margin-bottom: 8px;
+      font-weight: 700;
+      font-size: 13px;
     }
 
     /* Buttons */
@@ -165,7 +171,7 @@
       padding: 12px 18px;
       border-radius: 22px;
       font-size: 15px;
-      font-weight: 700;
+      font-weight: 600;
       cursor: pointer;
       display: flex;
       justify-content: center;
@@ -176,30 +182,28 @@
     .btn-pink {
       background: linear-gradient(180deg, #FFA4BA 0%, #FF7597 100%);
       color: white;
-      box-shadow: 0 5px 0 #E2587E, 0 8px 18px rgba(255, 117, 151, 0.45);
+      box-shadow: 0 5px 0 #E2587E, 0 8px 15px rgba(255, 117, 151, 0.4);
     }
-    .btn-pink:hover { filter: brightness(1.05); }
     .btn-pink:active { transform: translateY(4px); box-shadow: 0 1px 0 #E2587E; }
 
     .btn-lavender {
       background: linear-gradient(180deg, #E2C2FF 0%, #C193F5 100%);
       color: white;
-      box-shadow: 0 5px 0 #9E6BD4, 0 8px 18px rgba(193, 147, 245, 0.4);
+      box-shadow: 0 5px 0 #9E6BD4, 0 8px 15px rgba(193, 147, 245, 0.35);
     }
-    .btn-lavender:hover { filter: brightness(1.05); }
     .btn-lavender:active { transform: translateY(4px); box-shadow: 0 1px 0 #9E6BD4; }
 
     .btn-mint {
       background: linear-gradient(180deg, #C7FCE8 0%, #87EBC4 100%);
-      color: #174d39;
-      box-shadow: 0 5px 0 #57C79C, 0 8px 18px rgba(135, 235, 196, 0.45);
+      color: #245743;
+      box-shadow: 0 5px 0 #57C79C, 0 8px 15px rgba(135, 235, 196, 0.4);
     }
     .btn-mint:active { transform: translateY(4px); box-shadow: 0 1px 0 #57C79C; }
 
     .btn-butter {
       background: linear-gradient(180deg, #FFF6BD 0%, #FFE071 100%);
       color: #6E5314;
-      box-shadow: 0 5px 0 #E0B83A, 0 8px 18px rgba(255, 224, 113, 0.4);
+      box-shadow: 0 5px 0 #E0B83A, 0 8px 15px rgba(255, 224, 113, 0.35);
     }
     .btn-butter:active { transform: translateY(4px); box-shadow: 0 1px 0 #E0B83A; }
 
@@ -207,13 +211,13 @@
     .timer-container {
       background: #FFE8EE;
       border-radius: 999px;
-      height: 25px;
+      height: 24px;
       width: 100%;
       position: relative;
       overflow: hidden;
       border: 3px solid white;
-      box-shadow: inset 0 2px 6px rgba(0,0,0,0.08);
-      margin-bottom: 10px;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.06);
+      margin-bottom: 8px;
     }
     .timer-bar {
       height: 100%;
@@ -228,7 +232,7 @@
       left: 50%;
       transform: translate(-50%, -50%);
       font-family: 'Fredoka', cursive;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
       color: #6B4E57;
       z-index: 2;
@@ -238,39 +242,38 @@
     .customer-bar {
       background: linear-gradient(135deg, #FFF8FA 0%, #F5F0FF 100%);
       border: 2px solid #FFE4E8;
-      border-radius: 22px;
-      padding: 10px 14px;
+      border-radius: 20px;
+      padding: 8px 12px;
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      gap: 10px;
+      margin-bottom: 8px;
     }
     .customer-avatar {
-      font-size: 42px;
-      animation: customerBounce 2.4s infinite ease-in-out;
+      font-size: 38px;
+      animation: customerBounce 2.5s infinite ease-in-out;
     }
     @keyframes customerBounce {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-6px); }
+      50% { transform: translateY(-5px); }
     }
     .order-info { flex: 1; }
     .order-recipe-title {
       font-family: 'Fredoka', cursive;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
       color: #E26D85;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
     }
-    .order-speech { font-size: 12px; color: #8C6A75; font-weight: 600; margin-top: 2px; }
+    .order-speech { font-size: 11.5px; color: #8C6A75; font-weight: 600; }
 
     /* Step Tracker */
     .step-tracker {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       position: relative;
     }
     .step-tracker::before {
@@ -279,33 +282,32 @@
       top: 50%;
       left: 20px;
       right: 20px;
-      height: 4px;
+      height: 3px;
       background: #FFE4E8;
       z-index: 1;
       transform: translateY(-50%);
-      border-radius: 4px;
     }
     .step-node {
       position: relative;
       z-index: 2;
       background: white;
-      border: 2.5px solid #FFE4E8;
-      width: 34px;
-      height: 34px;
+      border: 2px solid #FFE4E8;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 800;
       color: #B388EB;
-      transition: all 0.25s;
+      transition: all 0.2s;
     }
     .step-node.active {
       background: #FF85A2;
       border-color: #FF85A2;
       color: white;
-      box-shadow: 0 0 14px rgba(255, 133, 162, 0.7);
+      box-shadow: 0 0 10px rgba(255, 133, 162, 0.6);
       transform: scale(1.15);
     }
     .step-node.done {
@@ -316,52 +318,52 @@
 
     /* KITCHEN WORKSPACE */
     .kitchen-stage {
-      background: radial-gradient(circle at 50% 30%, #ffffff 0%, #FFF8FA 100%);
-      border: 3px dashed #FFB7B2;
-      border-radius: 28px;
-      padding: 16px;
-      min-height: 300px;
+      background: white;
+      border: 3px dashed #FFD1DC;
+      border-radius: 26px;
+      padding: 14px;
+      min-height: 275px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       position: relative;
-      margin-bottom: 12px;
-      box-shadow: inset 0 2px 10px rgba(255, 183, 178, 0.15);
+      margin-bottom: 10px;
     }
 
+    /* Stage Titles */
     .math-scale-title {
-      font-size: 13px;
+      font-size: 12px;
       color: #E26D85;
       font-weight: 700;
       background: #FFF0F5;
-      border: 1px solid #FFD1DC;
-      padding: 4px 14px;
+      padding: 3px 12px;
       border-radius: 999px;
       display: inline-block;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .math-scale-problem {
       font-family: 'Fredoka', cursive;
-      font-size: 34px;
+      font-size: 32px;
       font-weight: 700;
       color: #4A3A40;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
+    /* Ingredient Buttons Grid */
     .ingredient-options {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
+      gap: 8px;
       width: 100%;
     }
     .ing-btn {
       font-family: 'Fredoka', cursive;
-      background: white;
+      background: #FFF8FA;
       border: 2px solid #FFE4E8;
-      border-radius: 18px;
-      padding: 12px;
+      border-radius: 16px;
+      padding: 10px;
       font-size: 18px;
       font-weight: 700;
       color: #5C4B51;
@@ -369,12 +371,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 6px;
       box-shadow: 0 4px 0 #FFD1DC;
       transition: all 0.1s;
     }
     .ing-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #FFD1DC; }
 
+    /* Interactive Cooking Minigame Container */
     .cooking-tool-center {
       display: flex;
       flex-direction: column;
@@ -384,30 +387,30 @@
     }
 
     .interactive-vessel {
-      width: 130px;
-      height: 130px;
-      border-radius: 36px;
+      width: 120px;
+      height: 120px;
+      border-radius: 30px;
       background: radial-gradient(circle, #FFF0F5 0%, #FFD1DC 100%);
       border: 4px solid white;
-      box-shadow: 0 10px 24px rgba(255, 133, 162, 0.35);
+      box-shadow: 0 8px 18px rgba(255, 133, 162, 0.25);
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 54px;
+      font-size: 48px;
       cursor: pointer;
-      margin-bottom: 12px;
-      transition: transform 0.12s;
+      margin-bottom: 10px;
+      transition: transform 0.1s;
+      position: relative;
     }
-    .interactive-vessel:active { transform: scale(0.9); }
+    .interactive-vessel:active { transform: scale(0.92); }
 
     .action-progress-bar {
-      width: 82%;
-      height: 16px;
+      width: 80%;
+      height: 14px;
       background: #FFE8EE;
       border-radius: 999px;
       overflow: hidden;
       border: 2px solid white;
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
     }
     .action-progress-fill {
       height: 100%;
@@ -416,16 +419,16 @@
       transition: width 0.1s ease;
     }
 
+    /* Oven / Sizzle / Stove Timing Bar */
     .timing-gauge-bar {
       width: 85%;
-      height: 24px;
-      background: #F1F5F9;
+      height: 20px;
+      background: #E5E7EB;
       border-radius: 999px;
       position: relative;
       overflow: hidden;
-      border: 2.5px solid white;
-      margin-bottom: 12px;
-      box-shadow: inset 0 2px 5px rgba(0,0,0,0.06);
+      border: 2px solid white;
+      margin-bottom: 10px;
     }
     .timing-sweet-zone {
       position: absolute;
@@ -438,62 +441,63 @@
       position: absolute;
       top: 0;
       left: 0%;
-      width: 8px;
+      width: 6px;
       height: 100%;
       background: #FF6584;
-      box-shadow: 0 0 10px #FF6584;
-      border-radius: 4px;
+      box-shadow: 0 0 8px #FF6584;
     }
 
+    /* Garnish & Toppings Layer */
     .decor-plate {
-      width: 140px;
-      height: 115px;
+      width: 125px;
+      height: 105px;
       background: #FFF0F5;
-      border: 4px solid #FFD1DC;
+      border: 3px solid #FFD1DC;
       border-radius: 50%;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       position: relative;
-      box-shadow: 0 8px 20px rgba(255, 183, 178, 0.35);
+      box-shadow: 0 6px 15px rgba(255, 183, 178, 0.3);
     }
-    .decor-base { font-size: 46px; }
+    .decor-base { font-size: 42px; }
     .decor-layer {
       position: absolute;
-      top: 10px;
+      top: 12px;
       display: flex;
-      gap: 3px;
-      font-size: 20px;
+      gap: 2px;
+      font-size: 18px;
       pointer-events: none;
     }
 
     .toppings-palette {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       flex-wrap: wrap;
       justify-content: center;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
     .topping-chip {
       background: white;
       border: 2px solid #FFE4E8;
-      border-radius: 14px;
-      padding: 6px 12px;
-      font-size: 20px;
+      border-radius: 12px;
+      padding: 5px 10px;
+      font-size: 18px;
       cursor: pointer;
       box-shadow: 0 3px 0 #FFD1DC;
       transition: transform 0.1s;
     }
     .topping-chip:active { transform: translateY(2px); }
 
+    /* Time Floater */
     .time-floater {
       position: absolute;
       font-family: 'Fredoka', cursive;
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 700;
-      color: #27ae60;
+      color: #38A169;
       pointer-events: none;
       z-index: 120;
       animation: floatUpFade 1.2s forwards cubic-bezier(0.25, 1, 0.5, 1);
@@ -510,7 +514,7 @@
       position: fixed;
       top: 0; left: 0;
       width: 100vw; height: 100vh;
-      background: rgba(70, 45, 60, 0.55);
+      background: rgba(80, 50, 65, 0.45);
       backdrop-filter: blur(8px);
       z-index: 150;
       display: flex;
@@ -524,17 +528,17 @@
     .modal-overlay.active { opacity: 1; pointer-events: auto; }
     .modal-content {
       background: white;
-      border-radius: 34px;
+      border-radius: 32px;
       border: 4px solid #FFD1DC;
       width: 100%;
-      max-width: 540px;
+      max-width: 480px;
       max-height: 88vh;
       overflow-y: auto;
-      padding: 24px 20px;
-      box-shadow: 0 25px 60px rgba(0,0,0,0.22);
+      padding: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.18);
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
       transform: scale(0.9) translateY(20px);
       transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
@@ -550,44 +554,9 @@
       background: #FFF8FA;
       border: 2px solid #FFE4E8;
       border-radius: 16px;
-      padding: 10px;
+      padding: 8px;
       text-align: center;
       cursor: pointer;
-      transition: transform 0.15s, border-color 0.15s;
-    }
-    .cat-card:hover {
-      transform: translateY(-2px);
-      border-color: #FF85A2;
-      background: #fff;
-    }
-
-    /* Recipe Menu Picker Grid */
-    .menu-picker-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      max-height: 360px;
-      overflow-y: auto;
-      padding: 4px;
-    }
-    .recipe-pick-card {
-      background: #FFF8FA;
-      border: 2px solid #FFE4E8;
-      border-radius: 18px;
-      padding: 10px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 4px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    .recipe-pick-card:hover {
-      background: white;
-      border-color: #FF7597;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 14px rgba(255, 117, 151, 0.2);
     }
 
     .gallery-grid {
@@ -602,46 +571,24 @@
       background: #FFF8FA;
       border: 2px solid #FFE4E8;
       border-radius: 16px;
-      padding: 8px 6px;
+      padding: 6px 4px;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
-      gap: 3px;
+      gap: 2px;
       cursor: pointer;
-      transition: transform 0.12s;
     }
-    .dish-card:hover { transform: scale(1.03); background: white; border-color: #FF85A2; }
+    .dish-card.locked { filter: grayscale(0.85) opacity(0.5); background: #F3F4F6; }
 
     .stat-row {
       display: flex;
       justify-content: space-between;
-      padding: 8px 10px;
+      padding: 6px 8px;
       border-bottom: 1px dashed #FFE4E8;
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 700;
     }
-
-    /* WARDROBE */
-    .wardrobe-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
-    .skin-card {
-      background: #FFF8FA;
-      border: 2px solid #FFE4E8;
-      border-radius: 18px;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .skin-card:hover { border-color: #FF7597; transform: translateY(-2px); }
-    .skin-card.active { border-color: #FF7597; background: #FFF0F5; box-shadow: 0 0 12px rgba(255, 117, 151, 0.4); }
 
     .hidden { display: none !important; }
   </style>
@@ -657,7 +604,7 @@
 
   <div id="appContainer">
 
-    <!-- Top Navigation Bar -->
+    <!-- Top Navigation -->
     <div class="top-nav">
       <div class="pill-badge">
         <span>🍬</span>
@@ -667,56 +614,49 @@
         <span id="headerLevelBadge">🏆 Level 1</span>
       </div>
       <div style="display: flex; gap: 6px;">
-        <button class="icon-btn" id="openMenuPickerBtn" title="Bebas Pilih Masakan">🍽️</button>
-        <button class="icon-btn" id="wardrobeBtn" title="Kostum Chef">👗</button>
-        <button class="icon-btn" id="cookbookBtn" title="Buku Resep">📖</button>
         <button class="icon-btn" id="audioToggleBtn" title="Suara">🎵</button>
+        <button class="icon-btn" id="cookbookBtn" title="Daftar Menu 6 Kategori">📖</button>
         <button class="icon-btn" id="homeBtn" title="Menu Utama">🏠</button>
       </div>
     </div>
 
-    <!-- MAIN GAME CARD -->
+    <!-- MAIN CARD -->
     <div class="game-card" id="mainCard">
 
       <!-- ================= SCREEN 1: MENU ================= -->
       <div id="menuScreen">
-        <h1 class="game-title" style="font-size: 26px; text-align: center; font-family: 'Fredoka', cursive; color: #E26D85; margin-bottom: 4px;">
-          Pastel World Kitchen 🍰✨
-        </h1>
-        <p style="text-align: center; color: #9C838A; font-size: 13px; font-weight: 600; margin-bottom: 12px;">
-          Masak Bebas Tanpa Hambatan! Pilih Berbagai Makanan + Asah Matematika Seru!
+        <h1 class="game-title" style="font-size: 25px; text-align: center;">Pastel World Kitchen 👩‍🍳✨</h1>
+        <p style="text-align: center; color: #9C838A; font-size: 12.5px; font-weight: 600; margin-bottom: 10px;">
+          Jelajahi 6 Zona Kuliner: Bakery, Boba, Waffle, Ramen, Bento & Banquet!
         </p>
 
-        <div style="display: flex; flex-direction: column; align-items: center; margin: 4px 0 14px 0;">
-          <div style="font-size: 64px; animation: customerBounce 2.4s infinite;" id="menuMascot">🐰</div>
-          <div style="background: white; border: 2px solid #FFD1DC; border-radius: 20px; padding: 8px 16px; font-size: 13px; font-weight: 700; color: #E26D85; margin-top: 8px; text-align: center; max-width: 90%; box-shadow: 0 4px 12px rgba(255, 133, 162, 0.15);">
-            "Kamu bebas pilih makanan apa saja! Ada matematika manis penambah resep lho! 🍓✨"
+        <div style="display: flex; flex-direction: column; align-items: center; margin: 6px 0 12px 0;">
+          <div style="font-size: 60px; animation: customerBounce 2.5s infinite;" id="menuMascot">🐰</div>
+          <div style="background: white; border: 2px solid #FFD1DC; border-radius: 18px; padding: 6px 14px; font-size: 12.5px; font-weight: 700; color: #E26D85; margin-top: 6px; text-align: center; max-width: 90%;">
+            "Setiap level masakannya beda & makin seru lho! Yuk nambah waktu sambil masak! 🍓✨"
           </div>
         </div>
 
         <!-- 6 Food Categories Preview -->
         <div class="food-category-list">
-          <div class="cat-card" onclick="openMenuPickerByZone(0)">🍰 <strong>Bakery Manis</strong><br><span style="font-size: 11px; color:#9C838A;">Pilih Masak ➔</span></div>
-          <div class="cat-card" onclick="openMenuPickerByZone(1)">🧋 <strong>Boba & Drinks</strong><br><span style="font-size: 11px; color:#9C838A;">Pilih Masak ➔</span></div>
-          <div class="cat-card" onclick="openMenuPickerByZone(2)">🥞 <strong>Pancake & Waffle</strong><br><span style="font-size: 11px; color:#9C838A;">Pilih Masak ➔</span></div>
-          <div class="cat-card" onclick="openMenuPickerByZone(3)">🍜 <strong>Ramen & Dim Sum</strong><br><span style="font-size: 11px; color:#9C838A;">Pilih Masak ➔</span></div>
-          <div class="cat-card" onclick="openMenuPickerByZone(4)">🍱 <strong>Bento & Sushi</strong><br><span style="font-size: 11px; color:#9C838A;">Pilih Masak ➔</span></div>
-          <div class="cat-card" onclick="openMenuPickerByZone(5)">👑 <strong>Royal Banquet</strong><br><span style="font-size: 11px; color:#9C838A;">Pilih Masak ➔</span></div>
+          <div class="cat-card">🍰 <strong>Bakery Manis</strong><br><span style="font-size: 11px; color:#9C838A;">Level 1-3</span></div>
+          <div class="cat-card">🧋 <strong>Boba & Drinks</strong><br><span style="font-size: 11px; color:#9C838A;">Level 4-6</span></div>
+          <div class="cat-card">🥞 <strong>Pancake & Waffle</strong><br><span style="font-size: 11px; color:#9C838A;">Level 7-9</span></div>
+          <div class="cat-card">🍜 <strong>Ramen & Dim Sum</strong><br><span style="font-size: 11px; color:#9C838A;">Level 10-12</span></div>
+          <div class="cat-card">🍱 <strong>Bento & Sushi</strong><br><span style="font-size: 11px; color:#9C838A;">Level 13-15</span></div>
+          <div class="cat-card">👑 <strong>Royal Banquet</strong><br><span style="font-size: 11px; color:#9C838A;">Level 16+</span></div>
         </div>
 
-        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 12px;">
-          <button class="cute-btn btn-mint" onclick="openRecipePickerModal()">
-            <span>🍽️</span> BEBAS PILIH MASAKAN (Semua Menu)
-          </button>
+        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
           <button class="cute-btn btn-pink" id="startRushOrderBtn">
-            <span>🔥</span> Mode Rush Restoran (+Tantangan Waktu)
+            <span>🔥</span> Mulai Petualangan Restoran (+Time Rush)
           </button>
           <button class="cute-btn btn-lavender" id="startCozyKitchenBtn">
-            <span>🍓</span> Mode Santai (Masak Santai Tanpa Timer)
+            <span>🍓</span> Mode Masak Santai (Bebas Pilih Menu)
           </button>
         </div>
 
-        <div style="margin-top: 14px; text-align: center; font-size: 12.5px; font-weight: 700; color: #B388EB;">
+        <div style="margin-top: 14px; text-align: center; font-size: 12px; font-weight: 700; color: #B388EB;">
           🏆 Rekor Tertinggi: <span id="menuHighScore">0</span> Poin | 🍽️ Porsi Dimasak: <span id="menuTotalCooked">0</span>
         </div>
       </div>
@@ -746,7 +686,6 @@
             </div>
             <div class="order-speech" id="customerSpeech">"Tolong buatkan pesanan manis ya koki! 💖"</div>
           </div>
-          <button class="icon-btn" onclick="openRecipePickerModal()" title="Ganti Menu Masakan">🔄</button>
         </div>
 
         <!-- Step Tracker -->
@@ -762,21 +701,21 @@
 
           <!-- STEP 1: INGREDIENT MEASUREMENT WITH MATH -->
           <div class="cooking-tool-center" id="stationIngredients">
-            <div style="font-size: 50px; margin-bottom: 4px;" id="ingredientToolIcon">🥣</div>
-            <div class="math-scale-title" id="mathIngredientTitle">🍓 Takar Bahan Resep (+Bonus Waktu!)</div>
+            <div style="font-size: 46px; margin-bottom: 2px;" id="ingredientToolIcon">🥣</div>
+            <div class="math-scale-title" id="mathIngredientTitle">🍓 Takar Bahan Resep (+Tambahan Waktu!)</div>
             <div class="math-scale-problem" id="mathProblem">12 + 15 = ?</div>
-            <p style="font-size: 12px; color: #8C6A75; margin-bottom: 10px;">Pilih takaran yang pas untuk wadah memasak (Bebas tanpa hambatan):</p>
+            <p style="font-size: 11.5px; color: #8C6A75; margin-bottom: 8px;">Pilih takaran yang pas untuk wadah memasak:</p>
 
             <div class="ingredient-options" id="ingOptionsGrid"></div>
           </div>
 
-          <!-- STEP 2: PROCESSING (Whisk, Shake, Flip, Steam, Mold, Magic) -->
+          <!-- STEP 2: PROCESSING (Whisk, Shake Boba, Sizzle Pan, Steam, Roll Bento) -->
           <div class="cooking-tool-center hidden" id="stationProcess">
             <div class="math-scale-title" id="processTitle">🌀 Aduk Adonan Hingga Lembut!</div>
             <div class="interactive-vessel" id="processVessel">
               <span id="processIcon">🥞</span>
             </div>
-            <p style="font-size: 13px; font-weight: 700; color: #E26D85; margin-bottom: 10px;" id="processInstruction">
+            <p style="font-size: 12.5px; font-weight: 700; color: #E26D85; margin-bottom: 8px;" id="processInstruction">
               Ketuk 5 kali dengan cepat! ⚡
             </p>
             <div class="action-progress-bar">
@@ -784,15 +723,15 @@
             </div>
           </div>
 
-          <!-- STEP 3: COOKING TIMING (Oven, Grill Pan, Boba Bar, Ramen Pot) -->
+          <!-- STEP 3: COOKING TIMING (Oven, Grill Pan, Tea Steeper, Ramen Broth) -->
           <div class="cooking-tool-center hidden" id="stationTiming">
             <div class="math-scale-title" id="timingTitle">🔥 Panggang di Suhu yang Pas!</div>
-            <div style="font-size: 56px; margin-bottom: 8px;" id="timingVesselIcon">🧁</div>
+            <div style="font-size: 52px; margin-bottom: 6px;" id="timingVesselIcon">🧁</div>
             <div class="timing-gauge-bar">
               <div class="timing-sweet-zone" id="timingSweetZone"></div>
               <div class="timing-needle" id="timingNeedle"></div>
             </div>
-            <button class="cute-btn btn-pink" id="stopTimingBtn" style="padding: 10px 22px; font-size: 15px;">
+            <button class="cute-btn btn-pink" id="stopTimingBtn" style="padding: 9px 20px; font-size: 14px;">
               <span id="timingBtnIcon">⏰</span> <span id="timingBtnText">ANGKAT SEKARANG!</span>
             </button>
           </div>
@@ -805,7 +744,7 @@
               <div class="decor-layer" id="toppingsLayer"></div>
             </div>
             <div class="toppings-palette" id="toppingsPalette"></div>
-            <button class="cute-btn btn-mint" id="serveDishBtn" style="padding: 10px 20px; font-size: 15px;">
+            <button class="cute-btn btn-mint" id="serveDishBtn" style="padding: 9px 18px; font-size: 14px;">
               <span>💖</span> Sajikan ke Pelanggan!
             </button>
           </div>
@@ -817,53 +756,35 @@
     </div>
   </div>
 
-  <!-- ================= MODAL: PILIH MASAKAN (RECIPE PICKER) ================= -->
-  <div class="modal-overlay" id="recipePickerModal">
-    <div class="modal-content">
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h2 style="font-family: 'Fredoka', cursive; font-size: 20px; color: #E26D85;">🍽️ Bebas Pilih Menu Masakan</h2>
-        <button class="icon-btn" id="closeRecipePickerBtn">✕</button>
-      </div>
-      <p style="font-size: 12.5px; color: #9C838A;">Klik masakan mana saja yang ingin kamu buat sekarang juga!</p>
-
-      <div class="menu-picker-grid" id="recipePickerList"></div>
-    </div>
-  </div>
-
   <!-- ================= MODAL: DISH COMPLETED ================= -->
   <div class="modal-overlay" id="rewardModal">
     <div class="modal-content" style="text-align: center;">
-      <div style="font-size: 54px;" id="rewardCustomerIcon">🐰</div>
+      <div style="font-size: 50px;" id="rewardCustomerIcon">🐰</div>
       <h2 style="font-family: 'Fredoka', cursive; font-size: 22px; color: #E26D85;">Hidangan Selesai Disajikan! 💖</h2>
-      <p style="font-size: 13px; color: #9C838A;" id="rewardCustomerQuote">"Wah kuenya lezat dan cantik sekali koki!"</p>
+      <p style="font-size: 12.5px; color: #9C838A;" id="rewardCustomerQuote">"Wah kuenya lezat dan cantik sekali koki!"</p>
 
-      <div style="background: #FFF8FA; border: 2px dashed #FFB7B2; border-radius: 20px; padding: 14px; margin: 8px 0;">
+      <div style="background: #FFF8FA; border: 2px dashed #FFB7B2; border-radius: 18px; padding: 12px; margin: 6px 0;">
         <div class="stat-row">
           <span>🍽️ Masakan</span>
           <strong id="rewardDishName" style="color: #FF85A2;">Strawberry Cake</strong>
         </div>
         <div class="stat-row">
           <span>⏳ Bonus Waktu Masuk</span>
-          <strong id="rewardTimeAdded" style="color: #27ae60;">+5.0 Detik! ✨</strong>
+          <strong id="rewardTimeAdded" style="color: #38A169;">+6.0 Detik! ✨</strong>
         </div>
         <div class="stat-row">
           <span>🍬 Tips Koin Manis</span>
           <strong id="rewardCoinsAdded" style="color: #FFB085;">+5 Koin</strong>
         </div>
-        <div class="stat-row" id="levelUpRow" style="display: none; background: #FFF5BA; border-radius: 10px;">
+        <div class="stat-row" id="levelUpRow" style="display: none; background: #FFF5BA; border-radius: 8px;">
           <span style="color: #7D5F1A;">🎉 LEVEL UP!</span>
           <strong id="levelUpText" style="color: #FF6584;">Naik ke Level 2! ✨</strong>
         </div>
       </div>
 
-      <div style="display: flex; gap: 8px;">
-        <button class="cute-btn btn-pink" id="nextOrderBtn" style="flex: 1;">
-          <span>👩‍🍳</span> Menu Berikutnya
-        </button>
-        <button class="cute-btn btn-mint" onclick="openRecipePickerModal()" style="flex: 1;">
-          <span>🍽️</span> Pilih Masakan Lain
-        </button>
-      </div>
+      <button class="cute-btn btn-pink" id="nextOrderBtn">
+        <span>👩‍🍳</span> Buat Pesanan Berikutnya!
+      </button>
     </div>
   </div>
 
@@ -874,46 +795,12 @@
         <h2 style="font-family: 'Fredoka', cursive; font-size: 20px; color: #E26D85;">📖 6 Kategori Resep Dunia</h2>
         <button class="icon-btn" id="closeCookbookBtn">✕</button>
       </div>
-      <p style="font-size: 12.5px; color: #9C838A;">Koleksi lebih dari 18 hidangan unik dari 6 zona!</p>
+      <p style="font-size: 12px; color: #9C838A;">Kumpulkan lebih dari 20 hidangan unik dari setiap level!</p>
 
       <div class="gallery-grid" id="menuGalleryGrid"></div>
 
-      <div id="recipeDetailBox" style="background: #FFF8FA; border: 2px dashed #FFB7B2; border-radius: 16px; padding: 12px; text-align: center; font-size: 13px;">
+      <div id="recipeDetailBox" style="background: #FFF8FA; border: 2px dashed #FFB7B2; border-radius: 16px; padding: 10px; text-align: center; font-size: 12px;">
         <span>Klik makanan untuk melihat detail resep dan kategori zona! ✨</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- ================= MODAL: WARDROBE & CHEF SKINS ================= -->
-  <div class="modal-overlay" id="wardrobeModal">
-    <div class="modal-content">
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h2 style="font-family: 'Fredoka', cursive; font-size: 20px; color: #E26D85;">👗 Lemari Kostum Chef Pastel</h2>
-        <button class="icon-btn" id="closeWardrobeBtn">✕</button>
-      </div>
-      <p style="font-size: 12.5px; color: #9C838A;">Pilih tampilan karakter chef favoritmu saat memasak!</p>
-
-      <div class="wardrobe-grid" id="wardrobeGrid">
-        <div class="skin-card active" onclick="selectChefSkin('🐰', 'Bunny Baker')">
-          <div style="font-size: 38px;">🐰</div>
-          <strong style="font-size: 13px;">Mochi Bunny</strong>
-          <span style="font-size: 11px; color: #10b981;">Dipakai ✓</span>
-        </div>
-        <div class="skin-card" onclick="selectChefSkin('🐱', 'Kitty Chef')">
-          <div style="font-size: 38px;">🐱</div>
-          <strong style="font-size: 13px;">Kitty Patissiere</strong>
-          <span style="font-size: 11px; color: #FF7597;">Pilih</span>
-        </div>
-        <div class="skin-card" onclick="selectChefSkin('🐻', 'Berry Bear')">
-          <div style="font-size: 38px;">🐻</div>
-          <strong style="font-size: 13px;">Strawberry Bear</strong>
-          <span style="font-size: 11px; color: #FF7597;">Pilih</span>
-        </div>
-        <div class="skin-card" onclick="selectChefSkin('🦄', 'Starry Unicorn')">
-          <div style="font-size: 38px;">🦄</div>
-          <strong style="font-size: 13px;">Starry Fairy</strong>
-          <span style="font-size: 11px; color: #FF7597;">Pilih</span>
-        </div>
       </div>
     </div>
   </div>
@@ -921,14 +808,14 @@
   <!-- ================= MODAL: GAME OVER ================= -->
   <div class="modal-overlay" id="gameOverModal">
     <div class="modal-content" style="text-align: center;">
-      <div style="font-size: 52px;">🎉</div>
+      <div style="font-size: 50px;">🎉</div>
       <h2 style="font-family: 'Fredoka', cursive; font-size: 22px; color: #E26D85;">Waktu Restoran Selesai! ✨</h2>
-      <p style="font-size: 13px; color: #9C838A;">Hasil memasak luar biasa di semua zona!</p>
+      <p style="font-size: 12.5px; color: #9C838A;">Hasil memasak luar biasa di semua zona!</p>
 
-      <div style="background: #FFF8FA; border: 2px dashed #FFB7B2; border-radius: 20px; padding: 14px; margin: 8px 0;">
+      <div style="background: #FFF8FA; border: 2px dashed #FFB7B2; border-radius: 18px; padding: 12px; margin: 6px 0;">
         <div class="stat-row">
           <span>⭐ Skor Akhir</span>
-          <strong id="summaryScore" style="color: #FF85A2; font-size: 18px;">0</strong>
+          <strong id="summaryScore" style="color: #FF85A2; font-size: 17px;">0</strong>
         </div>
         <div class="stat-row">
           <span>🏆 Level Tertinggi</span>
@@ -944,10 +831,7 @@
         </div>
       </div>
 
-      <div style="display: flex; flex-direction: column; gap: 10px;">
-        <button class="cute-btn btn-mint" onclick="openRecipePickerModal()">
-          <span>🍽️</span> Pilih Masakan Lain Bebas
-        </button>
+      <div style="display: flex; flex-direction: column; gap: 8px;">
         <button class="cute-btn btn-pink" id="playAgainBtn">
           <span>🔄</span> Masak Lagi (+Bonus Waktu)
         </button>
@@ -1115,7 +999,9 @@
     }
     const sound = new KitchenAudio();
 
-    /* CONFETTI CANVAS */
+    /* ==========================================================
+       CONFETTI CANVAS
+       ========================================================== */
     const canvas = document.getElementById('fxCanvas');
     const ctx = canvas.getContext('2d');
     let particles = [];
@@ -1123,7 +1009,7 @@
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    function triggerConfetti(x, y, count = 22) {
+    function triggerConfetti(x, y, count = 20) {
       const colors = ['#FFB7B2', '#FF85A2', '#D8B4F8', '#BFFCC6', '#FFF5BA', '#FFDAC1'];
       for (let i = 0; i < count; i++) {
         const angle = Math.random() * Math.PI * 2;
@@ -1159,10 +1045,9 @@
       highScore: 0,
       totalCooked: 0,
       currentLevel: 1,
-      selectedSkin: '🐰',
 
       isPlaying: false,
-      mode: 'cozy',
+      mode: 'rush',
       score: 0,
       combo: 0,
       dishCount: 0,
@@ -1176,13 +1061,16 @@
       mathAnswer: 0,
       currentStep: 1,
 
+      // Step 2 Action
       actionClicks: 0,
       maxActionClicks: 5,
 
+      // Step 3 Timing
       needlePos: 0,
       needleDir: 1,
       timingAnimId: null,
 
+      // Step 4 Plating
       toppingsAdded: []
     };
 
@@ -1191,19 +1079,11 @@
         const c = localStorage.getItem('world_kitchen_coins');
         const h = localStorage.getItem('world_kitchen_high');
         const t = localStorage.getItem('world_kitchen_cooked');
-        const s = localStorage.getItem('world_kitchen_skin');
-        if (c) State.coins = parseInt(c);
-        if (h) State.highScore = parseInt(h);
-        if (t) State.totalCooked = parseInt(t);
-        if (s) State.selectedSkin = s;
-      } catch(e){}
-
-      document.getElementById('coinCount').textContent = State.coins;
-      document.getElementById('menuHighScore').textContent = State.highScore;
-      document.getElementById('menuTotalCooked').textContent = State.totalCooked;
-      document.getElementById('menuMascot').textContent = State.selectedSkin;
-      renderCookbook();
-      renderRecipePicker();
+        if (c) State.coins = parseInt(c) || 0;
+        if (h) State.highScore = parseInt(h) || 0;
+        if (t) State.totalCooked = parseInt(t) || 0;
+      } catch (e) {}
+      updateGlobalUI();
     }
 
     function saveData() {
@@ -1211,57 +1091,59 @@
         localStorage.setItem('world_kitchen_coins', State.coins);
         localStorage.setItem('world_kitchen_high', State.highScore);
         localStorage.setItem('world_kitchen_cooked', State.totalCooked);
-        localStorage.setItem('world_kitchen_skin', State.selectedSkin);
-      } catch(e){}
+      } catch (e) {}
+      updateGlobalUI();
+    }
+
+    function updateGlobalUI() {
       document.getElementById('coinCount').textContent = State.coins;
       document.getElementById('menuHighScore').textContent = State.highScore;
       document.getElementById('menuTotalCooked').textContent = State.totalCooked;
+      renderCookbook();
     }
 
     function showTimeFloater(text, isPositive = true) {
       const floater = document.createElement('div');
       floater.className = 'time-floater';
       floater.textContent = text;
-      floater.style.color = isPositive ? '#27ae60' : '#e74c3c';
       floater.style.left = '50%';
       floater.style.top = '40%';
+      if (!isPositive) floater.style.color = '#E53E3E';
       document.getElementById('mainCard').appendChild(floater);
       setTimeout(() => floater.remove(), 1200);
     }
 
-    /* Start Game */
-    function startGame(mode = 'cozy', customZone = null, specificRecipe = null) {
-      sound.pop();
+    /* ==========================================================
+       START GAMEPLAY
+       ========================================================== */
+    function startGame(mode = 'rush') {
+      sound.init(); sound.pop();
       State.isPlaying = true;
       State.mode = mode;
       State.score = 0;
       State.combo = 0;
       State.dishCount = 0;
       State.currentLevel = 1;
-      State.timeRemaining = 35.0;
-
-      if (customZone !== null) {
-        State.currentZoneIndex = customZone;
-      } else {
-        State.currentZoneIndex = 0;
-      }
+      State.currentZoneIndex = 0;
+      State.timeRemaining = mode === 'rush' ? 30.0 : 999;
+      State.maxTime = 55.0;
 
       document.getElementById('menuScreen').classList.add('hidden');
       document.getElementById('gameScreen').classList.remove('hidden');
 
-      if (mode === 'rush') {
-        document.getElementById('timerContainer').style.display = 'block';
-        if (State.timerInterval) clearInterval(State.timerInterval);
-        State.timerInterval = setInterval(gameTimerTick, 100);
+      if (mode === 'cozy') {
+        document.getElementById('timerContainer').classList.add('hidden');
       } else {
-        document.getElementById('timerContainer').style.display = 'none';
+        document.getElementById('timerContainer').classList.remove('hidden');
+        if (State.timerInterval) clearInterval(State.timerInterval);
+        State.timerInterval = setInterval(timerTick, 100);
       }
 
-      startNewDishOrder(specificRecipe);
+      startNewDishOrder();
     }
 
-    function gameTimerTick() {
-      if (!State.isPlaying || State.mode !== 'rush') return;
+    function timerTick() {
+      if (!State.isPlaying || State.mode === 'cozy') return;
       State.timeRemaining -= 0.1;
       if (State.timeRemaining <= 0) {
         State.timeRemaining = 0;
@@ -1280,22 +1162,23 @@
       document.getElementById('levelBadge').textContent = `Level ${State.currentLevel}`;
     }
 
-    function startNewDishOrder(specificRecipe = null) {
-      if (State.mode === 'rush' && !specificRecipe) {
-        State.currentZoneIndex = Math.min(5, Math.floor((State.currentLevel - 1) / 3));
-      }
+    function startNewDishOrder() {
+      // Determine zone by level:
+      // Level 1-3: Zone 0 (Bakery)
+      // Level 4-6: Zone 1 (Boba)
+      // Level 7-9: Zone 2 (Pancake)
+      // Level 10-12: Zone 3 (Ramen)
+      // Level 13-15: Zone 4 (Bento)
+      // Level 16+: Zone 5 (Royal Banquet)
+      State.currentZoneIndex = Math.min(5, Math.floor((State.currentLevel - 1) / 3));
       const currentZone = FOOD_ZONES[State.currentZoneIndex];
 
       document.getElementById('zoneTitle').textContent = currentZone.name;
       document.getElementById('categoryBanner').style.background = currentZone.bg;
 
-      if (specificRecipe) {
-        State.currentRecipe = specificRecipe;
-      } else {
-        const dishes = currentZone.dishes;
-        State.currentRecipe = dishes[Math.floor(Math.random() * dishes.length)];
-      }
-
+      // Select dish & customer
+      const dishes = currentZone.dishes;
+      State.currentRecipe = dishes[Math.floor(Math.random() * dishes.length)];
       State.currentCustomer = CUSTOMERS[Math.floor(Math.random() * CUSTOMERS.length)];
 
       document.getElementById('customerAvatar').textContent = State.currentCustomer.icon;
@@ -1340,37 +1223,40 @@
       updateHUD();
     }
 
-    /* STEP 1: INGREDIENTS MATH (BEBAS TANPA HAMBATAN!) */
+    /* ==========================================================
+       STEP 1: INGREDIENTS MATH (SCALED BY LEVEL)
+       ========================================================== */
     function setupStep1_Ingredients() {
-      // Buat variasi soal matematika ceria (Penjumlahan, Pengurangan & Perkalian Kecil!)
-      const mathType = Math.random();
-      let n1, n2;
+      let n1, n2, n3 = 0, isThreeTerm = (State.currentLevel >= 12 && Math.random() > 0.4);
 
-      if (mathType < 0.5) {
-        // Penjumlahan Manis
-        n1 = Math.floor(Math.random() * 12) + 3;
-        n2 = Math.floor(Math.random() * 10) + 2;
+      if (State.currentLevel <= 3) {
+        n1 = Math.floor(Math.random() * 10) + 4;
+        n2 = Math.floor(Math.random() * 10) + 3;
         State.mathAnswer = n1 + n2;
         document.getElementById('mathProblem').textContent = `${n1} + ${n2} = ?`;
-      } else if (mathType < 0.8) {
-        // Pengurangan Ceria
-        n1 = Math.floor(Math.random() * 15) + 10;
-        n2 = Math.floor(Math.random() * 8) + 2;
-        State.mathAnswer = n1 - n2;
-        document.getElementById('mathProblem').textContent = `${n1} - ${n2} = ?`;
+      } else if (State.currentLevel <= 8) {
+        n1 = Math.floor(Math.random() * 20) + 10;
+        n2 = Math.floor(Math.random() * 18) + 8;
+        State.mathAnswer = n1 + n2;
+        document.getElementById('mathProblem').textContent = `${n1} + ${n2} = ?`;
+      } else if (isThreeTerm) {
+        n1 = Math.floor(Math.random() * 12) + 5;
+        n2 = Math.floor(Math.random() * 10) + 4;
+        n3 = Math.floor(Math.random() * 10) + 3;
+        State.mathAnswer = n1 + n2 + n3;
+        document.getElementById('mathProblem').textContent = `${n1} + ${n2} + ${n3} = ?`;
       } else {
-        // Perkalian Cantik (Contoh: 3 porsi x 4 sendok)
-        n1 = Math.floor(Math.random() * 4) + 2;
-        n2 = Math.floor(Math.random() * 4) + 2;
-        State.mathAnswer = n1 * n2;
-        document.getElementById('mathProblem').textContent = `${n1} × ${n2} = ?`;
+        n1 = Math.floor(Math.random() * 35) + 15;
+        n2 = Math.floor(Math.random() * 30) + 12;
+        State.mathAnswer = n1 + n2;
+        document.getElementById('mathProblem').textContent = `${n1} + ${n2} = ?`;
       }
 
       document.getElementById('ingredientToolIcon').textContent = State.currentRecipe.tool;
       document.getElementById('mathIngredientTitle').textContent = `🥣 Takar ${State.currentRecipe.ing} (+Bonus Waktu!)`;
 
       let choices = [State.mathAnswer];
-      const offsets = [-2, 2, -1, 1, -3, 3, -4, 4].sort(() => Math.random() - 0.5);
+      const offsets = [-2, 2, -1, 1, -5, 5, -10, 10].sort(() => Math.random() - 0.5);
       for (let o of offsets) {
         const fake = State.mathAnswer + o;
         if (fake > 0 && !choices.includes(fake)) choices.push(fake);
@@ -1390,30 +1276,31 @@
         btn.addEventListener('click', () => {
           if (val === State.mathAnswer) {
             sound.correct();
-            triggerConfetti(window.innerWidth / 2, window.innerHeight / 2, 20);
+            triggerConfetti(window.innerWidth / 2, window.innerHeight / 2, 18);
             if (State.mode === 'rush') {
-              State.timeRemaining = Math.min(State.maxTime, State.timeRemaining + 4.0);
-              showTimeFloater('+4.0s TAKARAN PAS! ⏳', true);
+              State.timeRemaining = Math.min(State.maxTime, State.timeRemaining + 3.5);
+              showTimeFloater('+3.5s TAKARAN PAS! ⏳', true);
             }
             State.combo++;
             State.score += 100 * State.combo;
             setupStep(2);
           } else {
-            // TIDAK MEMBUAT STUCK / HAMBATAN: Beri petunjuk suara lalu pemain bisa klik pilihan lain sampai benar!
             sound.wrong();
-            btn.style.opacity = '0.4';
-            btn.disabled = true;
             if (State.mode === 'rush') {
-              State.timeRemaining = Math.max(0, State.timeRemaining - 1.0);
-              showTimeFloater('-1.0s Coba takaran lain! ✨', false);
+              State.timeRemaining = Math.max(0, State.timeRemaining - 2.0);
+              showTimeFloater('-2.0s 💔', false);
             }
+            State.combo = 0;
+            updateHUD();
           }
         });
         grid.appendChild(btn);
       });
     }
 
-    /* STEP 2: PROCESSING */
+    /* ==========================================================
+       STEP 2: PROCESSING (Whisk, Shake, Flip, Steam, Mold, Magic)
+       ========================================================== */
     function setupStep2_Process() {
       State.actionClicks = 0;
       document.getElementById('processBar').style.width = '0%';
@@ -1457,11 +1344,13 @@
           showTimeFloater('+2.5s TAHAP SELESAI! ✨', true);
         }
         State.score += 90;
-        setTimeout(() => setupStep(3), 250);
+        setTimeout(() => setupStep(3), 300);
       }
     });
 
-    /* STEP 3: TIMING */
+    /* ==========================================================
+       STEP 3: COOKING TIMING (GAUGE NEEDLE)
+       ========================================================== */
     function setupStep3_Timing() {
       State.needlePos = 0;
       State.needleDir = 1;
@@ -1494,7 +1383,7 @@
 
     function animateTimingNeedle() {
       if (State.currentStep !== 3) return;
-      State.needlePos += State.needleDir * (2.0 + State.currentLevel * 0.1);
+      State.needlePos += State.needleDir * (1.8 + State.currentLevel * 0.1);
       if (State.needlePos >= 95) State.needleDir = -1;
       if (State.needlePos <= 2) State.needleDir = 1;
 
@@ -1506,7 +1395,7 @@
       if (State.currentStep !== 3) return;
       if (State.timingAnimId) cancelAnimationFrame(State.timingAnimId);
 
-      const inZone = (State.needlePos >= 50 && State.needlePos <= 90);
+      const inZone = (State.needlePos >= 52 && State.needlePos <= 88);
       if (inZone) {
         sound.ding();
         triggerConfetti(window.innerWidth / 2, window.innerHeight / 2, 22);
@@ -1523,10 +1412,12 @@
         }
         State.score += 80;
       }
-      setTimeout(() => setupStep(4), 300);
+      setTimeout(() => setupStep(4), 350);
     });
 
-    /* STEP 4: PLATING */
+    /* ==========================================================
+       STEP 4: PLATING & GARNISHING
+       ========================================================== */
     function setupStep4_Plating() {
       State.toppingsAdded = [];
       document.getElementById('decorBaseIcon').textContent = State.currentRecipe.icon;
@@ -1561,6 +1452,7 @@
       State.coins += 5 + (State.combo >= 3 ? 3 : 0);
       State.score += 220;
 
+      // Check level up (every 2 dishes = level up)
       const prevLevel = State.currentLevel;
       State.currentLevel = Math.floor(State.dishCount / 2) + 1;
       const didLevelUp = State.currentLevel > prevLevel;
@@ -1595,7 +1487,9 @@
       startNewDishOrder();
     });
 
-    /* Game Over */
+    /* ==========================================================
+       END GAME & SUMMARY
+       ========================================================== */
     function endGame() {
       State.isPlaying = false;
       if (State.timerInterval) clearInterval(State.timerInterval);
@@ -1617,49 +1511,9 @@
       document.getElementById('gameOverModal').classList.add('active');
     }
 
-    /* RENDER ALL RECIPES IN PICKER MODAL (BEBAS PILIH MASAKAN!) */
-    function renderRecipePicker() {
-      const container = document.getElementById('recipePickerList');
-      container.innerHTML = '';
-
-      FOOD_ZONES.forEach((zone, zIdx) => {
-        zone.dishes.forEach(d => {
-          const card = document.createElement('div');
-          card.className = 'recipe-pick-card';
-          card.innerHTML = `
-            <div style="font-size: 34px;">${d.icon}</div>
-            <strong style="font-size: 13px; color: #4A3A40;">${d.name}</strong>
-            <span style="font-size: 11px; color: #E26D85; font-weight: 700;">${zone.theme}</span>
-            <button class="cute-btn btn-mint" style="padding: 5px 12px; font-size: 12px; margin-top: 4px;">
-              Masak Ini ➔
-            </button>
-          `;
-          card.onclick = () => {
-            sound.pop();
-            document.getElementById('recipePickerModal').classList.remove('active');
-            document.getElementById('rewardModal').classList.remove('active');
-            document.getElementById('gameOverModal').classList.remove('active');
-            startGame('cozy', zIdx, d);
-          };
-          container.appendChild(card);
-        });
-      });
-    }
-
-    function openRecipePickerModal() {
-      sound.pop();
-      renderRecipePicker();
-      document.getElementById('recipePickerModal').classList.add('active');
-    }
-
-    function openMenuPickerByZone(zIdx) {
-      sound.pop();
-      const z = FOOD_ZONES[zIdx];
-      const randomDish = z.dishes[Math.floor(Math.random() * z.dishes.length)];
-      startGame('cozy', zIdx, randomDish);
-    }
-
-    /* Cookbook Gallery */
+    /* ==========================================================
+       COOKBOOK GALLERY (ALL 6 ZONES)
+       ========================================================== */
     function renderCookbook() {
       const grid = document.getElementById('menuGalleryGrid');
       grid.innerHTML = '';
@@ -1669,8 +1523,8 @@
           const item = document.createElement('div');
           item.className = 'dish-card';
           item.innerHTML = `
-            <div style="font-size: 30px;">${d.icon}</div>
-            <div style="font-size: 11.5px; font-weight: 700; color: #5C4B51;">${d.name}</div>
+            <div style="font-size: 28px;">${d.icon}</div>
+            <div style="font-size: 11px; font-weight: 700; color: #5C4B51;">${d.name}</div>
             <div style="font-size: 10px; color: #E26D85;">${zone.theme}</div>
           `;
           item.addEventListener('click', () => {
@@ -1685,45 +1539,17 @@
       });
     }
 
-    function selectChefSkin(avatar, name) {
-      sound.pop();
-      State.selectedSkin = avatar;
-      document.getElementById('menuMascot').textContent = avatar;
-      saveData();
-
-      const cards = document.querySelectorAll('.skin-card');
-      cards.forEach(c => {
-        const isCurrent = c.textContent.includes(avatar);
-        c.classList.toggle('active', isCurrent);
-        const span = c.querySelector('span');
-        if (span) {
-          span.textContent = isCurrent ? 'Dipakai ✓' : 'Pilih';
-          span.style.color = isCurrent ? '#10b981' : '#FF7597';
-        }
-      });
-    }
-
-    /* Event Listeners */
+    /* ==========================================================
+       EVENT LISTENERS
+       ========================================================== */
     document.getElementById('startRushOrderBtn').addEventListener('click', () => startGame('rush'));
     document.getElementById('startCozyKitchenBtn').addEventListener('click', () => startGame('cozy'));
-
-    document.getElementById('openMenuPickerBtn').addEventListener('click', openRecipePickerModal);
-    document.getElementById('closeRecipePickerBtn').addEventListener('click', () => {
-      sound.pop(); document.getElementById('recipePickerModal').classList.remove('active');
-    });
 
     document.getElementById('cookbookBtn').addEventListener('click', () => {
       sound.pop(); document.getElementById('cookbookModal').classList.add('active');
     });
     document.getElementById('closeCookbookBtn').addEventListener('click', () => {
       sound.pop(); document.getElementById('cookbookModal').classList.remove('active');
-    });
-
-    document.getElementById('wardrobeBtn').addEventListener('click', () => {
-      sound.pop(); document.getElementById('wardrobeModal').classList.add('active');
-    });
-    document.getElementById('closeWardrobeBtn').addEventListener('click', () => {
-      sound.pop(); document.getElementById('wardrobeModal').classList.remove('active');
     });
 
     document.getElementById('audioToggleBtn').addEventListener('click', () => {
@@ -1741,8 +1567,6 @@
       document.getElementById('menuScreen').classList.remove('hidden');
       document.getElementById('gameOverModal').classList.remove('active');
       document.getElementById('rewardModal').classList.remove('active');
-      document.getElementById('wardrobeModal').classList.remove('active');
-      document.getElementById('recipePickerModal').classList.remove('active');
     });
 
     document.getElementById('returnMenuBtn').addEventListener('click', () => {
