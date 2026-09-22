@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aesthetic 4-Cut Photobooth Studio 📸🎞️✨ - Trend Foto Strip Korea</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=JetBrains+Mono:wght@500;700;800&family=Space+Grotesk:wght@600;700&family=Gaegu:wght@400;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0b0c14;
+      --card-bg: rgba(22, 24, 38, 0.88);
+      --card-border: rgba(255, 255, 255, 0.12);
+      --accent: #ff3366;
+      --accent-glow: rgba(255, 51, 102, 0.45);
+      --cyan: #00f2fe;
+      --purple: #7928ca;
+      --gold: #fbbf24;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      user-select: none;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 10%, #1a1e30 0%, #06070a 100%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 18px 12px;
+      overflow-x: hidden;
+    }
+
+    /* Ambient Lighting */
+    .glow-sphere {
+      position: fixed;
+      width: 480px;
+      height: 480px;
+      border-radius: 50%;
+      filter: blur(120px);
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.35;
+    }
+
+    .glow-1 {
+      top: -120px;
+      left: -120px;
+      background: #ff007f;
+    }
+
+    .glow-2 {
+      bottom: -120px;
+      right: -120px;
+      background: #00f2fe;
+    }
+
+    .studio-wrapper {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 1120px;
+      background: var(--card-bg);
+      backdrop-filter: blur(28px);
+      border: 1px solid var(--card-border);
+      border-radius: 28px;
+      padding: 24px 26px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-icon {
+      font-size: 2.2rem;
+      background: linear-gradient(135deg, var(--accent), var(--purple));
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px var(--accent-glow);
+    }
+
+    .brand-titles h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.55rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #fff, var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+    }
+
+    .brand-titles p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .action-btn {
+      background: linear-gradient(135deg, var(--accent), var(--purple));
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      cursor: pointer;
+      border: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 18px var(--accent-glow);
+      transition: all 0.2s ease;
+    }
+
+    .action-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.1);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      box-shadow: none;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(0, 242, 254, 0.2);
+      border-color: var(--cyan);
+    }
+
+    /* Main Grid */
+    .studio-layout {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 26px;
+      align-items: start;
+    }
+
+    @media (max-width: 900px) {
+      .studio-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Left: Live Strip Preview */
+    .strip-stage-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .photobooth-strip {
+      width: 290px;
+      background: #10121a;
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 16px 14px 22px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65), 0 0 20px rgba(255, 51, 102, 0.2);
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    /* Frame Theme Variants */
+    .theme-black {
+      background: #0d0f17 !important;
+      border-color: #22263a !important;
+    }
+
+    .theme-pastel-pink {
+      background: #ffd1dc !important;
+      border-color: #f7a8b8 !important;
+      color: #4a2831 !important;
+    }
+
+    .theme-polaroid-white {
+      background: #fbfbfb !important;
+      border-color: #eaeaea !important;
+      color: #1a1a1a !important;
+    }
+
+    .theme-cyber-blue {
+      background: #0c1829 !important;
+      border-color: var(--cyan) !important;
+      box-shadow: 0 0 30px rgba(0, 242, 254, 0.3) !important;
+    }
+
+    .theme-vintage-cream {
+      background: #f4ecd8 !important;
+      border-color: #dfd2b5 !important;
+      color: #2e2619 !important;
+    }
+
+    /* 4-Photo Frames */
+    .strip-photo-slot {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background: #1c2133;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.2s ease;
+    }
+
+    .strip-photo-slot:hover {
+      border-color: var(--cyan);
+      transform: scale(1.02);
+    }
+
+    .strip-photo-slot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .slot-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .slot-placeholder span.icon {
+      font-size: 1.8rem;
+      opacity: 0.6;
+    }
+
+    /* Strip Bottom Footer Branding */
+    .strip-footer {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      margin-top: 6px;
+      text-align: center;
+    }
+
+    .strip-brand-text {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .strip-date-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      opacity: 0.75;
+      letter-spacing: 1px;
+    }
+
+    .strip-barcode {
+      width: 120px;
+      height: 18px;
+      background: repeating-linear-gradient(90deg,
+          currentColor 0, currentColor 2px,
+          transparent 2px, transparent 4px,
+          currentColor 4px, currentColor 7px,
+          transparent 7px, transparent 9px);
+      margin-top: 4px;
+      opacity: 0.65;
+    }
+
+    /* Right: Control Center & Live Camera */
+    .control-center {
+      background: rgba(16, 21, 35, 0.75);
+      border: 1px solid var(--card-border);
+      border-radius: 22px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Live Camera Stage */
+    .cam-box {
+      width: 100%;
+      background: #090c14;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      position: relative;
+      aspect-ratio: 16 / 9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.8);
+    }
+
+    #camVideo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scaleX(-1);
+    }
+
+    .cam-overlay-guide {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 14px;
+    }
+
+    .cam-hud-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 6px 12px;
+      border-radius: 10px;
+      backdrop-filter: blur(8px);
+    }
+
+    .countdown-flash {
+      position: absolute;
+      inset: 0;
+      background: #fff;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 6rem;
+      font-weight: 900;
+      color: #0b0c14;
+      z-index: 20;
+    }
+
+    .countdown-flash.show-num {
+      display: flex;
+      background: rgba(0, 0, 0, 0.65);
+      color: #fff;
+      font-family: 'Space Grotesk', sans-serif;
+      animation: pulseNum 0.5s ease-out;
+    }
+
+    .countdown-flash.flash-white {
+      display: flex;
+      background: #ffffff;
+      animation: flashFade 0.3s ease-out forwards;
+    }
+
+    /* Controls Grid */
+    .controls-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+    }
+
+    .option-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .option-card:hover {
+      background: rgba(255, 51, 102, 0.15);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .option-card.active {
+      background: linear-gradient(135deg, rgba(255, 51, 102, 0.25), rgba(121, 40, 202, 0.35));
+      border: 1.5px solid var(--accent);
+      box-shadow: 0 0 16px var(--accent-glow);
+    }
+
+    .option-card .icon {
+      font-size: 1.5rem;
+    }
+
+    .option-card .label {
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .section-title {
+      font-size: 0.85rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--cyan);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 2px;
+    }
+
+    /* Sticker Palette */
+    .stickers-rack {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .sticker-chip {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 6px 14px;
+      font-size: 1.3rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .sticker-chip:hover {
+      transform: scale(1.2);
+      border-color: var(--accent);
+    }
+
+    @keyframes pulseNum {
+      0% {
+        transform: scale(0.6);
+        opacity: 0;
+      }
+
+      50% {
+        transform: scale(1.2);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    @keyframes flashFade {
+      0% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="glow-sphere glow-1"></div>
+  <div class="glow-sphere glow-2"></div>
+
+  <div class="studio-wrapper">
+    <header>
+      <div class="brand">
+        <div class="brand-icon">📸🎞️</div>
+        <div class="brand-titles">
+          <h1>Aesthetic 4-Cut Photobooth Studio</h1>
+          <p>Trend Foto Strip Polaroid Korea (Life4Cuts) dengan Filter & Stiker Aesthetic</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <input type="file" id="multiUpload" accept="image/*" multiple style="display: none;"
+          onchange="handleMultiUpload(event)">
+        <label for="multiUpload" class="action-btn btn-secondary">
+          <span>📁</span> Upload 4 Foto Sendiri
+        </label>
+        <button class="action-btn" onclick="startAutoPoseSeries()">
+          <span>⚡</span> Mulai 4-Cut Auto Shutter!
+        </button>
+      </div>
+    </header>
+
+    <div class="studio-layout">
+      <!-- Left: The Viral 4-Cut Strip -->
+      <div class="strip-stage-container">
+        <div class="photobooth-strip theme-black" id="photoboothStrip">
+          <!-- Slot 1 -->
+          <div class="strip-photo-slot" id="slot-0" onclick="retakeSlot(0)">
+            <div class="slot-placeholder">
+              <span class="icon">✨</span>
+              <span>Pose 1</span>
+            </div>
+          </div>
+          <!-- Slot 2 -->
+          <div class="strip-photo-slot" id="slot-1" onclick="retakeSlot(1)">
+            <div class="slot-placeholder">
+              <span class="icon">✌️</span>
+              <span>Pose 2</span>
+            </div>
+          </div>
+          <!-- Slot 3 -->
+          <div class="strip-photo-slot" id="slot-2" onclick="retakeSlot(2)">
+            <div class="slot-placeholder">
+              <span class="icon">🫶</span>
+              <span>Pose 3</span>
+            </div>
+          </div>
+          <!-- Slot 4 -->
+          <div class="strip-photo-slot" id="slot-3" onclick="retakeSlot(3)">
+            <div class="slot-placeholder">
+              <span class="icon">💖</span>
+              <span>Pose 4</span>
+            </div>
+          </div>
+
+          <!-- Bottom Aesthetic Branding -->
+          <div class="strip-footer">
+            <div class="strip-brand-text" id="stripBrandLabel">LIFE 4 CUTS • STUDIO</div>
+            <div class="strip-date-text" id="stripDateLabel">'26 09 23 • SEOUL VIBES</div>
+            <div class="strip-barcode"></div>
+          </div>
+        </div>
+
+        <!-- Download Button -->
+        <button class="action-btn" onclick="downloadStripHD()"
+          style="width: 290px; justify-content: center; background: linear-gradient(135deg, #00f2fe, #4facfe); color: #070913;">
+          <span>💾</span> DOWNLOAD STRIP FOTO (HD)
+        </button>
+      </div>
+
+      <!-- Right: Live Interactive Camera & Settings -->
+      <div class="control-center">
+        <!-- Live Camera Viewfinder -->
+        <div class="cam-box">
+          <video id="camVideo" autoplay playsinline muted></video>
+          <div class="cam-overlay-guide">
+            <div class="cam-hud-top">
+              <span style="color: #ff3366;">🔴 LIVE CAM</span>
+              <span id="currentSlotIndicator">Slot Aktif: Pose 1/4</span>
+            </div>
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.8rem;">
+              Tekan Spasi atau klik tombol Shutter untuk mengambil foto!
+            </div>
+          </div>
+
+          <!-- Countdown & Flash Effect -->
+          <div class="countdown-flash" id="flashOverlay"></div>
+        </div>
+
+        <!-- Single Snap Button -->
+        <button class="action-btn" onclick="snapCurrentSlot()"
+          style="width: 100%; justify-content: center; padding: 14px; font-size: 1.05rem;">
+          <span>📸</span> AMBIL FOTO POSE INI (SPASI)
+        </button>
+
+        <!-- Frame Colors -->
+        <div>
+          <div class="section-title">
+            <span>🎨</span> PILIH WARNA BORDER FRAME STRIP
+          </div>
+          <div class="controls-grid">
+            <div class="option-card active" onclick="setTheme('theme-black')">
+              <div class="icon">🖤</div>
+              <div class="label">Matte Black</div>
+            </div>
+            <div class="option-card" onclick="setTheme('theme-pastel-pink')">
+              <div class="icon">🌸</div>
+              <div class="label">Pastel Pink</div>
+            </div>
+            <div class="option-card" onclick="setTheme('theme-polaroid-white')">
+              <div class="icon">🤍</div>
+              <div class="label">Pure White</div>
+            </div>
+            <div class="option-card" onclick="setTheme('theme-cyber-blue')">
+              <div class="icon">💙</div>
+              <div class="label">Cyber Blue</div>
+            </div>
+            <div class="option-card" onclick="setTheme('theme-vintage-cream')">
+              <div class="icon">📜</div>
+              <div class="label">Retro Cream</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Camera Filters -->
+        <div>
+          <div class="section-title">
+            <span>🎞️</span> FILTER KAMERA VINTAGE
+          </div>
+          <div class="controls-grid">
+            <div class="option-card active" onclick="setFilter('normal')">
+              <div class="icon">✨</div>
+              <div class="label">Natural</div>
+            </div>
+            <div class="option-card" onclick="setFilter('bw')">
+              <div class="icon">🎬</div>
+              <div class="label">Noir B&W</div>
+            </div>
+            <div class="option-card" onclick="setFilter('vintage')">
+              <div class="icon">🍂</div>
+              <div class="label">Warm 90s</div>
+            </div>
+            <div class="option-card" onclick="setFilter('cyber')">
+              <div class="icon">🔮</div>
+              <div class="label">Cyber Glow</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cute Korean Stickers & Deco -->
+        <div>
+          <div class="section-title">
+            <span>🎀</span> STIKER & DOODLE HIASAN
+          </div>
+          <div class="stickers-rack">
+            <div class="sticker-chip" onclick="addSticker('💖')">💖</div>
+            <div class="sticker-chip" onclick="addSticker('✨')">✨</div>
+            <div class="sticker-chip" onclick="addSticker('🎀')">🎀</div>
+            <div class="sticker-chip" onclick="addSticker('✌️')">✌️</div>
+            <div class="sticker-chip" onclick="addSticker('⭐')">⭐</div>
+            <div class="sticker-chip" onclick="addSticker('🧸')">🧸</div>
+            <div class="sticker-chip" onclick="addSticker('🎧')">🎧</div>
+            <div class="sticker-chip" onclick="addSticker('🌷')">🌷</div>
+            <div class="sticker-chip" onclick="clearStickers()"
+              style="font-size: 0.85rem; padding: 8px 12px; font-weight: 700; color: #ff3366;">
+              Hapus Stiker
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <canvas id="exportCanvas" style="display: none;"></canvas>
+
+  <script>
+    /* =========================================================
+       AUDIO SYNTHESIZER (SHUTTER CLICK & COUNTDOWN CHIME)
+       ========================================================= */
+    class SoundFX {
+      constructor() {
+        this.ctx = null;
+      }
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          this.ctx = new AudioContext();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume();
+      }
+      beep(freq, duration = 0.1) {
+        this.init();
+        try {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+          gain.gain.setValueAtTime(0.18, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+          osc.connect(gain); gain.connect(this.ctx.destination);
+          osc.start(); osc.stop(this.ctx.currentTime + duration);
+        } catch (e) { }
+      }
+      shutter() {
+        this.init();
+        try {
+          // Click mechanical sound
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(800, this.ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(100, this.ctx.currentTime + 0.12);
+          gain.gain.setValueAtTime(0.3, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.12);
+          osc.connect(gain); gain.connect(this.ctx.destination);
+          osc.start(); osc.stop(this.ctx.currentTime + 0.12);
+        } catch (e) { }
+      }
+    }
+    const sound = new SoundFX();
+
+    /* =========================================================
+       CAMERA & STRIP STATE
+       ========================================================= */
+    let currentSlot = 0;
+    const capturedImages = [null, null, null, null];
+    let activeFilter = 'normal';
+    let addedStickers = [];
+    const video = document.getElementById('camVideo');
+    const flashOverlay = document.getElementById('flashOverlay');
+
+    // Init Webcam
+    async function initCamera() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { width: 1280, height: 720, facingMode: 'user' },
+          audio: false
+        });
+        video.srcObject = stream;
+      } catch (err) {
+        console.warn("Camera fallback or permission issue", err);
+        loadDefaultSampleSlotImages();
+      }
+    }
+
+    // Default sample images if no camera available
+    function loadDefaultSampleSlotImages() {
+      const colors = ['#ff3366', '#7928ca', '#00f2fe', '#fbbf24'];
+      for (let i = 0; i < 4; i++) {
+        const c = document.createElement('canvas');
+        c.width = 400; c.height = 300;
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = colors[i];
+        ctx.fillRect(0, 0, 400, 300);
+        ctx.font = 'bold 36px sans-serif';
+        ctx.fillStyle = '#fff';
+        ctx.textAlign = 'center';
+        ctx.fillText(`Aesthetic Pose ${i + 1}`, 200, 150);
+        saveSlotImage(i, c.toDataURL());
+      }
+    }
+
+    function snapCurrentSlot() {
+      sound.shutter();
+      triggerFlashAnimation();
+
+      const canvas = document.createElement('canvas');
+      canvas.width = 640;
+      canvas.height = 480;
+      const ctx = canvas.getContext('2d');
+
+      // Mirror video
+      ctx.translate(canvas.width, 0);
+      ctx.scale(-1, 1);
+
+      // Apply filter
+      if (activeFilter === 'bw') {
+        ctx.filter = 'grayscale(100%) contrast(120%)';
+      } else if (activeFilter === 'vintage') {
+        ctx.filter = 'sepia(45%) contrast(110%) brightness(1.05)';
+      } else if (activeFilter === 'cyber') {
+        ctx.filter = 'hue-rotate(280deg) saturate(140%)';
+      }
+
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.92);
+
+      saveSlotImage(currentSlot, dataUrl);
+
+      // Advance to next slot
+      currentSlot = (currentSlot + 1) % 4;
+      document.getElementById('currentSlotIndicator').innerText = `Slot Aktif: Pose ${currentSlot + 1}/4`;
+    }
+
+    function saveSlotImage(slotIdx, dataUrl) {
+      capturedImages[slotIdx] = dataUrl;
+      const slotEl = document.getElementById(`slot-${slotIdx}`);
+      slotEl.innerHTML = `<img src="${dataUrl}" alt="Pose ${slotIdx + 1}">`;
+    }
+
+    function retakeSlot(slotIdx) {
+      currentSlot = slotIdx;
+      document.getElementById('currentSlotIndicator').innerText = `Slot Aktif: Pose ${currentSlot + 1}/4`;
+      sound.beep(600, 0.08);
+    }
+
+    function triggerFlashAnimation() {
+      flashOverlay.className = 'countdown-flash flash-white';
+      setTimeout(() => {
+        flashOverlay.className = 'countdown-flash';
+      }, 300);
+    }
+
+    // Auto 4-Pose Countdown Shutter Series (The Mall Photobooth Experience!)
+    async function startAutoPoseSeries() {
+      for (let s = 0; s < 4; s++) {
+        currentSlot = s;
+        document.getElementById('currentSlotIndicator').innerText = `Bersiap Pose ${s + 1}/4...`;
+
+        // 3... 2... 1...
+        for (let count = 3; count >= 1; count--) {
+          sound.beep(440, 0.1);
+          flashOverlay.innerText = count;
+          flashOverlay.className = 'countdown-flash show-num';
+          await new Promise(r => setTimeout(r, 900));
+        }
+
+        flashOverlay.innerText = '📸';
+        snapCurrentSlot();
+        await new Promise(r => setTimeout(r, 600));
+      }
+      document.getElementById('currentSlotIndicator').innerText = "✨ 4-Cut Strip Selesai!";
+      sound.beep(880, 0.2);
+    }
+
+    // Handle Upload 4 Custom Photos
+    function handleMultiUpload(e) {
+      const files = e.target.files;
+      if (!files || files.length === 0) return;
+
+      const max = Math.min(4, files.length);
+      for (let i = 0; i < max; i++) {
+        const reader = new FileReader();
+        const slot = i;
+        reader.onload = (event) => {
+          saveSlotImage(slot, event.target.result);
+        };
+        reader.readAsDataURL(files[i]);
+      }
+    }
+
+    // Theme Selector
+    function setTheme(themeClass) {
+      const strip = document.getElementById('photoboothStrip');
+      strip.className = `photobooth-strip ${themeClass}`;
+      document.querySelectorAll('.controls-grid .option-card').forEach(c => {
+        if (c.getAttribute('onclick')?.includes(themeClass)) c.classList.add('active');
+        else if (c.getAttribute('onclick')?.includes('setTheme')) c.classList.remove('active');
+      });
+      sound.beep(520, 0.05);
+    }
+
+    // Filter Selector
+    function setFilter(filterName) {
+      activeFilter = filterName;
+      if (filterName === 'bw') {
+        video.style.filter = 'grayscale(100%) contrast(120%)';
+      } else if (filterName === 'vintage') {
+        video.style.filter = 'sepia(45%) contrast(110%) brightness(1.05)';
+      } else if (filterName === 'cyber') {
+        video.style.filter = 'hue-rotate(280deg) saturate(140%)';
+      } else {
+        video.style.filter = 'none';
+      }
+
+      document.querySelectorAll('.controls-grid .option-card').forEach(c => {
+        if (c.getAttribute('onclick')?.includes(filterName)) c.classList.add('active');
+        else if (c.getAttribute('onclick')?.includes('setFilter')) c.classList.remove('active');
+      });
+      sound.beep(660, 0.05);
+    }
+
+    // Stickers
+    function addSticker(emoji) {
+      sound.beep(750, 0.08);
+      const strip = document.getElementById('photoboothStrip');
+      const stickerEl = document.createElement('div');
+      stickerEl.innerText = emoji;
+      stickerEl.style.position = 'absolute';
+      stickerEl.style.fontSize = '2.2rem';
+      stickerEl.style.left = `${Math.floor(Math.random() * 210) + 20}px`;
+      stickerEl.style.top = `${Math.floor(Math.random() * 450) + 40}px`;
+      stickerEl.style.transform = `rotate(${Math.floor(Math.random() * 40) - 20}deg)`;
+      stickerEl.style.cursor = 'grab';
+      stickerEl.style.zIndex = '30';
+      stickerEl.className = 'strip-floating-sticker';
+
+      // Drag to move
+      let isDragging = false;
+      stickerEl.onmousedown = () => isDragging = true;
+      window.onmouseup = () => isDragging = false;
+      window.onmousemove = (e) => {
+        if (isDragging) {
+          const rect = strip.getBoundingClientRect();
+          stickerEl.style.left = `${e.clientX - rect.left - 20}px`;
+          stickerEl.style.top = `${e.clientY - rect.top - 20}px`;
+        }
+      };
+
+      strip.appendChild(stickerEl);
+      addedStickers.push(stickerEl);
+    }
+
+    function clearStickers() {
+      addedStickers.forEach(s => s.remove());
+      addedStickers = [];
+      sound.beep(300, 0.1);
+    }
+
+    // HD Strip Downloader
+    function downloadStripHD() {
+      const canvas = document.getElementById('exportCanvas');
+      const ctx = canvas.getContext('2d');
+
+      const stripW = 600;
+      const stripH = 1800;
+      canvas.width = stripW;
+      canvas.height = stripH;
+
+      // Detect background color from theme
+      const stripEl = document.getElementById('photoboothStrip');
+      let bgColor = '#0d0f17';
+      let textColor = '#ffffff';
+
+      if (stripEl.classList.contains('theme-pastel-pink')) {
+        bgColor = '#ffd1dc';
+        textColor = '#4a2831';
+      } else if (stripEl.classList.contains('theme-polaroid-white')) {
+        bgColor = '#fcfcfc';
+        textColor = '#1a1a1a';
+      } else if (stripEl.classList.contains('theme-cyber-blue')) {
+        bgColor = '#0c1829';
+        textColor = '#00f2fe';
+      } else if (stripEl.classList.contains('theme-vintage-cream')) {
+        bgColor = '#f4ecd8';
+        textColor = '#2e2619';
+      }
+
+      // Draw background
+      ctx.fillStyle = bgColor;
+      ctx.fillRect(0, 0, stripW, stripH);
+
+      // Slot positions
+      const padX = 35;
+      const padTop = 40;
+      const slotW = stripW - (padX * 2);
+      const slotH = Math.round(slotW * 0.75);
+      const gapY = 24;
+
+      let loadedCount = 0;
+      for (let i = 0; i < 4; i++) {
+        const y = padTop + i * (slotH + gapY);
+        const imgUrl = capturedImages[i];
+
+        if (imgUrl) {
+          const img = new Image();
+          img.onload = () => {
+            ctx.drawImage(img, padX, y, slotW, slotH);
+            loadedCount++;
+            if (loadedCount === 4) finishExport();
+          };
+          img.src = imgUrl;
+        } else {
+          // Placeholder slot
+          ctx.fillStyle = 'rgba(255,255,255,0.06)';
+          ctx.fillRect(padX, y, slotW, slotH);
+          loadedCount++;
+          if (loadedCount === 4) finishExport();
+        }
+      }
+
+      function finishExport() {
+        // Draw Footer
+        ctx.fillStyle = textColor;
+        ctx.textAlign = 'center';
+        ctx.font = "bold 26px 'Space Grotesk', sans-serif";
+        ctx.letterSpacing = '3px';
+        ctx.fillText("LIFE 4 CUTS • STUDIO", stripW / 2, stripH - 120);
+
+        ctx.font = "18px 'JetBrains Mono', monospace";
+        ctx.letterSpacing = '1px';
+        ctx.fillText("'26 09 23 • SEOUL VIBES", stripW / 2, stripH - 85);
+
+        // Download
+        const link = document.createElement('a');
+        link.download = `Photobooth_4Cut_Strip_${Date.now()}.png`;
+        link.href = canvas.toDataURL('image/png', 0.95);
+        link.click();
+      }
+    }
+
+    // Keyboard Shortcut (Space to Snap)
+    window.addEventListener('keydown', (e) => {
+      if (e.code === 'Space') {
+        e.preventDefault();
+        snapCurrentSlot();
+      }
+    });
+
+    // Start camera on load
+    window.onload = () => {
+      initCamera();
+    };
+  </script>
+</body>
+
+</html>
