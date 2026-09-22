@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aesthetic Blur & Censor Studio 📸✨ - Trend Foto Sensor Kekinian</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090a10;
+      --card-bg: rgba(22, 24, 38, 0.85);
+      --card-border: rgba(255, 255, 255, 0.12);
+      --accent: #ff3366;
+      --accent-glow: rgba(255, 51, 102, 0.4);
+      --cyan: #00f2fe;
+      --purple: #7928ca;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 10%, #171b2c 0%, #06070a 100%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 14px;
+      overflow-x: hidden;
+    }
+
+    /* Ambient Glow */
+    .glow-sphere {
+      position: fixed;
+      width: 450px;
+      height: 450px;
+      border-radius: 50%;
+      filter: blur(120px);
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.35;
+    }
+    .glow-1 { top: -100px; left: -100px; background: #ff007f; }
+    .glow-2 { bottom: -100px; right: -100px; background: #00f2fe; }
+
+    .studio-container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1140px;
+      background: var(--card-bg);
+      backdrop-filter: blur(28px);
+      border: 1px solid var(--card-border);
+      border-radius: 28px;
+      padding: 26px 28px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-icon {
+      font-size: 2.2rem;
+      background: linear-gradient(135deg, var(--accent), var(--purple));
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px var(--accent-glow);
+    }
+
+    .brand-titles h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.55rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #fff, var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+    }
+
+    .brand-titles p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .upload-btn-label {
+      background: linear-gradient(135deg, var(--accent), var(--purple));
+      color: #fff;
+      padding: 10px 22px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 18px var(--accent-glow);
+      transition: all 0.2s ease;
+    }
+    .upload-btn-label:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.1);
+    }
+
+    .cam-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .cam-btn:hover {
+      background: rgba(0, 242, 254, 0.2);
+      border-color: var(--cyan);
+    }
+
+    /* Layout Workspace */
+    .studio-workspace {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 24px;
+      align-items: start;
+    }
+
+    @media (max-width: 900px) {
+      .studio-workspace {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Canvas / Photo Stage */
+    .stage-wrapper {
+      background: #090b12;
+      border: 1.5px dashed rgba(255, 255, 255, 0.18);
+      border-radius: 22px;
+      min-height: 480px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.6);
+      padding: 14px;
+    }
+
+    #previewCanvas {
+      max-width: 100%;
+      max-height: 520px;
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      cursor: crosshair;
+    }
+
+    .stage-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      text-align: center;
+      color: var(--text-muted);
+      padding: 40px 20px;
+    }
+
+    .stage-placeholder .icon {
+      font-size: 4rem;
+      filter: drop-shadow(0 0 16px rgba(255, 51, 102, 0.4));
+      animation: float 3s infinite alternate ease-in-out;
+    }
+
+    /* Control Panel */
+    .control-panel {
+      background: rgba(15, 20, 32, 0.7);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .panel-section-title {
+      font-size: 0.85rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--cyan);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Trend Preset Buttons */
+    .preset-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .preset-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 12px 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .preset-card:hover {
+      background: rgba(255, 51, 102, 0.15);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .preset-card.active {
+      background: linear-gradient(135deg, rgba(255, 51, 102, 0.25), rgba(121, 40, 202, 0.3));
+      border: 1.5px solid var(--accent);
+      box-shadow: 0 0 16px var(--accent-glow);
+    }
+
+    .preset-icon { font-size: 1.6rem; }
+    .preset-name { font-size: 0.82rem; font-weight: 700; color: #fff; }
+
+    /* Sliders */
+    .slider-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .slider-header span.val {
+      color: var(--cyan);
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+    }
+
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      outline: none;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 10px var(--cyan);
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+
+    input[type=range]::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+
+    /* Options Toggles */
+    .toggle-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+    }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider-switch {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 24px;
+      transition: .3s;
+    }
+    .slider-switch:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      border-radius: 50%;
+      transition: .3s;
+    }
+    input:checked + .slider-switch { background-color: var(--accent); }
+    input:checked + .slider-switch:before { transform: translateX(20px); }
+
+    /* Download / Action Buttons */
+    .download-btn {
+      background: linear-gradient(135deg, #00f2fe, #4facfe);
+      color: #070913;
+      border: none;
+      padding: 14px;
+      border-radius: 16px;
+      font-weight: 800;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 4px 20px rgba(0, 242, 254, 0.35);
+      transition: all 0.2s ease;
+      letter-spacing: 0.5px;
+    }
+
+    .download-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0, 242, 254, 0.5);
+    }
+
+    .reset-btn {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text-muted);
+      padding: 10px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .reset-btn:hover {
+      color: #fff;
+      border-color: #fff;
+    }
+
+    /* Live Webcam Modal */
+    .cam-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(14px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .cam-modal.active { display: flex; }
+
+    .cam-card {
+      background: #121624;
+      border: 1.5px solid var(--accent);
+      border-radius: 24px;
+      padding: 24px;
+      max-width: 520px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 20px 60px rgba(255, 51, 102, 0.4);
+    }
+
+    #webcamVideo {
+      width: 100%;
+      border-radius: 16px;
+      transform: scaleX(-1);
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-8px); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow-sphere glow-1"></div>
+  <div class="glow-sphere glow-2"></div>
+
+  <div class="studio-container">
+    <!-- Header -->
+    <header>
+      <div class="brand">
+        <div class="brand-icon">📸✨</div>
+        <div class="brand-titles">
+          <h1>Aesthetic Blur & Censor Studio</h1>
+          <p>Trend Foto Blur & Sensor Kekinian ala Pinterest / Y2K Cyberpunk</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <input type="file" id="imageUpload" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+        <label for="imageUpload" class="upload-btn-label">
+          <span>📁</span> Upload Foto
+        </label>
+        <button class="cam-btn" onclick="openWebcam()">
+          <span>📷</span> Selfie / Kamera
+        </button>
+      </div>
+    </header>
+
+    <!-- Studio Grid -->
+    <div class="studio-workspace">
+      <!-- Stage -->
+      <div class="stage-wrapper" id="stageWrapper">
+        <div class="stage-placeholder" id="placeholderView">
+          <div class="icon">🖼️🕶️</div>
+          <h3 style="font-size: 1.3rem; color: #fff;">Pilih atau Upload Fotomu Terlebih Dahulu</h3>
+          <p style="font-size: 0.9rem; max-width: 440px;">
+            Atau klik tombol <b>"Gunakan Contoh Foto Aesthetic"</b> di bawah untuk langsung mencoba sensor & efek blur viral!
+          </p>
+          <button class="cam-btn" onclick="loadSampleDemoImage()" style="margin-top: 8px; border-color: var(--accent); color: var(--accent);">
+            ✨ Coba Dengan Foto Contoh Aesthetic
+          </button>
+        </div>
+        <canvas id="previewCanvas" style="display: none;"></canvas>
+      </div>
+
+      <!-- Controls Panel -->
+      <div class="control-panel">
+        <div class="panel-section-title">
+          <span>🕶️</span> PILIH TREND SENSOR & BLUR
+        </div>
+
+        <div class="preset-grid">
+          <div class="preset-card active" id="preset-motion" onclick="selectPreset('motion')">
+            <div class="preset-icon">🌫️</div>
+            <div class="preset-name">Motion Blur</div>
+          </div>
+          <div class="preset-card" id="preset-y2k" onclick="selectPreset('y2k')">
+            <div class="preset-icon">🕶️</div>
+            <div class="preset-name">Y2K Eye Bar</div>
+          </div>
+          <div class="preset-card" id="preset-frosted" onclick="selectPreset('frosted')">
+            <div class="preset-icon">🪟</div>
+            <div class="preset-name">Frosted Face</div>
+          </div>
+          <div class="preset-card" id="preset-pixel" onclick="selectPreset('pixel')">
+            <div class="preset-icon">👾</div>
+            <div class="preset-name">Pixel Mosaic</div>
+          </div>
+          <div class="preset-card" id="preset-redacted" onclick="selectPreset('redacted')">
+            <div class="preset-icon">🏷️</div>
+            <div class="preset-name">REDACTED</div>
+          </div>
+          <div class="preset-card" id="preset-radial" onclick="selectPreset('radial')">
+            <div class="preset-icon">🎯</div>
+            <div class="preset-name">Focus Center</div>
+          </div>
+        </div>
+
+        <!-- Dynamic Controls -->
+        <div class="panel-section-title" style="margin-top: 4px;">
+          <span>🎛️</span> INTENSITAS & SUDUT
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-header">
+            <span>Tingkat Blur / Sensor:</span>
+            <span class="val" id="blurVal">14px</span>
+          </div>
+          <input type="range" id="blurSlider" min="2" max="45" value="14" oninput="updateControls()">
+        </div>
+
+        <div class="slider-group" id="angleGroup">
+          <div class="slider-header">
+            <span>Sudut Goyang (Motion Angle):</span>
+            <span class="val" id="angleVal">25°</span>
+          </div>
+          <input type="range" id="angleSlider" min="0" max="180" value="25" oninput="updateControls()">
+        </div>
+
+        <div class="slider-group" id="sensorPosGroup" style="display: none;">
+          <div class="slider-header">
+            <span>Posisi Vertikal Bar Sensor:</span>
+            <span class="val" id="posVal">35%</span>
+          </div>
+          <input type="range" id="posSlider" min="10" max="90" value="35" oninput="updateControls()">
+        </div>
+
+        <!-- Toggles -->
+        <div class="toggle-row">
+          <span>📅 Date Stamp Retro ('26 09 22)</span>
+          <label class="switch">
+            <input type="checkbox" id="toggleDate" checked onchange="renderEffects()">
+            <span class="slider-switch"></span>
+          </label>
+        </div>
+
+        <div class="toggle-row">
+          <span>🎞️ Vintage Film Grain / Noise</span>
+          <label class="switch">
+            <input type="checkbox" id="toggleGrain" checked onchange="renderEffects()">
+            <span class="slider-switch"></span>
+          </label>
+        </div>
+
+        <!-- Action Buttons -->
+        <button class="download-btn" onclick="downloadImage()">
+          <span>💾</span> DOWNLOAD FOTO ESTETIK (HD)
+        </button>
+
+        <button class="reset-btn" onclick="resetDefaults()">
+          🔄 Reset Pengaturan
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Webcam Modal -->
+  <div class="cam-modal" id="camModal">
+    <div class="cam-card">
+      <h3 style="font-size: 1.25rem; font-weight: 800; color: #fff;">📸 Ambil Foto Selfie</h3>
+      <video id="webcamVideo" autoplay playsinline></video>
+      <div style="display: flex; gap: 12px; width: 100%;">
+        <button class="download-btn" onclick="captureWebcam()" style="flex: 1;">
+          ⚡ AMBIL FOTO
+        </button>
+        <button class="reset-btn" onclick="closeWebcam()" style="flex: 1;">
+          Batal
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let activePreset = 'motion';
+    let baseImage = null;
+    let canvas = document.getElementById('previewCanvas');
+    let ctx = canvas.getContext('2d');
+    let webcamStream = null;
+
+    // Load sample image for instant demo
+    function loadSampleDemoImage() {
+      const img = new Image();
+      // Aesthetic demo portrait generated via SVG Data URI
+      const svg = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
+        <defs>
+          <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#141829"/>
+            <stop offset="50%" stop-color="#2a1b3d"/>
+            <stop offset="100%" stop-color="#442048"/>
+          </linearGradient>
+          <linearGradient id="skin" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#f8d7c4"/>
+            <stop offset="100%" stop-color="#e8beaa"/>
+          </linearGradient>
+          <linearGradient id="jacket" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#0f172a"/>
+            <stop offset="100%" stop-color="#1e293b"/>
+          </linearGradient>
+        </defs>
+        <rect width="800" height="1000" fill="url(#bg)"/>
+        <!-- Soft city lights bokeh -->
+        <circle cx="200" cy="180" r="90" fill="#ff007f" opacity="0.3" filter="blur(40px)"/>
+        <circle cx="620" cy="240" r="110" fill="#00f2fe" opacity="0.35" filter="blur(40px)"/>
+        <circle cx="380" cy="120" r="80" fill="#ffb300" opacity="0.25" filter="blur(30px)"/>
+        
+        <!-- Silhouette Body & Outfit -->
+        <path d="M 230 680 C 240 550, 270 480, 400 480 C 530 480, 560 550, 570 680 L 660 1000 L 140 1000 Z" fill="url(#jacket)"/>
+        <!-- Neck -->
+        <rect x="365" y="400" width="70" height="90" rx="20" fill="url(#skin)"/>
+        <!-- Head -->
+        <ellipse cx="400" cy="310" rx="100" ry="130" fill="url(#skin)"/>
+        <!-- Trendy Hair -->
+        <path d="M 285 300 C 285 160, 515 160, 515 300 C 535 370, 520 440, 500 470 C 470 400, 460 330, 400 310 C 350 330, 320 400, 300 470 C 280 430, 275 360, 285 300 Z" fill="#18131d"/>
+        <!-- Eyes -->
+        <ellipse cx="360" cy="305" rx="14" ry="7" fill="#2d1d23"/>
+        <ellipse cx="440" cy="305" rx="14" ry="7" fill="#2d1d23"/>
+        <!-- Eyebrows -->
+        <path d="M 345 290 Q 360 282 378 290" stroke="#18131d" stroke-width="4" stroke-linecap="round" fill="none"/>
+        <path d="M 422 290 Q 440 282 455 290" stroke="#18131d" stroke-width="4" stroke-linecap="round" fill="none"/>
+        <!-- Lips -->
+        <path d="M 382 375 Q 400 385 418 375" stroke="#cc5a6c" stroke-width="5" stroke-linecap="round" fill="none"/>
+        <ellipse cx="400" cy="385" rx="12" ry="5" fill="#e07282"/>
+      </svg>`;
+
+      img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+      img.onload = () => {
+        baseImage = img;
+        showCanvas();
+        renderEffects();
+      };
+    }
+
+    function handleImageUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          baseImage = img;
+          showCanvas();
+          renderEffects();
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function showCanvas() {
+      document.getElementById('placeholderView').style.display = 'none';
+      canvas.style.display = 'block';
+    }
+
+    function selectPreset(preset) {
+      activePreset = preset;
+      document.querySelectorAll('.preset-card').forEach(p => p.classList.remove('active'));
+      document.getElementById(`preset-${preset}`).classList.add('active');
+
+      const angleGroup = document.getElementById('angleGroup');
+      const sensorPosGroup = document.getElementById('sensorPosGroup');
+
+      if (preset === 'motion') {
+        angleGroup.style.display = 'flex';
+        sensorPosGroup.style.display = 'none';
+      } else if (preset === 'y2k' || preset === 'redacted') {
+        angleGroup.style.display = 'none';
+        sensorPosGroup.style.display = 'flex';
+      } else {
+        angleGroup.style.display = 'none';
+        sensorPosGroup.style.display = 'none';
+      }
+
+      renderEffects();
+    }
+
+    function updateControls() {
+      const blurVal = document.getElementById('blurSlider').value;
+      document.getElementById('blurVal').innerText = `${blurVal}px`;
+
+      const angleVal = document.getElementById('angleSlider').value;
+      document.getElementById('angleVal').innerText = `${angleVal}°`;
+
+      const posVal = document.getElementById('posSlider').value;
+      document.getElementById('posVal').innerText = `${posVal}%`;
+
+      renderEffects();
+    }
+
+    function renderEffects() {
+      if (!baseImage) return;
+
+      const w = baseImage.width;
+      const h = baseImage.height;
+      canvas.width = w;
+      canvas.height = h;
+
+      // Draw base
+      ctx.clearRect(0, 0, w, h);
+      ctx.drawImage(baseImage, 0, 0, w, h);
+
+      const blurPower = parseInt(document.getElementById('blurSlider').value);
+      const angle = parseInt(document.getElementById('angleSlider').value);
+      const barYPosPct = parseInt(document.getElementById('posSlider').value) / 100;
+
+      if (activePreset === 'motion') {
+        // Trend Motion Blur / Shutter Shake
+        applyMotionBlur(blurPower, angle);
+      } else if (activePreset === 'y2k') {
+        // Y2K Black Censorship Bar with Glitch
+        applyY2KCensor(barYPosPct, blurPower);
+      } else if (activePreset === 'frosted') {
+        // Soft Gaussian / Frosted Glass on Upper Area (Face)
+        applyFrostedFace(blurPower);
+      } else if (activePreset === 'pixel') {
+        // 90s Retro Pixelate / Mosaic
+        applyPixelMosaic(blurPower);
+      } else if (activePreset === 'redacted') {
+        // Aesthetic Classified / REDACTED Tape
+        applyRedactedTape(barYPosPct);
+      } else if (activePreset === 'radial') {
+        // Focus Center Radial Blur
+        applyRadialCenterBlur(blurPower);
+      }
+
+      // Add Film Grain if enabled
+      if (document.getElementById('toggleGrain').checked) {
+        applyFilmGrain();
+      }
+
+      // Add Retro Date Stamp if enabled
+      if (document.getElementById('toggleDate').checked) {
+        applyDateStamp();
+      }
+    }
+
+    /* 1. Motion Blur Effect */
+    function applyMotionBlur(strength, angleDeg) {
+      const rad = (angleDeg * Math.PI) / 180;
+      const dx = Math.cos(rad) * strength * 0.45;
+      const dy = Math.sin(rad) * strength * 0.45;
+      const steps = 7;
+
+      ctx.save();
+      ctx.globalAlpha = 1 / steps;
+      for (let i = 1; i <= steps; i++) {
+        const offset = (i - steps / 2);
+        ctx.drawImage(canvas, offset * dx, offset * dy);
+      }
+      ctx.restore();
+    }
+
+    /* 2. Y2K Eye Censor Bar */
+    function applyY2KCensor(yPct, barThickness) {
+      const barHeight = Math.max(35, barThickness * 3.5);
+      const barY = canvas.height * yPct - barHeight / 2;
+
+      ctx.save();
+      // Deep Black Bar
+      ctx.fillStyle = '#06070a';
+      ctx.shadowColor = 'rgba(0,0,0,0.8)';
+      ctx.shadowBlur = 12;
+      ctx.fillRect(0, barY, canvas.width, barHeight);
+
+      // Y2K Minimal Aesthetic Label on Censor Bar
+      ctx.font = `bold ${Math.max(14, barHeight * 0.32)}px 'Space Grotesk', sans-serif`;
+      ctx.fillStyle = '#ffffff';
+      ctx.textAlign = 'center';
+      ctx.letterSpacing = '3px';
+      ctx.fillText('[ CENSORED / OFF-GRID ]', canvas.width / 2, barY + barHeight / 2 + 5);
+
+      ctx.restore();
+    }
+
+    /* 3. Frosted Face Blur */
+    function applyFrostedFace(strength) {
+      ctx.save();
+      const faceRegionHeight = canvas.height * 0.52;
+
+      // Extract upper region, draw with canvas filter blur
+      const offCanvas = document.createElement('canvas');
+      offCanvas.width = canvas.width;
+      offCanvas.height = faceRegionHeight;
+      const offCtx = offCanvas.getContext('2d');
+
+      offCtx.filter = `blur(${strength}px) brightness(1.05)`;
+      offCtx.drawImage(canvas, 0, 0);
+
+      // Gradient mask to smoothly blend
+      ctx.drawImage(offCanvas, 0, 0);
+      ctx.restore();
+    }
+
+    /* 4. Retro Pixelate / Mosaic */
+    function applyPixelMosaic(blockSize) {
+      const size = Math.max(8, blockSize * 1.5);
+      const w = canvas.width;
+      const h = canvas.height;
+
+      // Only pixelate upper 55% or whole image depending on aesthetic
+      const tempCanvas = document.createElement('canvas');
+      const tempCtx = tempCanvas.getContext('2d');
+      const sw = Math.floor(w / size);
+      const sh = Math.floor(h / size);
+
+      tempCanvas.width = sw;
+      tempCanvas.height = sh;
+      tempCtx.drawImage(canvas, 0, 0, sw, sh);
+
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(tempCanvas, 0, 0, sw, sh, 0, 0, w, h);
+      ctx.imageSmoothingEnabled = true;
+    }
+
+    /* 5. REDACTED Tape Sticker */
+    function applyRedactedTape(yPct) {
+      const tapeH = 50;
+      const tapeY = canvas.height * yPct - tapeH / 2;
+
+      ctx.save();
+      ctx.translate(canvas.width / 2, tapeY);
+      ctx.rotate(-0.03); // Slight aesthetic tilt
+
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(-canvas.width / 2 - 20, -tapeH / 2, canvas.width + 40, tapeH);
+
+      ctx.font = "900 22px 'Space Grotesk', monospace";
+      ctx.fillStyle = '#06070a';
+      ctx.textAlign = 'center';
+      ctx.letterSpacing = '4px';
+      ctx.fillText('/// REDACTED IDENTITY ///', 0, 7);
+
+      ctx.restore();
+    }
+
+    /* 6. Radial Center Focus */
+    function applyRadialCenterBlur(strength) {
+      ctx.save();
+      const blurred = document.createElement('canvas');
+      blurred.width = canvas.width;
+      blurred.height = canvas.height;
+      const bCtx = blurred.getContext('2d');
+      bCtx.filter = `blur(${strength * 1.2}px)`;
+      bCtx.drawImage(canvas, 0, 0);
+
+      // Create radial mask
+      const gradient = ctx.createRadialGradient(
+        canvas.width / 2, canvas.height * 0.45, 60,
+        canvas.width / 2, canvas.height * 0.45, canvas.width * 0.5
+      );
+      gradient.addColorStop(0, 'rgba(0,0,0,0)');
+      gradient.addColorStop(1, 'rgba(0,0,0,1)');
+
+      bCtx.globalCompositeOperation = 'destination-in';
+      bCtx.fillStyle = gradient;
+      bCtx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.drawImage(blurred, 0, 0);
+      ctx.restore();
+    }
+
+    /* Film Grain Noise */
+    function applyFilmGrain() {
+      const w = canvas.width;
+      const h = canvas.height;
+      const imgData = ctx.getImageData(0, 0, w, h);
+      const data = imgData.data;
+
+      for (let i = 0; i < data.length; i += 4) {
+        const noise = (Math.random() - 0.5) * 28;
+        data[i] = Math.min(255, Math.max(0, data[i] + noise));
+        data[i + 1] = Math.min(255, Math.max(0, data[i + 1] + noise));
+        data[i + 2] = Math.min(255, Math.max(0, data[i + 2] + noise));
+      }
+      ctx.putImageData(imgData, 0, 0);
+    }
+
+    /* Retro Date Stamp (Orange '26 09 22) */
+    function applyDateStamp() {
+      const fontSize = Math.max(18, Math.floor(canvas.width * 0.036));
+      ctx.save();
+      ctx.font = `700 ${fontSize}px 'JetBrains Mono', monospace`;
+      ctx.fillStyle = '#ff7b00';
+      ctx.shadowColor = 'rgba(255, 123, 0, 0.7)';
+      ctx.shadowBlur = 8;
+      ctx.textAlign = 'right';
+
+      const d = new Date();
+      const stamp = `'26 09 22`;
+      ctx.fillText(stamp, canvas.width - 28, canvas.height - 28);
+      ctx.restore();
+    }
+
+    /* Download Finished Image */
+    function downloadImage() {
+      if (!baseImage) {
+        alert("Upload atau pilih foto terlebih dahulu!");
+        return;
+      }
+      const link = document.createElement('a');
+      link.download = `Aesthetic_Blur_Censor_${Date.now()}.png`;
+      link.href = canvas.toDataURL('image/png', 0.95);
+      link.click();
+    }
+
+    function resetDefaults() {
+      document.getElementById('blurSlider').value = 14;
+      document.getElementById('angleSlider').value = 25;
+      document.getElementById('posSlider').value = 35;
+      document.getElementById('toggleDate').checked = true;
+      document.getElementById('toggleGrain').checked = true;
+      updateControls();
+    }
+
+    /* Live Webcam Capture */
+    async function openWebcam() {
+      const modal = document.getElementById('camModal');
+      const video = document.getElementById('webcamVideo');
+      try {
+        webcamStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false });
+        video.srcObject = webcamStream;
+        modal.classList.add('active');
+      } catch (err) {
+        alert("Kamera tidak dapat diakses atau diblokir izinnya.");
+      }
+    }
+
+    function closeWebcam() {
+      if (webcamStream) {
+        webcamStream.getTracks().forEach(track => track.stop());
+        webcamStream = null;
+      }
+      document.getElementById('camModal').classList.remove('active');
+    }
+
+    function captureWebcam() {
+      const video = document.getElementById('webcamVideo');
+      const tempCanvas = document.createElement('canvas');
+      tempCanvas.width = video.videoWidth || 640;
+      tempCanvas.height = video.videoHeight || 480;
+      const tCtx = tempCanvas.getContext('2d');
+
+      // Mirror selfie
+      tCtx.translate(tempCanvas.width, 0);
+      tCtx.scale(-1, 1);
+      tCtx.drawImage(video, 0, 0, tempCanvas.width, tempCanvas.height);
+
+      const img = new Image();
+      img.onload = () => {
+        baseImage = img;
+        closeWebcam();
+        showCanvas();
+        renderEffects();
+      };
+      img.src = tempCanvas.toDataURL('image/jpeg');
+    }
+  </script>
+</body>
+</html>
