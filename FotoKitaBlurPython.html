@@ -7,6 +7,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;700;800;900&family=Playfair+Display:ital,wght@1,700;1,900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+  
+  <!-- MediaPipe Hands & Camera Utils for Real-time 2-Finger Detection -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+
   <style>
     :root {
       --vscode-bg: #1e1e1e;
@@ -22,7 +28,8 @@
       --py-number: #b5cea8;
       --py-var: #9cdcfe;
       --accent-pink: #ff4081;
-      --accent-glow: rgba(255, 64, 129, 0.45);
+      --accent-glow: rgba(255, 64, 129, 0.55);
+      --cyan: #00f2fe;
     }
 
     * {
@@ -183,10 +190,10 @@
       padding-right: 18px;
     }
 
-    /* Floating Viral Title Badge (Viral TikTok Aesthetics) */
+    /* Floating Viral Title Badge */
     .viral-trend-badge {
       position: absolute;
-      top: 50px;
+      top: 48px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 40;
@@ -200,7 +207,7 @@
     .viral-main-title {
       font-family: 'Playfair Display', serif;
       font-style: italic;
-      font-size: 2.7rem;
+      font-size: 2.8rem;
       font-weight: 900;
       color: #ffffff;
       text-shadow: 0 0 25px rgba(255, 64, 129, 0.9), 0 4px 15px rgba(0,0,0,0.9);
@@ -227,38 +234,39 @@
     /* FLOATING OPENCV WEBCAM WINDOW (cv2.imshow) */
     .opencv-window {
       position: absolute;
-      top: 140px;
+      top: 130px;
       right: 32px;
-      width: 440px;
+      width: 460px;
       background: #2b2b2b;
       border: 2px solid #555555;
-      border-radius: 8px;
+      border-radius: 10px;
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 242, 254, 0.25);
       z-index: 50;
       overflow: hidden;
-      transition: box-shadow 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
 
     .opencv-window.blur-triggered {
-      border-color: var(--accent-pink);
-      box-shadow: 0 0 35px var(--accent-glow);
+      border-color: var(--accent-pink) !important;
+      box-shadow: 0 0 45px var(--accent-glow) !important;
+      transform: scale(1.02);
     }
 
     .opencv-titlebar {
-      height: 30px;
+      height: 32px;
       background: #3c3f41;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 10px;
-      font-size: 0.75rem;
+      padding: 0 12px;
+      font-size: 0.78rem;
       color: #bbbbbb;
       border-bottom: 1px solid #1e1e1e;
     }
 
     .opencv-cam-stage {
       width: 100%;
-      height: 310px;
+      height: 330px;
       background: #000;
       position: relative;
       overflow: hidden;
@@ -268,19 +276,15 @@
     }
 
     #webcamVideo {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transform: scaleX(-1);
+      display: none; /* Processed onto canvas */
     }
 
     #renderCanvas {
-      position: absolute;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      z-index: 5;
+      display: block;
+      transition: filter 0.18s ease;
     }
 
     .opencv-hud-overlay {
@@ -298,17 +302,31 @@
 
     .hud-tag {
       background: rgba(0, 0, 0, 0.65);
-      padding: 4px 10px;
-      border-radius: 6px;
-      backdrop-filter: blur(6px);
+      padding: 5px 12px;
+      border-radius: 8px;
+      backdrop-filter: blur(8px);
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .hud-tag.active-blur {
-      background: rgba(255, 64, 129, 0.85);
+      background: rgba(255, 64, 129, 0.95);
       color: #fff;
+      border-color: #ff80ab;
+      box-shadow: 0 0 15px rgba(255, 64, 129, 0.8);
+      animation: pulseAlert 0.4s infinite alternate;
+    }
+
+    /* Hand Landmark Overlay Canvas */
+    #landmarkCanvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 8;
     }
 
     /* Bottom Status Bar */
@@ -327,18 +345,18 @@
     /* Floating Control Bar for User */
     .floating-hud-controls {
       position: absolute;
-      bottom: 40px;
+      bottom: 38px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(18, 22, 34, 0.94);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(18, 22, 34, 0.95);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
       border-radius: 50px;
-      padding: 8px 18px;
+      padding: 8px 20px;
       display: flex;
       align-items: center;
       gap: 12px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.8);
       z-index: 60;
     }
 
@@ -346,9 +364,9 @@
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.15);
       color: #fff;
-      padding: 8px 16px;
+      padding: 9px 18px;
       border-radius: 30px;
-      font-size: 0.82rem;
+      font-size: 0.84rem;
       font-weight: 700;
       font-family: 'Plus Jakarta Sans', sans-serif;
       cursor: pointer;
@@ -367,6 +385,11 @@
       background: linear-gradient(135deg, #ff1744, #ff4081);
       border-color: #ff80ab;
       box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    @keyframes pulseAlert {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.04); }
     }
 
     @keyframes floatBadge {
@@ -400,9 +423,9 @@
       </div>
       <div class="titlebar-center">
         <span>🐍</span>
-        <span>foto_kita_blur.py - Visual Studio Code (OpenCV & MediaPipe Trend)</span>
+        <span>foto_kita_blur.py - Visual Studio Code (AI Gesture Detection: Peace ✌️)</span>
       </div>
-      <div>Python 3.11 (64-bit)</div>
+      <div>Python 3.11 (MediaPipe Active)</div>
     </div>
 
     <!-- IDE Body -->
@@ -510,7 +533,7 @@
           <div class="opencv-titlebar">
             <div style="display:flex; align-items:center; gap:6px;">
               <span>🪟</span>
-              <span>Camera [cv2.imshow]</span>
+              <span>Camera [cv2.imshow] - MediaPipe AI</span>
             </div>
             <div style="display:flex; gap:6px; font-size:0.7rem;">
               <span>━</span>
@@ -521,17 +544,18 @@
           <div class="opencv-cam-stage">
             <video id="webcamVideo" autoplay playsinline muted></video>
             <canvas id="renderCanvas"></canvas>
+            <canvas id="landmarkCanvas"></canvas>
 
             <div class="opencv-hud-overlay">
               <div style="display:flex; justify-content:space-between; align-items:center;">
                 <span class="hud-tag">
-                  <span style="color:#ff3366;">●</span> LIVE CV2
+                  <span style="color:#00ff87;">●</span> AI TRACKER LIVE
                 </span>
-                <span class="hud-tag" id="statusBadge">Status: Siap Pose ✌️</span>
+                <span class="hud-tag" id="statusBadge">Pose 2 Jari ✌️ Ke Kamera</span>
               </div>
               <div style="display:flex; justify-content:space-between; align-items:center;">
                 <span class="hud-tag" id="fpsTag">30.0 FPS</span>
-                <span class="hud-tag" style="color: #ff80ab;">Angkat 2 Jari / Spasi</span>
+                <span class="hud-tag" id="aiStatusTag" style="color: #ff80ab;">MediaPipe Active</span>
               </div>
             </div>
           </div>
@@ -549,17 +573,17 @@
       <div style="display:flex; gap:16px;">
         <span>UTF-8</span>
         <span>Spaces: 4</span>
-        <span>OpenCV + MediaPipe AI</span>
+        <span id="aiEngineLabel">MediaPipe Hands + OpenCV Ready</span>
       </div>
     </div>
 
     <!-- User Floating Controls -->
     <div class="floating-hud-controls">
-      <button class="hud-btn active" id="btnPeace" onclick="toggleTrigger()">
-        <span>✌️</span> Mode Gesture Peace Sign
+      <button class="hud-btn active" id="btnToggleTracking" onclick="toggleTracking()">
+        <span>✌️</span> Deteksi 2 Jari: ON
       </button>
-      <button class="hud-btn" onclick="forceSnapBlur()">
-        <span>⚡</span> Trigger Blur Sekarang (Spasi)
+      <button class="hud-btn" onclick="forceBlurClick()">
+        <span>⚡</span> Tes Blur Sekarang (Spasi)
       </button>
       <button class="hud-btn" onclick="downloadTikTokSnapshot()" style="background: linear-gradient(135deg, #00f2fe, #4facfe); color: #070913;">
         <span>📸</span> Simpan Foto Viral
@@ -571,85 +595,249 @@
     const video = document.getElementById('webcamVideo');
     const canvas = document.getElementById('renderCanvas');
     const ctx = canvas.getContext('2d');
+    const lCanvas = document.getElementById('landmarkCanvas');
+    const lCtx = lCanvas.getContext('2d');
     const opencvBox = document.getElementById('opencvBox');
     const statusBadge = document.getElementById('statusBadge');
+    const aiStatusTag = document.getElementById('aiStatusTag');
 
     let isBlurActive = false;
-    let gestureDetectionEnabled = true;
+    let trackingEnabled = true;
+    let handsDetector = null;
+    let cameraPipe = null;
 
-    // Start Webcam
-    async function startCamera() {
+    /* =========================================================
+       AUDIO CHIME WHEN PEACE GESTURE TRIGGERS
+       ========================================================= */
+    let audioCtx = null;
+    function playChime() {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: { width: 640, height: 480, facingMode: 'user' },
-          audio: false
-        });
-        video.srcObject = stream;
-        video.onloadedmetadata = () => {
-          canvas.width = video.videoWidth;
-          canvas.height = video.videoHeight;
-          requestAnimationFrame(processFrame);
-        };
-      } catch (err) {
-        console.warn("Camera fallback active", err);
-        // Draw demo aesthetic simulation
-        canvas.width = 640;
-        canvas.height = 480;
-        runDemoSimulation();
-      }
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.start(); osc.stop(audioCtx.currentTime + 0.15);
+      } catch (e) {}
     }
 
-    // Process Video Frame in Real-time (Computer Vision Simulation)
-    function processFrame() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    /* =========================================================
+       1. MEDIAPIPE HAND DETECTION INITIALIZATION
+       ========================================================= */
+    function initMediaPipeHands() {
+      if (typeof Hands === 'undefined') {
+        console.warn("MediaPipe script not loaded from CDN, using fallback.");
+        aiStatusTag.innerText = "Fallback Tracker";
+        initWebcamFallback();
+        return;
+      }
 
-      // Draw mirrored video
+      handsDetector = new Hands({
+        locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
+      });
+
+      handsDetector.setOptions({
+        maxNumHands: 2,
+        modelComplexity: 1,
+        minDetectionConfidence: 0.5,
+        minTrackingConfidence: 0.5
+      });
+
+      handsDetector.onResults(onHandResults);
+
+      cameraPipe = new Camera(video, {
+        onFrame: async () => {
+          if (trackingEnabled && handsDetector) {
+            await handsDetector.send({ image: video });
+          }
+        },
+        width: 640,
+        height: 480
+      });
+
+      cameraPipe.start()
+        .then(() => {
+          aiStatusTag.innerText = "✅ AI 2-Jari Siap!";
+          document.getElementById('aiEngineLabel').innerText = "MediaPipe Hands: Aktif & Siap Pose ✌️";
+        })
+        .catch(err => {
+          console.warn("Camera start issue", err);
+          initWebcamFallback();
+        });
+    }
+
+    /* =========================================================
+       2. GESTURE RECOGNITION: DETECT 2 FINGERS (PEACE SIGN ✌️)
+       ========================================================= */
+    function isPeaceSign(landmarks) {
+      // Landmark Indexes:
+      // 8: Index Tip, 6: Index PIP
+      // 12: Middle Tip, 10: Middle PIP
+      // 16: Ring Tip, 14: Ring PIP
+      // 20: Pinky Tip, 18: Pinky PIP
+      // 4: Thumb Tip, 2: Thumb MCP
+
+      // Y-axis: smaller value means HIGHER in screen coordinates
+      const indexUp = landmarks[8].y < landmarks[6].y;
+      const middleUp = landmarks[12].y < landmarks[10].y;
+      const ringDown = landmarks[16].y > landmarks[14].y;
+      const pinkyDown = landmarks[20].y > landmarks[18].y;
+
+      // Two fingers extended up, and other two folded down = PEACE SIGN ✌️
+      return (indexUp && middleUp && ringDown && pinkyDown);
+    }
+
+    function onHandResults(results) {
+      canvas.width = video.videoWidth || 640;
+      canvas.height = video.videoHeight || 480;
+      lCanvas.width = canvas.width;
+      lCanvas.height = canvas.height;
+
+      // Draw Main Camera View (Mirrored)
       ctx.save();
       ctx.translate(canvas.width, 0);
       ctx.scale(-1, 1);
 
+      let peaceDetected = false;
+
+      // Clear landmark canvas
+      lCtx.clearRect(0, 0, lCanvas.width, lCanvas.height);
+      lCtx.save();
+      lCtx.translate(lCanvas.width, 0);
+      lCtx.scale(-1, 1);
+
+      if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
+        for (const landmarks of results.multiHandLandmarks) {
+          // Draw Neon Pink Landmarks
+          if (typeof drawConnectors !== 'undefined') {
+            drawConnectors(lCtx, landmarks, HAND_CONNECTIONS, { color: '#ff4081', lineWidth: 3 });
+            drawLandmarks(lCtx, landmarks, { color: '#00f2fe', lineWidth: 1.5, radius: 4 });
+          }
+
+          if (isPeaceSign(landmarks)) {
+            peaceDetected = true;
+          }
+        }
+      }
+      lCtx.restore();
+
+      // Trigger Blur if 2 fingers detected!
+      if (peaceDetected && trackingEnabled) {
+        if (!isBlurActive) playChime();
+        triggerBlur(true);
+      } else if (trackingEnabled && !forceBlurManual) {
+        triggerBlur(false);
+      }
+
+      // Apply Gaussian Blur Filter if active
       if (isBlurActive) {
-        // Apply OpenCV-style Gaussian Blur
-        ctx.filter = 'blur(28px) brightness(1.08) contrast(105%)';
+        ctx.filter = 'blur(36px) brightness(1.12) contrast(108%)';
       } else {
         ctx.filter = 'none';
       }
 
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
       ctx.restore();
-
-      requestAnimationFrame(processFrame);
     }
+
+    /* =========================================================
+       3. BLUR TRIGGER & UI EFFECTS
+       ========================================================= */
+    let forceBlurManual = false;
 
     function triggerBlur(active) {
       isBlurActive = active;
       if (active) {
         opencvBox.classList.add('blur-triggered');
-        statusBadge.innerText = "✨ BLUR ACTIVE (PEACE DETECTED)";
+        statusBadge.innerText = "✨ BLUR AKTIF (2 JARI ✌️ DETEKSI)";
         statusBadge.classList.add('active-blur');
       } else {
         opencvBox.classList.remove('blur-triggered');
-        statusBadge.innerText = "Status: Siap Pose ✌️";
+        statusBadge.innerText = "Pose 2 Jari ✌️ Ke Kamera";
         statusBadge.classList.remove('active-blur');
       }
     }
 
-    function toggleTrigger() {
-      triggerBlur(!isBlurActive);
-    }
-
-    function forceSnapBlur() {
+    function forceBlurClick() {
+      forceBlurManual = true;
       triggerBlur(true);
-      setTimeout(() => triggerBlur(false), 3500);
+      playChime();
+      setTimeout(() => {
+        forceBlurManual = false;
+        triggerBlur(false);
+      }, 3500);
     }
 
-    // Spacebar to trigger blur
+    function toggleTracking() {
+      trackingEnabled = !trackingEnabled;
+      const btn = document.getElementById('btnToggleTracking');
+      btn.innerText = trackingEnabled ? "✌️ Deteksi 2 Jari: ON" : "⏸️ Deteksi 2 Jari: OFF";
+      btn.classList.toggle('active', trackingEnabled);
+      if (!trackingEnabled) triggerBlur(false);
+    }
+
+    // Spacebar to trigger blur manually as backup
     window.addEventListener('keydown', (e) => {
       if (e.code === 'Space') {
         e.preventDefault();
-        forceSnapBlur();
+        forceBlurClick();
       }
     });
+
+    /* =========================================================
+       4. FALLBACK WEBCAM (If MediaPipe script CDN is slow)
+       ========================================================= */
+    function initWebcamFallback() {
+      navigator.mediaDevices.getUserMedia({ video: { width: 640, height: 480, facingMode: 'user' }, audio: false })
+        .then(stream => {
+          video.srcObject = stream;
+          video.onloadedmetadata = () => {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            requestAnimationFrame(fallbackRenderLoop);
+          };
+        })
+        .catch(err => {
+          console.warn("Fallback camera error", err);
+          runSimulation();
+        });
+    }
+
+    function fallbackRenderLoop() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.save();
+      ctx.translate(canvas.width, 0);
+      ctx.scale(-1, 1);
+      if (isBlurActive) {
+        ctx.filter = 'blur(36px) brightness(1.12) contrast(108%)';
+      } else {
+        ctx.filter = 'none';
+      }
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      ctx.restore();
+      requestAnimationFrame(fallbackRenderLoop);
+    }
+
+    function runSimulation() {
+      canvas.width = 640;
+      canvas.height = 480;
+      function loop() {
+        ctx.fillStyle = '#181b29';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.save();
+        if (isBlurActive) ctx.filter = 'blur(30px)';
+        ctx.fillStyle = '#ff80ab';
+        ctx.beginPath();
+        ctx.arc(320, 240, 90, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+        requestAnimationFrame(loop);
+      }
+      loop();
+    }
 
     // Download snapshot of the viral TikTok screen
     function downloadTikTokSnapshot() {
@@ -681,28 +869,9 @@
       link.click();
     }
 
-    function runDemoSimulation() {
-      let t = 0;
-      function loop() {
-        ctx.fillStyle = '#1a1d2e';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        // Simulated aesthetic silhouette
-        ctx.save();
-        if (isBlurActive) ctx.filter = 'blur(25px)';
-        ctx.fillStyle = '#ff80ab';
-        ctx.beginPath();
-        ctx.arc(320, 240, 90, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-
-        t += 0.05;
-        requestAnimationFrame(loop);
-      }
-      loop();
-    }
-
-    window.onload = startCamera;
+    window.onload = () => {
+      initMediaPipeHands();
+    };
   </script>
 </body>
 </html>
